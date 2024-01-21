@@ -79,6 +79,8 @@
     btop
     polkit
     tree
+    xdg-utils
+    obs-studio
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -108,6 +110,7 @@
     portal = {
       enable = true;
       wlr.enable = true;
+      config.common.default = "*";
       extraPortals = with pkgs; [
       	xdg-desktop-portal
         xdg-desktop-portal-wlr
