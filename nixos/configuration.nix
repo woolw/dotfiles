@@ -75,6 +75,7 @@
     neovim
     neofetch
     discord
+    gh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
