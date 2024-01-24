@@ -1,2 +1,2 @@
-/nixos/hardware-configuration.nix
-/nixos/serv
+hardware-configuration.nix
+serv
