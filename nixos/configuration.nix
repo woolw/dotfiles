@@ -123,10 +123,10 @@
   hardware = {
     opengl.enable = true;
 
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-    };
+    #bluetooth = {
+    #  enable = true;
+    #  powerOnBoot = true;
+    #};
   };
   
   environment.sessionVariables = {
@@ -174,8 +174,8 @@
         support32Bit = true;
       };
     };
-    blueman = {
-      enable = true;
-    };
+    #blueman = {
+    #  enable = true;
+    #};
   };
 }
