@@ -179,7 +179,7 @@
 
     "hyprland/workspaces": {
         "all-outputs": true,
-        "format": "{name}",
+        "format": "{icon}",
         "format-icons": {
             "1": "一",
             "2": "二",
