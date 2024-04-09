@@ -9,7 +9,6 @@
   transition-duration: 0.5s;
 }
 
-
 /* Reset all styles */
 * {
     border: none;
@@ -137,37 +136,6 @@ window#waybar.hidden {
   padding: 0 0px;
 }
 
-#custom-weather.severe {
-  color: #eb937d;
-}
-
-#custom-weather.sunnyDay {
-  color: #c2ca76;
-}
-
-#custom-weather.clearNight {
-  color: #cad3f5;
-}
-
-#custom-weather.cloudyFoggyDay,
-#custom-weather.cloudyFoggyNight {
-  color: #c2ddda;
-}
-
-#custom-weather.rainyDay,
-#custom-weather.rainyNight {
-  color: #5aaca5;
-}
-
-#custom-weather.showyIcyDay,
-#custom-weather.snowyIcyNight {
-  color: #d6e7e5;
-}
-
-#custom-weather.default {
-  color: #dbd9d8;
-}
-
 /* If workspaces is the leftmost module, omit left margin */
 .modules-left > widget:first-child > #workspaces {
   margin-left: 0;
@@ -245,8 +213,8 @@ label:focus {
 }
 
 #custom-media {
-  background-color: #66cc99;
-  color: #2a5c45;
+  background-color: #1e1e1e;
+  color: #ffffff;
   min-width: 100px;
 }
 
@@ -254,12 +222,8 @@ label:focus {
   background-color: #66cc99;
 }
 
-#custom-media.custom-vlc {
-  background-color: #ffa000;
-}
-
 #temperature {
-  background-color: #f0932b;
+  background-color: #1e1e1e;
 }
 
 #temperature.critical {
@@ -290,20 +254,4 @@ label:focus {
   padding: 0 0px;
   margin: 0 5px;
   min-width: 16px;
-}
-
-#keyboard-state {
-  background: #97e1ad;
-  color: #000000;
-  padding: 0 0px;
-  margin: 0 5px;
-  min-width: 16px;
-}
-
-#keyboard-state > label {
-  padding: 0 0px;
-}
-
-#keyboard-state > label.locked {
-  background: rgba(0, 0, 0, 0.2);
 }
