@@ -61,9 +61,7 @@ done
 
 sudo systemctl enable --now bluetooth.service &
 
-stow alacritty &
 stow hypr &
 stow waybar &
-stow wofi &
 
 exit
