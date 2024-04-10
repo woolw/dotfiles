@@ -20,6 +20,7 @@ install_stage=(
     grim
     slurp
     thunar
+    steam
     brave-bin
     ani-cli
     mpv
