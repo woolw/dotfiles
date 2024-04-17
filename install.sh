@@ -40,21 +40,21 @@ install_stage=(
 
 # function that will test for a package and if not found it will attempt to install it
 install_software() {
-    yay -S --noconfirm --needed $1 &
+    yay -S --noconfirm --needed $1
 }
 
 if [ ! -f /sbin/yay ]; then  
     git clone https://aur.archlinux.org/yay.git &
     cd yay
-    makepkg -si --noconfirm &
-    yay -Suy --noconfirm &
+    makepkg -si --noconfirm
+    yay -Suy --noconfirm
 fi
 
 for SOFTWR in ${install_stage[@]}; do
     install_software $SOFTWR 
 done
 
-sudo systemctl enable --now bluetooth.service &
+sudo systemctl enable --now bluetooth.service
 
 stow hypr &
 stow waybar &
