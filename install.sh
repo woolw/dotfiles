@@ -36,6 +36,7 @@ install_stage=(
     xfce4-settings
     vulkan-radeon
     lib32-vulkan-radeon
+    discord
 )
 
 # function that will test for a package and if not found it will attempt to install it
@@ -44,10 +45,11 @@ install_software() {
 }
 
 if [ ! -f /sbin/yay ]; then  
-    git clone https://aur.archlinux.org/yay.git &
+    git clone https://aur.archlinux.org/yay.git
     cd yay
     makepkg -si --noconfirm
     yay -Suy --noconfirm
+    cd ..
 fi
 
 for SOFTWR in ${install_stage[@]}; do
@@ -58,5 +60,6 @@ sudo systemctl enable --now bluetooth.service
 
 stow hypr &
 stow waybar &
+stow wofi &
 
 exit
