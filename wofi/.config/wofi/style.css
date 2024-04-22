@@ -38,6 +38,7 @@ window {
 #inner-box {
   margin: 2px;
   background-color: @bg0_color;
+  border-radius: 15px;
 }
 
 #outer-box {
