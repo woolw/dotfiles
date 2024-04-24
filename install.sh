@@ -19,6 +19,7 @@ install_stage=(
     xdg-desktop-portal-hyprland
     grim
     slurp
+    swappy
     thunar
     steam
     brave-bin
