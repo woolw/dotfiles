@@ -63,4 +63,6 @@ stow hypr &
 stow waybar &
 stow wofi &
 
+./proton-ge.sh
+
 exit
