@@ -66,6 +66,6 @@ window {
 
 * {
   font-family: JetBrainsMono;
-  color: #e5e9f0;
+  color: @fg_color;
   background: transparent;
 }

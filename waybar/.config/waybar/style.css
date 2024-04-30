@@ -1,33 +1,18 @@
 * {
-  /* `otf-font-awesome` is required to be installed for icons */
   font-family: "JetBrainsMono Nerd Font";
-  font-size: 8pt;
+  font-size: 10pt;
   font-weight: 900;
-  margin: 0;
-  padding: 0;
-  transition-property: background-color;
-  transition-duration: 0.5s;
 }
 
-/* Reset all styles */
 * {
-    border: none;
-    border-radius: 3px;
-    min-height: 0;
-    margin: 0.2em 0.3em 0.2em 0.3em;
+  border: none;
+  min-height: 0;
+  margin: 0.1em 0 0.1em 0;
 }
 
-/* The whole bar */
 #waybar {
-    /*background: @bg;*/
-    background-color: transparent;
-    /*color: @light;*/
-    color: #ffffff;
-    transition-property: background-color;
-    transition-duration: 0.5s;
-    /*border-top: 8px transparent;*/
-    border-radius: 0px;
-    margin: 0px 0px;
+  background-color: #282828;
+  color: #ebdbb2;
 }
 
 window#waybar.hidden {
@@ -35,35 +20,24 @@ window#waybar.hidden {
 }
 
 #workspaces button {
-  padding: 0 0px;
-  color: #7984a4;
-  background-color: transparent;
-  /* Use box-shadow instead of border so the text isn't offset */
-  box-shadow: inset 0 -3px transparent;
-  /* Avoid rounded borders under each workspace name */
-  border: none;
-  border-radius: 0;
+  color: #928374;
+  margin: 3px;
 }
 
 #workspaces button.focused {
   background-color: transparent;
 }
+
 #workspace button.hover {
   background-color: transparent;
 }
+
 #workspaces button.active {
-  color: #fff;
+  color: #ebdbb2;
 }
 
 #workspaces button.urgent {
   background-color: #eb4d4b;
-}
-
-#window {
-  /* border-radius: 20px; */
-  /* padding-left: 10px; */
-  /* padding-right: 10px; */
-  color: #64727d;
 }
 
 /* Each module */
@@ -75,13 +49,9 @@ window#waybar.hidden {
 #temperature,
 #backlight,
 #network,
-#pulseaudio,
 #wireplumber,
-#custom-media,
-#custom-screenshot_t,
 #tray,
 #mode,
-#idle_inhibitor,
 #mpd,
 #bluetooth,
 #custom-hyprPicker,
@@ -99,27 +69,13 @@ window#waybar.hidden {
 #custom-weather.snowyIcyNight,
 #custom-weather.default {
   padding: 0px 15px;
-  color: #e5e5e5;
-  /* color: #bf616a; */
   border-radius: 20px;
-  background-color: #1e1e1e;
 }
 
 #window,
 #workspaces {
   border-radius: 20px;
   padding: 0px 10px;
-  background-color: #1e1e1e;
-}
-
-#cpu {
-  color: #fb958b;
-  background-color: #1e1e1e;
-}
-
-#memory {
-  color: #ebcb8b;
-  background-color: #1e1e1e;
 }
 
 #custom-power-menu {
@@ -129,54 +85,10 @@ window#waybar.hidden {
   padding: 0 0px;
 }
 
-#custom-launcher {
-  background-color: #1b242b;
-  color: #6a92d7;
-  border-radius: 7.5px;
-  padding: 0 0px;
-}
-
-/* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces {
-  margin-left: 0;
-}
-
-/* If workspaces is the rightmost module, omit right margin */
-.modules-right > widget:last-child > #workspaces {
-  margin-right: 0;
-}
-
-#pulseaudio {
-  color: #7d9bba;
-}
-
-#backlight {
-  /* color: #EBCB8B; */
-  color: #8fbcbb;
-}
-
-#clock {
-  color: #c8d2e0;
-  /* background-color: #14141e; */
-}
-
-#battery {
-  color: #c0caf5;
-  /* background-color: #90b1b1; */
-}
-
 #battery.charging,
 #battery.full,
 #battery.plugged {
   color: #26a65b;
-  /* background-color: #26a65b; */
-}
-
-@keyframes blink {
-  to {
-    background-color: rgba(30, 34, 42, 0.5);
-    color: #abb2bf;
-  }
 }
 
 #battery.critical:not(.charging) {
@@ -212,46 +124,11 @@ label:focus {
   color: #f53c3c;
 }
 
-#custom-media {
-  background-color: #1e1e1e;
-  color: #ffffff;
-  min-width: 100px;
-}
-
-#custom-media.custom-spotify {
-  background-color: #66cc99;
-}
-
-#temperature {
-  background-color: #1e1e1e;
-}
-
-#temperature.critical {
-  background-color: #eb4d4b;
-}
-
-#tray > .passive {
+#tray>.passive {
   -gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
+#tray>.needs-attention {
   -gtk-icon-effect: highlight;
   background-color: #eb4d4b;
-}
-
-#idle_inhibitor {
-  background-color: #2d3436;
-}
-
-#idle_inhibitor.activated {
-  background-color: #ecf0f1;
-  color: #2d3436;
-}
-
-#language {
-  background: #00b093;
-  color: #740864;
-  padding: 0 0px;
-  margin: 0 5px;
-  min-width: 16px;
 }
