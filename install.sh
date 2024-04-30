@@ -38,6 +38,9 @@ install_stage=(
     vulkan-radeon
     lib32-vulkan-radeon
     discord
+    noto-fonts
+    noto-fonts-emoji
+    noto-fonts-cjk
 )
 
 # function that will test for a package and if not found it will attempt to install it
