@@ -37,10 +37,10 @@ install_stage=(
     xfce4-settings
     vulkan-radeon
     lib32-vulkan-radeon
-    discord
     noto-fonts
     noto-fonts-emoji
     noto-fonts-cjk
+    element-desktop
 )
 
 # function that will test for a package and if not found it will attempt to install it
