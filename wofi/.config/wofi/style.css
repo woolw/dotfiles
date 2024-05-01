@@ -31,13 +31,13 @@ window {
 #input {
   margin: 2px;
   border: 2px solid @bg4_color;
-  background-color: @bg0_color;
+  background-color: @bg0_h_color;
   border-radius: 15px;
 }
 
 #inner-box {
   margin: 2px;
-  background-color: @bg0_color;
+  background-color: @bg0_h_color;
   border-radius: 15px;
 }
 

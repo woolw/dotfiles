@@ -11,7 +11,7 @@
 }
 
 #waybar {
-  background-color: #282828;
+  background-color: #1d2021;
   color: #ebdbb2;
 }
 
@@ -83,10 +83,6 @@ window#waybar.hidden {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-}
-
-label:focus {
-  background-color: #000000;
 }
 
 #disk {

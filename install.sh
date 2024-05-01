@@ -41,6 +41,7 @@ install_stage=(
     noto-fonts-emoji
     noto-fonts-cjk
     element-desktop
+    zsh
 )
 
 # function that will test for a package and if not found it will attempt to install it
@@ -62,9 +63,11 @@ done
 
 sudo systemctl enable --now bluetooth.service
 
+stow alacritty &
 stow hypr &
 stow waybar &
 stow wofi &
+stow zsh &
 
 ./proton-ge.sh
 
