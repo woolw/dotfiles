@@ -1,93 +1,95 @@
 #!/bin/sh
 
-riverctl spawn "dbus-update-activation-environment SEATD_SOCK DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river"
+riverctl spawn 'export XDG_CURRENT_DESKTOP=river'
+riverctl spawn 'systemctl --user restart xdg-desktop-portal'
+riverctl spawn 'dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP'
 
-riverctl map normal SUPER Return spawn alacritty
-riverctl map normal SUPER C spawn wofi
-riverctl map normal SUPER E spawn thunar
-riverctl map normal SUPER+Shift F toggle-float
-riverctl map normal SUPER F toggle-fullscreen
-riverctl map normal SUPER+Shift R spawn "~/.config/river/init"
-riverctl map normal SUPER Q close
+riverctl map normal Super Return spawn alacritty
+riverctl map normal Super C spawn wofi
+riverctl map normal Super E spawn thunar
+riverctl map normal Super+Shift F toggle-float
+riverctl map normal Super F toggle-fullscreen
+riverctl map normal Super+Shift R spawn "~/.config/river/init"
+riverctl map normal Super Q close
 
 # Change output
-riverctl map normal SUPER O spawn "riverctl focus-output next"
+riverctl map normal Super O spawn "riverctl focus-output next"
 # Send to next output
-riverctl map normal SUPER+Shift O spawn "riverctl send-to-output next"
+riverctl map normal Super+Shift O spawn "riverctl send-to-output next"
 
 # Exit river
-riverctl map normal SUPER+Shift Q exit
+riverctl map normal Super+Shift Q exit
 
 # Shutdown
-riverctl map normal SUPER+ALT Q spawn "shutdown now"
+riverctl map normal Super+Alt Q spawn "shutdown now"
 
-# SUPER+J and SUPER+K to focus the next/previous view in the layout stack
-riverctl map normal SUPER J focus-view next
-riverctl map normal SUPER K focus-view previous
+# Super+J and Super+K to focus the next/previous view in the layout stack
+riverctl map normal Super J focus-view next
+riverctl map normal Super K focus-view previous
 
-# SUPER+Shift+J and SUPER+Shift+K to swap the focused view with the next/previous
+# Super+Shift+J and Super+Shift+K to swap the focused view with the next/previous
 # view in the layout stack
-riverctl map normal SUPER+Shift J swap next
-riverctl map normal SUPER+Shift K swap previous
+riverctl map normal Super+Shift J swap next
+riverctl map normal Super+Shift K swap previous
 
-# SUPER+H and SUPER+L to decrease/increase the main ratio of rivertile(1)
-riverctl map normal SUPER H send-layout-cmd rivertile "main-ratio -0.05"
-riverctl map normal SUPER L send-layout-cmd rivertile "main-ratio +0.05"
+# Super+H and Super+L to decrease/increase the main ratio of rivertile(1)
+riverctl map normal Super H send-layout-cmd rivertile "main-ratio -0.05"
+riverctl map normal Super L send-layout-cmd rivertile "main-ratio +0.05"
 
-# SUPER+Shift+H and SUPER+Shift+L to increment/decrement the main count of rivertile(1)
-riverctl map normal SUPER+ALT H send-layout-cmd rivertile "main-count +1"
-riverctl map normal SUPER+ALT L send-layout-cmd rivertile "main-count -1"
+# Super+Shift+H and Super+Shift+L to increment/decrement the main count of rivertile(1)
+riverctl map normal Super+Alt H send-layout-cmd rivertile "main-count +1"
+riverctl map normal Super+Alt L send-layout-cmd rivertile "main-count -1"
 
-# SUPER+{left,right,up,down} to move views
-riverctl map normal SUPER left move left 100
-riverctl map normal SUPER down move down 100
-riverctl map normal SUPER up move up 100
-riverctl map normal SUPER right move right 100
+# Super+{left,right,up,down} to move views
+riverctl map normal Super left move left 100
+riverctl map normal Super down move down 100
+riverctl map normal Super up move up 100
+riverctl map normal Super right move right 100
 
-# SUPER+Alt+Control+{H,J,K,L} to snap views to screen edges
-riverctl map normal SUPER+ALT+Control H snap left
-riverctl map normal SUPER+ALT+Control J snap down
-riverctl map normal SUPER+ALT+Control K snap up
-riverctl map normal SUPER+ALT+Control L snap right
+# Super+Alt+Control+{H,J,K,L} to snap views to screen edges
+riverctl map normal Super+Alt+Control H snap left
+riverctl map normal Super+Alt+Control J snap down
+riverctl map normal Super+Alt+Control K snap up
+riverctl map normal Super+Alt+Control L snap right
 
-# SUPER+Alt+Shif+{left,down,up,right} to resize views
-riverctl map normal SUPER+Shift left resize horizontal -100
-riverctl map normal SUPER+Shift down resize vertical 100
-riverctl map normal SUPER+Shift up resize vertical -100
-riverctl map normal SUPER+Shift right resize horizontal 100
+# Super+Alt+Shif+{left,down,up,right} to resize views
+riverctl map normal Super+Shift left resize horizontal -100
+riverctl map normal Super+Shift down resize vertical 100
+riverctl map normal Super+Shift up resize vertical -100
+riverctl map normal Super+Shift right resize horizontal 100
 
 # mouse actions
-riverctl map-pointer normal SUPER BTN_LEFT move-view
-riverctl map-pointer normal SUPER BTN_RIGHT resize-view
+riverctl map-pointer normal Super BTN_LEFT move-view
+riverctl map-pointer normal Super BTN_RIGHT resize-view
 
-for i in $(seq 1 6)
+for i in $(seq 1 5)
 do
     tags=$((1 << ($i - 1)))
 
-    # SUPER+[1-7] to focus tag [0-6]
-    riverctl map normal SUPER $i set-focused-tags $tags
+    # Super+[1-5] to focus tag [0-5]
+    riverctl map normal Super $i set-focused-tags $tags
 
-    # SUPER+Shift+[1-7] to tag focused view with tag [0-6]
-    riverctl map normal SUPER+Shift $i set-view-tags $tags
+    # Super+Shift+[1-5] to tag focused view with tag [0-5]
+    riverctl map normal Super+Shift $i set-view-tags $tags
 
-    # SUPER+Ctrl+[1-7] to toggle focus of tag [0-6]
-    riverctl map normal SUPER+Control $i toggle-focused-tags $tags
+    # Super+Ctrl+[1-5] to toggle focus of tag [0-5]
+    riverctl map normal Super+Control $i toggle-focused-tags $tags
 
-    # SUPER+Shift+Ctrl+[1-7] to toggle tag [0-6] of focused view
-    riverctl map normal SUPER+Shift+Control $i toggle-view-tags $tags
+    # Super+Shift+Ctrl+[1-5] to toggle tag [0-5] of focused view
+    riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
 done
 
-# SUPER+0 to focus all tags
-# SUPER+Shift+0 to tag focused view with all tags
+# Super+0 to focus all tags
+# Super+Shift+0 to tag focused view with all tags
 all_tags=$(((1 << 32) - 1))
-riverctl map normal SUPER 0 set-focused-tags $all_tags
-riverctl map normal SUPER+Shift 0 set-view-tags $all_tags
+riverctl map normal Super 0 set-focused-tags $all_tags
+riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-# SUPER+Shift+Alt+{H,J,K,L} to change layout orientation
-riverctl map normal SUPER+Shift+ALT K send-layout-cmd rivertile "main-location top"
-riverctl map normal SUPER+Shift+ALT L send-layout-cmd rivertile "main-location right"
-riverctl map normal SUPER+Shift+ALT J send-layout-cmd rivertile "main-location bottom"
-riverctl map normal SUPER+Shift+ALT H send-layout-cmd rivertile "main-location left"
+# Super+Shift+Alt+{H,J,K,L} to change layout orientation
+riverctl map normal Super+Shift+Alt K send-layout-cmd rivertile "main-location top"
+riverctl map normal Super+Shift+Alt L send-layout-cmd rivertile "main-location right"
+riverctl map normal Super+Shift+Alt J send-layout-cmd rivertile "main-location bottom"
+riverctl map normal Super+Shift+Alt H send-layout-cmd rivertile "main-location left"
 
 for mode in normal locked
 do
@@ -107,15 +109,16 @@ do
     riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
 
     # Screenshot
-    riverctl map $mode None Print spawn "grim -g "$(slurp)" - | swappy -f -"
+    riverctl map $mode None Print spawn 'grim -g "$(slurp)" - | swappy -f -'
 done
 
 # Set background and border color
 riverctl border-color-focused 0xfe8019
 riverctl border-color-unfocused 0x928374
+riverctl border-width 4
 
 # Set repeat rate
-# riverctl set-repeat 100 300
+riverctl set-repeat 100 300
 
 riverctl focus-follows-cursor normal
 
@@ -138,10 +141,10 @@ riverctl float-filter-add app-id wofi
 scratch_tag=$((1 << 20 ))
 
 # Toggle the scratchpad with Super+P
-riverctl map normal SUPER P toggle-focused-tags ${scratch_tag}
+riverctl map normal Super P toggle-focused-tags ${scratch_tag}
 
 # Send windows to the scratchpad with Super+Shift+P
-riverctl map normal SUPER+Shift P set-view-tags ${scratch_tag}
+riverctl map normal Super+Shift P set-view-tags ${scratch_tag}
 
 # Set spawn tagmask to ensure new windows don't have the scratchpad tag unless
 # explicitly set.

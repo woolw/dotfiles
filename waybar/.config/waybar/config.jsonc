@@ -6,10 +6,10 @@
     "position": "top",
     "spacing": 5, // Gaps between modules (4px)
     "modules-left": [
-        "hyprland/workspaces"
+        "river/tags"
     ],
     "modules-center": [
-        "hyprland/window"
+        "river/window"
     ],
     "modules-right": [
         "backlight",
@@ -92,29 +92,11 @@
         "max-length": 13,
         "min-length": 13
     },
-    "hyprland/workspaces": {
-        "all-outputs": true,
-        "format": "{icon}",
-        "format-icons": {
-            "1": "一",
-            "2": "二",
-            "3": "三",
-            "4": "四",
-            "5": "五",
-            "6": "六",
-            "7": "七",
-            "8": "八",
-            "9": "九",
-            "10": "十"
-        },
-        "on-scroll-up": "hyprctl dispatch workspace e-1 1>/dev/null",
-        "on-scroll-down": "hyprctl dispatch workspace e+1 1>/dev/null",
-        "sort-by-number": true,
-        "active-only": false
+    "river/tags": {
+        "num-tags": 5
     },
-    "hyprland/window": {
-        "max-length": 100,
-        "separate-outputs": true
+    "river/window": {
+        "max-length": 100
     },
     "wireplumber": {
         "on-click": "pavucontrol",
