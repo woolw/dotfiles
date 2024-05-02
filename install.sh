@@ -42,6 +42,7 @@ install_stage=(
     noto-fonts-cjk
     element-desktop
     zsh
+    fastfetch
 )
 
 # function that will test for a package and if not found it will attempt to install it
