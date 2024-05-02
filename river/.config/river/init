@@ -134,7 +134,6 @@ riverctl float-filter-add app-id xdg-desktop-portal-kde
 riverctl float-filter-add app-id org.kde.polkit-kde-authentication-agent-1
 riverctl float-filter-add title "Steam - Self Updater"
 riverctl float-filter-add title "Picture-in-Picture"
-riverctl float-filter-add app-id wofi
 
 # The scratchpad will live on an unused tag. Which tags are used depends on your
 # config, but rivers default uses the first 9 tags.
