@@ -3,7 +3,6 @@
 install_stage=(
     hyprland
     hyprpaper
-    dunst
     stow
     qt5-wayland
     qt5ct
@@ -14,7 +13,6 @@ install_stage=(
     wl-clipboard
     cliphist   
     alacritty
-    waybar
     wofi
     xdg-desktop-portal-hyprland
     grim
@@ -43,6 +41,10 @@ install_stage=(
     element-desktop
     zsh
     fastfetch
+    river
+    waybar-git
+    swaybg
+    mako
 )
 
 # function that will test for a package and if not found it will attempt to install it
@@ -64,10 +66,15 @@ done
 
 sudo systemctl enable --now bluetooth.service
 
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
+
 stow alacritty &
 stow hypr &
+stow mako &
 stow waybar &
 stow wofi &
+stow xdg-desktop-portal &
 stow zsh &
 
 ./proton-ge.sh
