@@ -1,8 +1,6 @@
 #!/bin/sh
 
 install_stage=(
-    hyprland
-    hyprpaper
     stow
     qt5-wayland
     qt5ct
@@ -14,7 +12,7 @@ install_stage=(
     cliphist   
     alacritty
     wofi
-    xdg-desktop-portal-hyprland
+    xdg-desktop-portal-wlr-git
     grim
     slurp
     swappy
@@ -70,8 +68,9 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
 
 stow alacritty &
-stow hypr &
+stow gtk &
 stow mako &
+stow river &
 stow waybar &
 stow wofi &
 stow xdg-desktop-portal &
