@@ -5,7 +5,7 @@ program = "/bin/zsh"
 opacity = 0.85
 
 [font]
-normal = { family = "monospace", style = "Regular" }
+normal = { family = "JetBrainsMono Nerd Font Propo", style = "Regular" }
 size = 13
 
 [selection]
