@@ -2,7 +2,7 @@
 program = "/bin/zsh"
 
 [window]
-opacity = 0.85
+opacity = 0.9
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font Propo", style = "Regular" }
