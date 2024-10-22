@@ -92,7 +92,7 @@
     in
     {
         # Build darwin flake using:
-        # $ darwin-rebuild build --flake .#simple
+        # $ darwin-rebuild switch --flake ~/.dotfiles/nix-darwin#mba
         darwinConfigurations."mba" = nix-darwin.lib.darwinSystem {
             modules = [
            	    configuration
