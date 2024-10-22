@@ -8,7 +8,7 @@
     };
 
     outputs = inputs@{ self, nix-darwin, nixpkgs }:
-    let configuration = { pkgs, ... }: {
+    let configuration = { pkgs, config, ... }: {
 
         environment.systemPackages = [
             pkgs.alacritty
