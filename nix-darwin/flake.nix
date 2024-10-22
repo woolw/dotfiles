@@ -5,9 +5,10 @@
         nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
         nix-darwin.url = "github:LnL7/nix-darwin";
         nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+	nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     };
 
-    outputs = inputs@{ self, nix-darwin, nixpkgs }:
+    outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
     let configuration = { pkgs, config, ... }: {
 
         environment.systemPackages = [
@@ -54,6 +55,7 @@
                 "iina"
                 "syncplay"
                 "steam"
+		"zed"
             ];
             masApps = {
             };
@@ -89,7 +91,18 @@
         # Build darwin flake using:
         # $ darwin-rebuild build --flake .#simple
         darwinConfigurations."mba" = nix-darwin.lib.darwinSystem {
-        modules = [ configuration ];
+            modules = [ 
+        	configuration
+	        nix-homebrew.darwinModules.nix-homebrew
+                {
+		    nix-homebrew = {
+		        enable = true;
+			enableRosetta = true;
+			user = "woolw";
+			autoMigrate = true;
+		    };
+		}
+	    ];
         };
 
         # Expose the package set, including overlays, for convenience.
