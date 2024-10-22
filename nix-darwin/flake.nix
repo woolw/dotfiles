@@ -45,6 +45,8 @@
             enable = true;
             brews = [
                 "yt-dlp"
+                "zoxide"
+                "fzf"
             ];
             casks = [
                 "brave-browser"

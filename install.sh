@@ -17,9 +17,7 @@ elif [ "$os_name" == "Darwin" ]; then
     echo "You are running macOS."
 
     curl -L https://nixos.org/nix/install | sh
-
     nix run nix-darwin --experimental-features "nix-command flakes" -- switch --flake ~/.dotfiles/nix-darwin#mba
-
 
 elif [ "$os_name" == "CYGWIN"* ] || [ "$os_name" == "MINGW"* ]; then
     echo "You are running Windows (Cygwin or MinGW)."
@@ -30,9 +28,6 @@ else
 fi
 
 # old bits
-# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-# brew install alacritty arc iina steam syncplay font-jetbrains-mono-nerd-font odin stow git neovim firefox zoxide
-
 
 # stow alacritty &
 # stow zsh &
