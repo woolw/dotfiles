@@ -41,7 +41,6 @@
             screensaver.askForPasswordDelay = 10;
         };
 
-        # Homebrew needs to be installed on its own!
         homebrew = {
             enable = true;
             brews = [
@@ -55,7 +54,7 @@
                 "iina"
                 "syncplay"
                 "steam"
-		"zed"
+                "zed"
             ];
             masApps = {
             };
@@ -91,18 +90,18 @@
         # Build darwin flake using:
         # $ darwin-rebuild build --flake .#simple
         darwinConfigurations."mba" = nix-darwin.lib.darwinSystem {
-            modules = [ 
-        	configuration
-	        nix-homebrew.darwinModules.nix-homebrew
+            modules = [
+           	    configuration
+    	        nix-homebrew.darwinModules.nix-homebrew
                 {
-		    nix-homebrew = {
-		        enable = true;
-			enableRosetta = true;
-			user = "woolw";
-			autoMigrate = true;
-		    };
-		}
-	    ];
+          		    nix-homebrew = {
+          		        enable = true;
+             			enableRosetta = true;
+             			user = "woolw";
+             			autoMigrate = true;
+      		        };
+                }
+            ];
         };
 
         # Expose the package set, including overlays, for convenience.
