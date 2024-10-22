@@ -11,7 +11,7 @@
     let configuration = { pkgs, ... }: {
 
         environment.systemPackages = [
-            pkgs.vim
+            pkgs.neovim
         ];
 
         # Used for backwards compatibility, please read the changelog before changing.
@@ -49,7 +49,6 @@
         homebrew.brews = [
             "git"
             "yt-dlp"
-            "neovim"
         ];
     };
     in
