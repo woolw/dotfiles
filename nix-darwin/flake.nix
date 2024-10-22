@@ -11,7 +11,10 @@
     let configuration = { pkgs, ... }: {
 
         environment.systemPackages = [
+            pkgs.alacritty
+            pkgs.mkalias
             pkgs.neovim
+            pkgs.tmux
         ];
 
         # Used for backwards compatibility, please read the changelog before changing.
@@ -30,26 +33,56 @@
             dock.mru-spaces = false;
             finder.AppleShowAllExtensions = true;
             finder.FXPreferredViewStyle = "clmv";
+            loginwindow.GuestEnabled  = false;
+            NSGlobalDomain.AppleICUForce24HourTime = true;
+            NSGlobalDomain.AppleInterfaceStyle = "Dark";
             screencapture.location = "~/Pictures/screenshots";
             screensaver.askForPasswordDelay = 10;
         };
 
         # Homebrew needs to be installed on its own!
-        homebrew.enable = true;
-        homebrew.casks = [
-            "alacritty"
-            "brave-browser"
-            "firefox"
-            "discord"
-            "hot"
-            "iina"
-            "syncplay"
-            "steam"
+        homebrew = {
+            enable = true;
+            brews = [
+                "yt-dlp"
+            ];
+            casks = [
+                "brave-browser"
+                "firefox"
+                "discord"
+                "hot"
+                "iina"
+                "syncplay"
+                "steam"
+            ];
+            masApps = {
+            };
+            onActivation.cleanup = "zap";
+        };
+
+        fonts.packages = [
+            (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
         ];
-        homebrew.brews = [
-            "git"
-            "yt-dlp"
-        ];
+
+        system.activationScripts.applications.text = let
+            env = pkgs.buildEnv {
+                name = "system-applications";
+                paths = config.environment.systemPackages;
+                pathsToLink = "/Applications";
+            };
+        in
+            pkgs.lib.mkForce ''
+                # Set up applications.
+                echo "setting up /Applications..." >&2
+                rm -rf /Applications/Nix\ Apps
+                mkdir -p /Applications/Nix\ Apps
+                find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+                while read src; do
+                app_name=$(basename "$src")
+                echo "copying $src" >&2
+                ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+                done
+            '';
     };
     in
     {
