@@ -16,6 +16,7 @@
             pkgs.mkalias
             pkgs.neovim
             pkgs.tmux
+            pkgs.ripgrep
         ];
 
         # Used for backwards compatibility, please read the changelog before changing.
@@ -47,6 +48,7 @@
                 "yt-dlp"
                 "zoxide"
                 "fzf"
+                "stow"
             ];
             casks = [
                 "brave-browser"
