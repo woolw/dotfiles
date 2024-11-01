@@ -12,7 +12,6 @@
     let configuration = { pkgs, config, ... }: {
 
         environment.systemPackages = [
-            pkgs.alacritty
             pkgs.mkalias
             pkgs.neovim
             pkgs.tmux
@@ -49,6 +48,7 @@
                 "zoxide"
                 "fzf"
                 "stow"
+                "odin"
             ];
             casks = [
                 "brave-browser"
@@ -59,6 +59,8 @@
                 "syncplay"
                 "steam"
                 "zed"
+                "protonvpn"
+                "wezterm"
             ];
             masApps = {
             };
