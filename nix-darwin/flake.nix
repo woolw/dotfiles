@@ -62,6 +62,7 @@
                 "wezterm"
 		"zen-browser"
 		"spotify"
+		"dotnet-sdk"
             ];
             masApps = {
             };
