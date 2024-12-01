@@ -52,7 +52,6 @@
             ];
             casks = [
                 "brave-browser"
-                "firefox"
                 "discord"
                 "hot"
                 "iina"
@@ -61,6 +60,8 @@
                 "zed"
                 "protonvpn"
                 "wezterm"
+		"zen-browser"
+		"spotify"
             ];
             masApps = {
             };
