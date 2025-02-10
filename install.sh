@@ -8,10 +8,7 @@ function noop_exit() {
 os_name=$(uname)
 if [ "$os_name" == "Linux" ]; then
     echo "You are running Linux."
-    noop_exit
-
-    # for whenever i get around to configuring it for linux
-    # curl -L https://nixos.org/nix/install | sh -s -- --daemon
+    ./linux.sh
 
 elif [ "$os_name" == "Darwin" ]; then
     echo "You are running macOS."
@@ -26,8 +23,3 @@ else
     echo "Unknown operating system: $os_name."
     noop_exit
 fi
-
-# old bits
-
-# stow alacritty &
-# stow zsh &
