@@ -36,11 +36,12 @@ install_stage=(
     zsh
     fastfetch
     river
-    waybar-git
+    waybar
     swaybg
     mako
     wezterm
-    zen-browser-bin
+    brave-bin
+    discord
 )
 
 if [ ! -f /sbin/paru ]; then
@@ -98,4 +99,4 @@ echo "All done :)"
 
 ###################################################################################################################################################################################
 
-stow configs
+#stow configs
