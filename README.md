@@ -30,6 +30,7 @@ Follow the prompts to:
 - Install Zen kernel
 - Install gaming and development packages
 - Link dotfiles automatically
+- (Optional) Set up Proton GE
 - (Optional) Set up GitHub SSH access
 - (Optional) Configure Git to auto-sign commits with SSH key
 
