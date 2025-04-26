@@ -1,2 +1,42 @@
-yay/
-*.DS_Store
+# Ignore editor swap/backup files
+*.swp
+*.swo
+*.bak
+*~
+
+# Ignore common OS files
+.DS_Store
+Thumbs.db
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore local environment config (example)
+.env
+.env.local
+
+# Ignore rustup, cargo, go, node global stuff (if accidentally symlinked)
+.cargo/
+.rustup/
+.go/
+node_modules/
+
+# Ignore Neovim local state/cache
+.cache/
+.local/
+shada/
+nvim-data/
+
+# Ignore SSH keys (IMPORTANT!)
+*.pub
+*.pem
+*.key
+*.crt
+.ssh/
+
+# Ignore wezterm logs
+wezterm-log.txt
+
+# If you ever have a .vscode/ folder for local dev settings
+.vscode/

@@ -1,7 +1,40 @@
-# my (hopefully crossplatform) dotfiles
+# 🛠️ My Dotfiles + Setup Script
 
-this repo contains a collection of dotfiles that come with an installation script.
+Welcome to my personal Linux dotfiles and fresh-install setup script!
 
-as i am currently mostly running macos, this will be the only path in the script to actually do something.
+---
 
-## this repo is still very much wip, as i just recently switched to nix-darwin
+## 🛠️ How to use
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/woolw/dotfiles ~/dotfiles
+cd ~/dotfiles
+```
+
+2. Make the install script executable:
+
+```bash
+chmod +x setup.sh
+```
+
+3. Run the setup script:
+
+```bash
+./setup.sh
+```
+
+Follow the prompts to:
+
+- Install Zen kernel
+- Install gaming and development packages
+- Link dotfiles automatically
+- (Optional) Set up GitHub SSH access
+- (Optional) Configure Git to auto-sign commits with SSH key
+
+---
+
+## 📜 License
+
+MIT License — feel free to reuse and modify.
