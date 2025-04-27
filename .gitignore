@@ -27,6 +27,8 @@ node_modules/
 .local/
 shada/
 nvim-data/
+nvim/lazy-lock.json
+
 
 # Ignore SSH keys (IMPORTANT!)
 *.pub

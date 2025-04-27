@@ -1,11 +1,6 @@
 local lspconfig = require("lspconfig")
+local on_attach = require("languages.utils.lsp_on_attach").on_attach
+
 lspconfig.ts_ls.setup({
-  on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.buf.format({ bufnr = bufnr })
-      end,
-    })
-  end
+  on_attach = on_attach
 })

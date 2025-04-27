@@ -7,6 +7,8 @@ return {
         sources = {
           null_ls.builtins.formatting.prettier,
           null_ls.builtins.formatting.csharpier,
+          null_ls.builtins.formatting.shfmt,
+          null_ls.builtins.diagnostics.shellcheck,
         },
       })
     end
@@ -22,6 +24,8 @@ return {
         ensure_installed = {
           "prettier",
           "csharpier",
+          "shfmt",
+          "shellcheck",
         },
         automatic_installation = true,
       })

@@ -2,8 +2,6 @@
 
 Welcome to my personal Linux dotfiles and fresh-install setup script!
 
----
-
 ## 🛠️ How to use
 
 1. Clone the repository:
@@ -34,7 +32,6 @@ Follow the prompts to:
 - (Optional) Set up GitHub SSH access
 - (Optional) Configure Git to auto-sign commits with SSH key
 
----
 
 ## 📜 License
 

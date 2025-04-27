@@ -10,8 +10,12 @@ else
 end
 
 return {
-  font = wezterm.font("Liga SFMonoNerdFont"),
-  font_size = 10,
+  font = wezterm.font_with_fallback({
+    "Liga SFMonoNerdFont",
+    "JetBrainsMono Nerd Font",
+    "FiraCode Nerd Font",
+  }),
+  font_size = 12,
   color_scheme = "Oxocarbon Dark (Gogh)",
 
   enable_tab_bar = false,

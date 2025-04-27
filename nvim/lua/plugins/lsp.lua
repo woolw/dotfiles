@@ -15,6 +15,7 @@ return {
           "cssls",
           "rust_analyzer",
           "sqlls",
+          "bashls",
         }
       })
     end
@@ -29,6 +30,7 @@ return {
       require("languages.rust")
       require("languages.sql")
       require("languages.html_css")
+      require("languages.bash")
     end
   },
 }

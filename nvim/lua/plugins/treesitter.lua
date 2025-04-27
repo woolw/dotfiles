@@ -7,9 +7,10 @@ return {
         ensure_installed = {
           "go", "lua", "odin", "c_sharp", "rust", "sql",
           "typescript", "tsx", "javascript",
-          "html", "css", "json", "yaml", "markdown"
+          "html", "css", "json", "yaml", "markdown", "bash"
         },
         highlight = { enable = true },
+        indent = {enable= true}
       })
     end
   },

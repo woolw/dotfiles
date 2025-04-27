@@ -2,7 +2,7 @@
 
 # Helper to run commands silently
 run_silent() {
-    "$@" > /dev/null
+    "$@" >/dev/null
 }
 
 DOTFILES_DIR="$HOME/dotfiles"
@@ -31,7 +31,7 @@ else
 fi
 
 # Install paru if missing
-if ! command -v paru &> /dev/null; then
+if ! command -v paru &>/dev/null; then
     echo "🚀 Installing paru (AUR helper)..."
     run_silent sudo pacman -S --noconfirm --needed paru
 fi
@@ -72,7 +72,25 @@ run_silent paru -S --noconfirm --needed \
     syncplay \
     pyside6 \
     rustup \
-    brave-bin
+    brave-bin \
+    river \
+    swaybg \
+    mako \
+    waybar \
+    fuzzel \
+    grim \
+    slurp \
+    wl-clipboard \
+    udiskie \
+    blueman \
+    network-manager-applet \
+    netcoredbg \
+    shfmt \
+    shellcheck \
+    bash-language-server \
+    thunar \
+    pamixer \
+    wlr-randr
 
 # Refresh font cache
 run_silent fc-cache -fv
@@ -108,6 +126,15 @@ ln -s "$DOTFILES_DIR/fish/config.fish" ~/.config/fish/config.fish
 
 rm -rf ~/.config/nvim
 ln -s "$DOTFILES_DIR/nvim" ~/.config/nvim
+
+rm -rf ~/.config/waybar
+ln -s "$DOTFILES_DIR/waybar" ~/.config/waybar
+
+rm -rf ~/.config/river
+ln -s "$DOTFILES_DIR/river" ~/.config/river
+
+rm -rf ~/.config/fuzzel
+ln -s "$DOTFILES_DIR/fuzzel" ~/.config/fuzzel
 
 echo "🛡️ Dotfiles linked successfully."
 
@@ -195,8 +222,8 @@ elif [[ "$user_input" == "y" || "$user_input" == "Y" ]]; then
     read -r TOKEN
 
     RESPONSE=$(curl -s -H "Authorization: token ${TOKEN}" \
-      -X POST --data-binary "{\"title\":\"${TITLE}\",\"key\":\"${PUBKEY}\"}" \
-      https://api.github.com/user/keys)
+        -X POST --data-binary "{\"title\":\"${TITLE}\",\"key\":\"${PUBKEY}\"}" \
+        https://api.github.com/user/keys)
 
     echo "✅ Public SSH key deployed to GitHub."
 
