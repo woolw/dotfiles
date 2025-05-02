@@ -90,7 +90,8 @@ run_silent paru -S --noconfirm --needed \
     bash-language-server \
     thunar \
     pamixer \
-    wlr-randr
+    wlr-randr \
+    krita
 
 # Refresh font cache
 run_silent fc-cache -fv
@@ -136,6 +137,9 @@ ln -s "$DOTFILES_DIR/river" ~/.config/river
 rm -rf ~/.config/fuzzel
 ln -s "$DOTFILES_DIR/fuzzel" ~/.config/fuzzel
 
+rm -rf ~/.config/mako
+ln -s "$DOTFILES_DIR/mako" ~/.config/mako
+
 echo "🛡️ Dotfiles linked successfully."
 
 # Proton GE setup
@@ -147,7 +151,7 @@ if [[ "$install_proton_ge" == "y" || "$install_proton_ge" == "Y" ]]; then
     echo "🚀 Setting up Proton-GE..."
 
     WORKDIR="/tmp/proton-ge-custom"
-    STEAM_COMPAT_DIR="$HOME/.steam/root/compatibilitytools.d"
+    STEAM_COMPAT_DIR="$HOME/.steam/root/Steam/compatibilitytools.d"
 
     # Clean temp working directory
     echo "🧹 Cleaning temporary working directory..."

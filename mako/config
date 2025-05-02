@@ -1,0 +1,23 @@
+background-color=#161616
+text-color=#dde1e6
+border-color=#3ddbd9
+border-size=2
+border-radius=8
+padding=12
+margin=12
+
+font=Liga SFMonoNerdFont 12
+
+default-timeout=5000
+width=400
+height=100
+max-visible=5
+
+anchor=top-right
+layer=overlay
+output=*
+
+[urgency=high]
+border-color=#ee5396
+background-color=#262626
+text-color=#ffe97b
