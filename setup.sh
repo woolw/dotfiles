@@ -71,7 +71,6 @@ run_silent paru -S --noconfirm --needed \
     dotnet-runtime \
     syncplay \
     pyside6 \
-    rustup \
     brave-bin \
     river \
     swaybg \
@@ -98,8 +97,6 @@ run_silent fc-cache -fv
 
 # Set up development environments
 echo "💻 Setting up development environments..."
-
-run_silent rustup default stable
 
 # Install global Node.js packages
 echo "📦 Installing global Node.js packages..."
