@@ -8,7 +8,6 @@
       "modules-center": ["river/tags"],                                                                           
   "modules-right": ["pulseaudio", "backlight", "network", "cpu", "memory", "temperature", "battery", "disk", "custom/uptime", "custom/updates", "tray"],
 
-
   "river/tags": {
       "disable-scroll": true,
       "all-outputs": true,

@@ -90,7 +90,9 @@ run_silent paru -S --noconfirm --needed \
     thunar \
     pamixer \
     wlr-randr \
-    krita
+    krita \
+    inotify-tools \
+    cliphist
 
 # Refresh font cache
 run_silent fc-cache -fv

@@ -5,20 +5,6 @@ wlr-randr --output DP-3 --mode 3840x2160@120.00 &
 # Set keyboard repeat rate
 riverctl set-repeat 50 300
 
-# Set new windows to always split horizontally or vertically based on ratio
-riverctl set-layout simple
-
-# Focus new views automatically
-riverctl set-view-focus new
-
-# Automatically make certain new windows tile if possible
-riverctl rule-add view float=false
-
-riverctl rule-add app-id "pavucontrol" float=true
-riverctl rule-add app-id "blueman-manager" float=true
-riverctl rule-add app-id "nm-connection-editor" float=true
-riverctl rule-add app-id "thunar" float=false
-
 # Applications
 riverctl map normal Super Return spawn wezterm
 riverctl map normal Super s spawn fuzzel
@@ -40,8 +26,8 @@ riverctl map normal Super Q close
 
 # Switch and move between tags
 for i in $(seq 1 9); do
-  riverctl map normal Super $i set-focused-tags $((1 << ($i - 1)))
-  riverctl map normal Super+Shift $i set-view-tags $((1 << ($i - 1)))
+    riverctl map normal Super $i set-focused-tags $((1 << ($i - 1)))
+    riverctl map normal Super+Shift $i set-view-tags $((1 << ($i - 1)))
 done
 
 # Exit river
@@ -70,6 +56,7 @@ riverctl border-color-focused 0x33b1ff
 riverctl border-color-unfocused 0x282828
 
 # Start background services
+~/.config/waybar/watch-waybar.sh &
 waybar &
 mako &
 udiskie --no-notify --tray &
@@ -82,4 +69,5 @@ cliphist store &
 riverctl default-layout rivertile
 rivertile -view-padding 6 -outer-padding 6 &
 
-riverctl set-cursor-focus-follows-mouse enabled
+wl-paste --type text --watch cliphist store &
+wl-paste --type image --watch cliphist store &
