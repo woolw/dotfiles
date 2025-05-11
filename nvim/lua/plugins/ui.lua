@@ -1,10 +1,10 @@
 return {
     {
-        "nyoom-engineering/oxocarbon.nvim",
+        "shaunsingh/nord.nvim",
+        lazy = false,
         priority = 1000,
         config = function()
-            vim.o.background = "dark"
-            vim.cmd("colorscheme oxocarbon")
+            vim.cmd("colorscheme nord")
         end,
     },
     {
@@ -13,7 +13,7 @@ return {
         config = function()
             require("lualine").setup({
                 options = {
-                    theme = "gruvbox",
+                    theme = "nord",
                     section_separators = "",
                     component_separators = "",
                 }
@@ -121,15 +121,15 @@ return {
         end
     },
     {
-      "lukas-reineke/indent-blankline.nvim",
-      main = "ibl",
-      opts = {
-        indent = { char = "│" }, -- or "▏" for thinner
-        scope = { enabled = false },
-        whitespace = { highlight = { "Whitespace" } },
-        exclude = {
-          filetypes = { "help", "terminal", "lazy", "dashboard", "nofile" },
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        opts = {
+            indent = { char = "│" }, -- or "▏" for thinner
+            scope = { enabled = false },
+            whitespace = { highlight = { "Whitespace" } },
+            exclude = {
+                filetypes = { "help", "terminal", "lazy", "dashboard", "nofile" },
+            },
         },
-      },
     }
 }

@@ -6,6 +6,7 @@ return {
         config = function()
             require("mason-lspconfig").setup({
                 ensure_installed = {
+                    "rust_analyzer",
                     "gopls",
                     "lua_ls",
                     "ols",
@@ -22,6 +23,7 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
+            require("languages.rust")
             require("languages.go")
             require("languages.lua_ls")
             require("languages.typescript")

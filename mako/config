@@ -1,12 +1,12 @@
-background-color=#161616
-text-color=#dde1e6
-border-color=#3ddbd9
+background-color=#2E3440
+text-color=#ECEFF4
+border-color=#81A1C1
 border-size=2
 border-radius=8
 padding=12
 margin=12
 
-font=Liga SFMonoNerdFont 12
+font=JetBrainsMono Nerd Font 12
 
 default-timeout=5000
 width=400
@@ -18,6 +18,6 @@ layer=overlay
 output=*
 
 [urgency=high]
-border-color=#ee5396
-background-color=#262626
-text-color=#ffe97b
+background-color=#2E3440
+text-color=#ECEFF4
+border-color=#BF616A

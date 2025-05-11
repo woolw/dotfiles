@@ -11,25 +11,6 @@ DOTFILES_DIR="$HOME/dotfiles"
 echo "🌟 Updating system first..."
 run_silent sudo pacman -Syu --noconfirm
 
-# Install linux-zen kernel
-echo "💻 Installing linux-zen kernel via pacman..."
-run_silent sudo pacman -S --noconfirm --needed linux-zen linux-zen-headers
-
-# Update systemd-boot
-echo "🔄 Updating systemd-boot entries..."
-run_silent sudo bootctl update
-
-set -e
-
-# Set linux-zen as default kernel
-echo "📝 Setting linux-zen as the default boot option..."
-ZEN_ENTRY=$(sudo ls /boot/loader/entries | grep linux-zen | head -n 1)
-if [ -n "$ZEN_ENTRY" ]; then
-    sudo sed -i "s/^default .*/default $ZEN_ENTRY/" /boot/loader/loader.conf
-else
-    echo "❗ Could not find linux-zen boot entry, skipping default set."
-fi
-
 # Install paru if missing
 if ! command -v paru &>/dev/null; then
     echo "🚀 Installing paru (AUR helper)..."
@@ -39,10 +20,10 @@ fi
 # Install packages
 echo "📦 Installing repo and AUR packages..."
 run_silent paru -S --noconfirm --needed \
+    rustup \
     steam \
     ani-cli \
     mpv \
-    nerd-fonts-sf-mono-ligatures \
     ttf-jetbrains-mono-nerd \
     noto-fonts \
     noto-fonts-emoji \
@@ -53,18 +34,12 @@ run_silent paru -S --noconfirm --needed \
     wezterm \
     discord \
     neovim \
-    git \
     base-devel \
-    curl \
     wget \
     unzip \
-    gcc \
-    cmake \
     nodejs \
     npm \
     yarn \
-    python3 \
-    python-pip \
     go \
     dotnet-sdk \
     aspnet-runtime \
@@ -72,8 +47,6 @@ run_silent paru -S --noconfirm --needed \
     syncplay \
     pyside6 \
     brave-bin \
-    river \
-    swaybg \
     mako \
     waybar \
     fuzzel \
@@ -92,13 +65,22 @@ run_silent paru -S --noconfirm --needed \
     wlr-randr \
     krita \
     inotify-tools \
-    cliphist
+    cliphist \
+    greetd-reegreet \
+    hyprland \
+    hyprlock \
+    hyprshot \
+    hyprpaper \
+    hyprcursor \
+    fish
 
 # Refresh font cache
 run_silent fc-cache -fv
 
 # Set up development environments
 echo "💻 Setting up development environments..."
+
+run_silent rustup default stable
 
 # Install global Node.js packages
 echo "📦 Installing global Node.js packages..."
@@ -130,8 +112,8 @@ ln -s "$DOTFILES_DIR/nvim" ~/.config/nvim
 rm -rf ~/.config/waybar
 ln -s "$DOTFILES_DIR/waybar" ~/.config/waybar
 
-rm -rf ~/.config/river
-ln -s "$DOTFILES_DIR/river" ~/.config/river
+rm -rf ~/.config/hypr
+ln -s "$DOTFILES_DIR/hypr" ~/.config/hypr
 
 rm -rf ~/.config/fuzzel
 ln -s "$DOTFILES_DIR/fuzzel" ~/.config/fuzzel

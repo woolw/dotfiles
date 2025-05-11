@@ -6,6 +6,6 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.termguicolors = true
-vim.opt.guifont = "Liga SFMonoNerdFont:h12"
+vim.opt.guifont = "JetBrainsMono Nerd Font:h12"
 vim.opt.wrap = true
 vim.opt.linebreak = true
