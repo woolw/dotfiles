@@ -25,7 +25,6 @@ chmod +x setup.sh
 
 Follow the prompts to:
 
-- Install Zen kernel
 - Install gaming and development packages
 - Link dotfiles automatically
 - (Optional) Set up Proton GE
