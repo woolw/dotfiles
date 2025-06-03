@@ -66,7 +66,7 @@ run_silent paru -S --noconfirm --needed \
     krita \
     inotify-tools \
     cliphist \
-    greetd-reegreet \
+    greetd-regreet \
     hyprland \
     hyprlock \
     hyprshot \

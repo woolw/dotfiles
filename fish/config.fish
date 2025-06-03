@@ -13,6 +13,8 @@ set -q SSH_AUTH_SOCK; or eval (ssh-agent -c)
 ssh-add -l | grep -q (ssh-keygen -lf ~/.ssh/github_ed25519 | awk '{print $2}') 
 or ssh-add ~/.ssh/github_ed25519
 
+clear
+set fish_greeting
 if type -q fastfetch
     fastfetch
 end
