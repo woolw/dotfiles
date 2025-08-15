@@ -72,7 +72,8 @@ run_silent paru -S --noconfirm --needed \
     hyprshot \
     hyprpaper \
     hyprcursor \
-    fish
+    fish \
+    xdg-desktop-portal-hyprland
 
 # Refresh font cache
 run_silent fc-cache -fv
