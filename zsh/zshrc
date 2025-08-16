@@ -1,0 +1,91 @@
+# ==========================
+#  Portable Zsh Config
+# ==========================
+
+# --- History ---
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
+
+# --- Prompt ---
+autoload -Uz colors && colors
+setopt PROMPT_SUBST
+
+# Function to show git branch
+git_prompt_info() {
+  local ref
+  if ref=$(git symbolic-ref --quiet --short HEAD 2>/dev/null); then
+    echo " %F{magenta}[$ref]%f"
+  elif ref=$(git describe --tags --exact-match 2>/dev/null); then
+    echo " %F{magenta}[$ref]%f"
+  fi
+}
+
+# Build prompt dynamically with color on error
+build_prompt() {
+  local exit_code=$?  # exit code of last command
+  local prompt_char=">"
+  local prompt_color="%F{green}"  # green if last command succeeded
+  if [[ $exit_code -ne 0 ]]; then
+    prompt_color="%F{red}"        # red if last command failed
+  fi
+  PROMPT="%F{cyan}%n%f@%F{green}%m%f %F{yellow}%~%f$(git_prompt_info) ${prompt_color}${prompt_char}%f "
+}
+
+# Run before each prompt
+precmd_functions+=(build_prompt)
+
+# --- Completion ---
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+compinit -u   # suppress insecure dirs warning
+
+# --- Keybindings ---
+bindkey -e
+bindkey '^[[3~' delete-char
+bindkey '^H' backward-kill-word
+
+# --- Aliases ---
+alias ls='ls --color=auto -h'
+alias ll='ls -lh'
+alias la='ls -A'
+alias grep='grep --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias gs='git status'
+alias gl='git log --oneline --graph --decorate'
+alias gc='git commit'
+alias v='helix'
+
+# --- Environment ---
+export EDITOR="helix"
+export VISUAL="helix"
+export PAGER="less"
+export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+
+# --- OS-specific tweaks ---
+case "$OSTYPE" in
+  linux*)
+    alias ls='ls --color=auto -h'
+    ;;
+  darwin*)
+    alias ls='ls -G -h'
+    ;;
+esac
+
+# --- SSH Agent ---
+# Reuse ssh-agent if one exists, otherwise start a new one
+export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+if ! pgrep -u "$USER" ssh-agent >/dev/null 2>&1; then
+  eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK")" >/dev/null 2>&1
+fi
+export SSH_AUTH_SOCK
+
+# ==========================
+#  End of Zsh Config
+# ==========================

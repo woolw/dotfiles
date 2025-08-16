@@ -77,7 +77,10 @@ yay -S --needed --noconfirm \
     qt5-wayland \
     qt6-wayland \
     ly \
-    zsh
+    zsh \
+    pavucontroll \
+    thunar \
+    reflector
 
 echo -e "${GREEN}==> Refreshing font cache...${RESET}"
 run_silent fc-cache -fv
@@ -85,6 +88,8 @@ run_silent fc-cache -fv
 echo -e "${GREEN}==> Changing shell to zsh...${RESET}"
 chsh -s /usr/bin/zsh
 
+echo -e "${GREEN}==> Enabling services...${RESET}"
+systemctl enable ly
 
 ####################################################################################
 # Dotfiles
@@ -95,6 +100,9 @@ mkdir -p ~/.config
 
 rm -f ~/.wezterm.lua
 ln -s "$DOTFILES_DIR/wezterm/wezterm.lua" ~/.wezterm.lua
+
+rm -f ~/.zshrc
+ln -s "$DOTFILES_DIR/zsh/zshrc" ~/.zshrc
 
 rm -rf ~/.config/helix
 ln -s "$DOTFILES_DIR/helix/" ~/.config/helix
@@ -178,26 +186,31 @@ done
 # Git
 ####################################################################################
 
-echo -e "==> Please enter your Git username:${RESET}"
-read -r user_name
+if [[ ! -f ~/.gitconfig ]]; then
+    touch ~/.gitconfig
+    
+    echo -e "==> Please enter your Git username:${RESET}"
+    read -r user_name
 
-echo -e "==> Please enter your Git email:${RESET}"
-read -r user_email
+    echo -e "==> Please enter your Git email:${RESET}"
+    read -r user_email
 
-git config --global user.name "$user_name"
-git config --global user.email "$user_email"
-git config --global gpg.format ssh
-git config --global user.signingkey ~/.ssh/github_ed25519.pub
-git config --global commit.gpgsign true
-git config --global fetch.prune true
-git config --global core.longpaths true
-git config --global core.ignorecase false
-git config --global core.autocrlf false
-git config --global core.eol lf
+    git config --global user.name "$user_name"
+    git config --global user.email "$user_email"
+    git config --global gpg.format ssh
+    git config --global user.signingkey ~/.ssh/github_ed25519.pub
+    git config --global commit.gpgsign true
+    git config --global fetch.prune true
+    git config --global core.longpaths true
+    git config --global core.ignorecase false
+    git config --global core.autocrlf false
+    git config --global core.eol lf
+fi
 
 ####################################################################################
 # Done
 ####################################################################################
 
 echo -e "${GREEN}==> Installation complete!${RESET}"
-echo "You can now log out and start Hyprland from your TTY with: Hyprland"
+echo -e "${RED}==> THE SYSTEM WILL NOW RESTART!${RESET}"
+sudo reboot now
