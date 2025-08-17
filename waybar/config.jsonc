@@ -5,8 +5,8 @@
     "spacing": 1,
     "margin": 0,
     "modules-left": [
-        "hyprland/workspaces",
-        "river/tags"
+        "custom/lock",
+        "hyprland/workspaces"
     ],
     "modules-center": [
         "hyprland/window"
@@ -18,8 +18,8 @@
         "backlight",
         "battery",
         "network",
-        "custom/lock"
-    ],
+        "custom/notifications"
+   ],
     "river/tags": {
         "format": "{}",
         "on-click": "activate",
@@ -40,16 +40,7 @@
             "occupied": "•",
             "default": "○"
         },
-        "sort-by-number": true,
-        "persistent-workspaces": {
-            "DP-3": [
-                1,
-                2,
-                3,
-                4,
-                5
-            ]
-        }
+        "sort-by-number": true
     },
     "clock": {
         "format": "{:%a %d %b  %H:%M}",
@@ -122,6 +113,13 @@
         "format": "",
         "on-click": "hyprlock",
         "interval": 3600,
+        "tooltip": false
+    },
+    "custom/notifications": {
+        "format": " {}",
+        "exec": "~/.config/waybar/notifications/show-module.sh",
+        "interval": 3,
+        "on-click": "~/.config/waybar/notifications/toggle-notifications.sh",
         "tooltip": false
     },
     "hyprland/window": {

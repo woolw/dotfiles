@@ -21,3 +21,6 @@ output=*
 background-color=#2E3440
 text-color=#ECEFF4
 border-color=#BF616A
+
+history=1
+on-button-right=dismiss --no-history
