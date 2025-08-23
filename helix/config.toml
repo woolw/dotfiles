@@ -1,5 +1,9 @@
-theme = "custom-nord"
+theme = "everforest"
 
 [editor]
 auto-format = true
 line-number = "relative"
+
+[editor.indent-guides]
+render = true
+character = "|"

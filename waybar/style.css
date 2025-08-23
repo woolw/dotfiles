@@ -1,7 +1,7 @@
 * {
   font-family: JetBrainsMono Nerd Font, monospace;
   font-size: 16px;
-  color: #ECEFF4;
+  color: #d3c6aa;
   background: transparent;
   border: none;
   padding: 2px 4px;
@@ -17,65 +17,64 @@
 #tray,
 #window,
 #custom-notifications {
-  background-color: #3B4252;
+  background-color: #272e33;
   border-radius: 12px;
-  border: 2px solid #ECEFF4;
+  border: 2px solid #d3c6aa;
 }
 
 tooltip,
 .menu,
 .popup,
 .context-menu {
-  background-color: #3B4252;
-  border: 2px solid #ECEFF4;
+  background-color: #272e33;
+  border: 2px solid #d3c6aa;
 }
 
 .popup :hover {
-  background-color: #88C0D0;
-  color: #3B4252;
+  background-color: #3c4841;
 }
 
 #pulseaudio {
-  background-color: #3B4252;
+  background-color: #272e33;
   border-radius: 12px 0 0 12px;
   margin-right: -2px;
-  border-top: 2px solid #ECEFF4;
-  border-bottom: 2px solid #ECEFF4;
-  border-left: 2px solid #ECEFF4;
+  border-top: 2px solid #d3c6aa;
+  border-bottom: 2px solid #d3c6aa;
+  border-left: 2px solid #d3c6aa;
   padding-left: 10px;
   padding: 0 10px 0 10px;
 }
 
 #backlight,
 #battery {
-  background-color: #3B4252;
+  background-color: #272e33;
   margin-right: -1px;
   margin-left: -1px;
-  border-top: 2px solid #ECEFF4;
-  border-bottom: 2px solid #ECEFF4;
+  border-top: 2px solid #d3c6aa;
+  border-bottom: 2px solid #d3c6aa;
   padding: 0 10px 0 10px;
 }
 
 #network {
-  background-color: #3B4252;
+  background-color: #272e33;
   border-radius: 0 12px 12px 0;
   margin-left: -2px;
-  border-top: 2px solid #ECEFF4;
-  border-bottom: 2px solid #ECEFF4;
-  border-right: 2px solid #ECEFF4;
+  border-top: 2px solid #d3c6aa;
+  border-bottom: 2px solid #d3c6aa;
+  border-right: 2px solid #d3c6aa;
   padding: 0 16px 0 10px;
 }
 
 #battery.charging {
-  background-color: #A3BE8C;
-  color: #3B4252;
+  background-color: #a7c080;
+  color: #272e33;
 }
 
 #custom-lock {
-  background-color: #3B4252;
-  color: #BF616A;
+  background-color: #272e33;
+  color: #e67e80;
   border-radius: 12px;
-  border: 2px solid #BF616A;
+  border: 2px solid #e67e80;
   padding-right: 16px;
   padding-left: 12px;
   font-weight: bold;
