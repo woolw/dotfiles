@@ -14,7 +14,7 @@ return {
         "JetBrainsMono Nerd Font",
     }),
     font_size = 12,
-    color_scheme = "Everforest Dark (Gogh)",
+    color_scheme = "OneDark (base16)",
 
     enable_tab_bar = false,
     use_fancy_tab_bar = false,
