@@ -82,7 +82,7 @@ esac
 # Reuse ssh-agent if one exists, otherwise start a new one
 export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
 if ! pgrep -u "$USER" ssh-agent >/dev/null 2>&1; then
-  eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK")" >/dev/null 2>&1
+  eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK" >/dev/null 2>&1)" >/dev/null 2>&1
 fi
 export SSH_AUTH_SOCK
 
