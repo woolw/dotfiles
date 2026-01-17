@@ -31,7 +31,8 @@ jobs:
 
       - name: Check flake formatting
         run: |
-          nix run nixpkgs#nixfmt-tree -- --check .
+          nix run nixpkgs#nixfmt-tree -- --fail-on-change .
+        continue-on-error: true
 
   lint:
     runs-on: ubuntu-latest

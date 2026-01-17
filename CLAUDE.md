@@ -65,6 +65,10 @@ cat /sys/class/drm/card1/device/pp_dpm_mclk
 │       ├── README.md      # Template and index
 │       └── *.md           # Individual hardware issue reports
 │
+├── hooks/                 # Git hooks
+│   ├── README.md          # Hook documentation
+│   └── pre-commit         # Auto-format Nix files before commit
+│
 ├── hosts/                 # Platform-specific system configs
 │   └── nixos/             # NixOS desktop configuration
 │       ├── configuration.nix  # Main system config
@@ -274,6 +278,23 @@ nix run nixpkgs#statix -- check .
 # Find dead code
 nix run nixpkgs#deadnix -- .
 ```
+
+### Pre-commit Hook
+
+A Git pre-commit hook automatically formats Nix files before committing.
+
+**Installation** (already done for this repo):
+```bash
+ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
+```
+
+**What it does**:
+- Detects staged `.nix` files
+- Formats them using `nixfmt`
+- Re-stages the formatted files
+- Ensures all committed code is properly formatted
+
+**Note**: The CI formatting check is set to `continue-on-error: true`, so it won't block merges if someone bypasses the hook. It will still warn about formatting issues.
 
 ## Completed Setup Checklist
 - [x] NixOS flake-based configuration

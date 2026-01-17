@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Git pre-commit hook to format Nix files automatically
+
+# Get list of staged .nix files
+STAGED_NIX_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.nix$')
+
+if [ -z "$STAGED_NIX_FILES" ]; then
+    # No .nix files staged, skip formatting
+    exit 0
+fi
+
+echo "Formatting staged Nix files..."
+
+# Format the staged files
+for file in $STAGED_NIX_FILES; do
+    nix run nixpkgs#nixfmt -- "$file"
+    # Re-stage the file after formatting
+    git add "$file"
+done
+
+echo "✓ Nix files formatted and re-staged"
+exit 0
