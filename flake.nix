@@ -20,7 +20,7 @@
           ./hosts/nixos/hardware-configuration.nix
           ./modules/amd-gpu.nix
           ./modules/gaming.nix
-          
+
           # Home Manager integration
           home-manager.nixosModules.home-manager
           {
@@ -31,5 +31,8 @@
         ];
       };
     };
+
+    # Formatter for 'nix fmt' (RFC 166 style)
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
   };
 }
