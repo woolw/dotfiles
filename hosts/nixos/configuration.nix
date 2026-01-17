@@ -31,6 +31,14 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Fonts
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    noto-fonts
+    noto-fonts-color-emoji
+    noto-fonts-cjk-sans
+  ];
+
   # Display
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
@@ -68,6 +76,9 @@
   programs.git.enable = true;
   programs.zsh.enable = true;
 
+  # Qt Wayland support
+  qt.enable = true;
+
   # System packages
   environment.systemPackages = with pkgs; [
     git
@@ -81,6 +92,10 @@
     syncplay
     python313Packages.pyside6
     claude-code
+
+    # Qt Wayland
+    libsForQt5.qtwayland
+    qt6.qtwayland
 
     # Useful utilities
     wget

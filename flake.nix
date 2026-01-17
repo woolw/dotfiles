@@ -27,6 +27,7 @@
             ./hosts/nixos/hardware-configuration.nix
             ./modules/amd-gpu.nix
             ./modules/gaming.nix
+            ./modules/hyprland.nix
 
             # Home Manager integration
             home-manager.nixosModules.home-manager

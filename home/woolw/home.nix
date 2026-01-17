@@ -16,10 +16,16 @@
       user.email = "gh@woolw.dev";
       init.defaultBranch = "main";
       pull.rebase = false;
-      # SSH signing (optional but recommended)
+      # SSH signing
       gpg.format = "ssh";
       user.signingkey = "~/.ssh/github_ed25519.pub";
       commit.gpgsign = true;
+      # Additional git settings
+      fetch.prune = true;
+      core.longpaths = true;
+      core.ignorecase = false;
+      core.autocrlf = false;
+      core.eol = "lf";
     };
   };
 
