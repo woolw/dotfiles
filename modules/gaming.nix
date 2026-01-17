@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # Steam
@@ -10,7 +15,7 @@
 
   # Gaming utilities
   environment.systemPackages = with pkgs; [
-    protonup-qt  # GUI tool to manage Proton-GE installations
+    protonup-qt # GUI tool to manage Proton-GE installations
     mangohud
     gamemode
     gamescope

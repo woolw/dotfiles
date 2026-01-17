@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # AMD GPU Power Management Fix
@@ -7,7 +12,7 @@
   '';
 
   # Optional: Additional AMD GPU optimizations
-  boot.kernelParams = [ 
+  boot.kernelParams = [
     # Uncomment if needed for better performance
     # "amdgpu.ppfeaturemask=0xffffffff"
   ];

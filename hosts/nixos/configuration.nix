@@ -7,7 +7,10 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Networking
   networking.hostName = "nixos";
@@ -54,7 +57,10 @@
   users.users.woolw = {
     isNormalUser = true;
     description = "woolw";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     shell = pkgs.zsh;
   };
 
