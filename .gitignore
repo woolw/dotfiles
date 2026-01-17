@@ -42,3 +42,7 @@ wezterm-log.txt
 
 # If you ever have a .vscode/ folder for local dev settings
 .vscode/
+
+# Nix build artifacts
+result
+result-*
