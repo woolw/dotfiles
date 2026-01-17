@@ -56,6 +56,15 @@ cat /sys/class/drm/card1/device/pp_dpm_mclk
 ├── README.md              # Human-readable docs
 ├── setup-github-ssh.sh    # GitHub SSH setup script
 │
+├── .github/               # GitHub Actions workflows
+│   └── workflows/
+│       └── nixos-check.yml  # CI/CD config validation
+│
+├── docs/                  # Documentation
+│   └── hardware/          # Hardware issue documentation
+│       ├── README.md      # Template and index
+│       └── *.md           # Individual hardware issue reports
+│
 ├── hosts/                 # Platform-specific system configs
 │   └── nixos/             # NixOS desktop configuration
 │       ├── configuration.nix  # Main system config
@@ -221,6 +230,51 @@ The `zshrc` includes OS-aware aliases that work on both NixOS and macOS:
 - `update` - Update flake inputs and rebuild
 - Plus standard aliases: `ll`, `gs`, `gl`, `gc`, `v` (helix)
 
+## Hardware Issue Documentation
+
+Hardware-specific issues and their solutions are documented in **`docs/hardware/`**.
+
+**Current documented issues:**
+- [AMD RX 7900 XT Display Artifacts](./docs/hardware/amd-rx7900xt-display-artifacts.md) - ✅ SOLVED
+
+**To document a new hardware issue:**
+1. See the template in [`docs/hardware/README.md`](./docs/hardware/README.md)
+2. Create a new `.md` file in `docs/hardware/` following the template
+3. Update the issue list in `docs/hardware/README.md`
+
+This keeps hardware documentation organized and separate from system configuration docs.
+
+## CI/CD
+
+GitHub Actions automatically validates configuration on every push and pull request.
+
+**What's checked**:
+- ✅ Flake evaluation (syntax and structure)
+- ✅ NixOS configuration build (dry-run)
+- ✅ Code formatting (nixfmt)
+- ✅ Static analysis (statix)
+- ✅ Dead code detection (deadnix)
+
+**Workflow file**: `.github/workflows/nixos-check.yml`
+
+**To run checks locally**:
+```bash
+# Check flake
+nix flake check
+
+# Build configuration (dry-run)
+nix build .#nixosConfigurations.nixos.config.system.build.toplevel --dry-run
+
+# Format Nix files
+nix fmt
+
+# Run statix linter
+nix run nixpkgs#statix -- check .
+
+# Find dead code
+nix run nixpkgs#deadnix -- .
+```
+
 ## Completed Setup Checklist
 - [x] NixOS flake-based configuration
 - [x] Home Manager integration
@@ -231,14 +285,14 @@ The `zshrc` includes OS-aware aliases that work on both NixOS and macOS:
 - [x] SSH commit signing
 - [x] Zsh as default shell
 - [x] OS-aware rebuild aliases
+- [x] CI/CD for config validation
+- [x] Hardware documentation template
 
 ## Future Enhancements
 - [ ] Set up nix-darwin configuration for macOS
 - [ ] Add development module with language-specific tools
 - [ ] Consider migrating Hyprland config to NixOS (optional alternative to KDE)
 - [ ] Set up automatic backup/sync strategy
-- [ ] Add CI/CD for config validation
-- [ ] Document any other hardware quirks as discovered
 
 ## Useful Resources
 - [NixOS Manual](https://nixos.org/manual/nixos/stable/)
