@@ -76,30 +76,28 @@ cat /sys/class/drm/card1/device/pp_dpm_mclk
 │
 ├── modules/               # NixOS-specific modules
 │   ├── amd-gpu.nix       # AMD GPU power management fix
-│   └── gaming.nix        # Steam, gaming tools
+│   ├── gaming.nix        # Steam, gaming tools
+│   └── hyprland.nix      # Hyprland compositor setup
 │
 ├── home/                  # Platform-specific Home Manager configs
 │   └── woolw/
 │       └── home.nix      # NixOS user-level config (symlinks to cross-platform configs)
 │
-└── [CROSS-PLATFORM CONFIGS - Pure config files, no Nix]
-    ├── wezterm/          # Terminal emulator
-    │   └── wezterm.lua   # Pure Lua config
-    ├── helix/            # Text editor
-    │   ├── config.toml
-    │   ├── languages.toml
-    │   └── themes/
-    │       └── everforest.toml
-    └── zsh/              # Shell
-        └── zshrc         # Pure shell config with OS-aware aliases
-
-[LEGACY - Archived Arch Linux configs]
-├── hypr/                 # Hyprland compositor (not used on NixOS)
-├── waybar/               # Status bar (not used on NixOS)
-├── fuzzel/               # App launcher (not used on NixOS)
-├── mako/                 # Notifications (not used on NixOS)
-├── wallpapers/           # Wallpapers
-└── install               # Old Arch install script (archived)
+├── [CROSS-PLATFORM CONFIGS - Pure config files, no Nix]
+│   ├── wezterm/          # Terminal emulator
+│   │   └── wezterm.lua   # Pure Lua config (One Dark theme)
+│   ├── helix/            # Text editor
+│   │   ├── config.toml   # Uses onedark theme
+│   │   └── languages.toml
+│   └── zsh/              # Shell
+│       └── zshrc         # Pure shell config with OS-aware aliases
+│
+├── [HYPRLAND ECOSYSTEM - Linux only, One Dark Pro theme]
+│   ├── hypr/             # Hyprland compositor configs
+│   ├── waybar/           # Status bar
+│   ├── swaync/           # Notification center
+│   ├── fuzzel/           # App launcher
+│   └── wallpapers/       # One Dark themed wallpapers
 ```
 
 ## Quick Start Commands
@@ -169,8 +167,10 @@ This dotfiles repo supports both **NixOS** (Linux) and **nix-darwin** (macOS).
 - ✅ WezTerm config: `~/.config/wezterm/wezterm.lua` → `dotfiles/wezterm/wezterm.lua`
 - ✅ Helix config: `~/.config/helix/` → `dotfiles/helix/`
 - ✅ Zsh config: Sources `dotfiles/zsh/zshrc` on shell init
+- ✅ Hyprland ecosystem: `~/.config/{hypr,waybar,swaync,fuzzel}/` → `dotfiles/`
 - ✅ GitHub SSH configured with commit signing
 - ✅ Zsh as default shell
+- ✅ One Dark Pro theme across all configs
 
 ### Future nix-darwin Setup
 When setting up macOS:
@@ -308,11 +308,12 @@ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 - [x] OS-aware rebuild aliases
 - [x] CI/CD for config validation
 - [x] Hardware documentation template
+- [x] Hyprland as alternative to KDE Plasma
+- [x] One Dark Pro theme throughout
 
 ## Future Enhancements
 - [ ] Set up nix-darwin configuration for macOS
 - [ ] Add development module with language-specific tools
-- [ ] Consider migrating Hyprland config to NixOS (optional alternative to KDE)
 - [ ] Set up automatic backup/sync strategy
 
 ## Useful Resources
