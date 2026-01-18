@@ -32,7 +32,7 @@
     # Window manager essentials
     fuzzel # App launcher (Super+Space)
     waybar # Status bar
-    mako # Notifications
+    swaynotificationcenter # Notifications with history management
 
     # Standalone tray applets (for Hyprland, KDE has integrated versions)
     networkmanagerapplet # nm-applet

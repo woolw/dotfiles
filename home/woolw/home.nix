@@ -59,6 +59,12 @@
   # Helix configuration (pure TOML configs)
   xdg.configFile."helix".source = ../../helix;
 
+  # Hyprland ecosystem configs
+  xdg.configFile."hypr".source = ../../hypr;
+  xdg.configFile."waybar".source = ../../waybar;
+  xdg.configFile."swaync".source = ../../swaync;
+  xdg.configFile."fuzzel".source = ../../fuzzel;
+
   # Additional home packages
   home.packages = with pkgs; [
     mangayomi

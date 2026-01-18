@@ -116,11 +116,23 @@
         "tooltip": false
     },
     "custom/notifications": {
-        "format": " {}",
-        "exec": "~/.config/waybar/notifications/show-module.sh",
-        "interval": 3,
-        "on-click": "~/.config/waybar/notifications/toggle-notifications.sh",
-        "tooltip": false
+        "format": "{icon}",
+        "tooltip": false,
+        "return-type": "json",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true,
+        "format-icons": {
+            "notification": "<span foreground='#e67e80'></span>",
+            "none": "",
+            "dnd-notification": "<span foreground='#e67e80'></span>",
+            "dnd-none": "",
+            "inhibited-notification": "<span foreground='#e67e80'></span>",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "<span foreground='#e67e80'></span>",
+            "dnd-inhibited-none": ""
+        }
     },
     "hyprland/window": {
         "format": "{}",

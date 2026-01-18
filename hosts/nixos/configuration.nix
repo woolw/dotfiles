@@ -81,23 +81,27 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    git
+    # Browsers & Communication
     brave
+    discord
+
+    # Development & Editors
     wezterm
     helix
     vscodium
-    discord
+    claude-code
+
+    # Media
     ani-cli
     mpv
     syncplay
     python313Packages.pyside6
-    claude-code
 
     # Qt Wayland
     libsForQt5.qtwayland
     qt6.qtwayland
 
-    # Useful utilities
+    # Utilities
     wget
     curl
     htop
