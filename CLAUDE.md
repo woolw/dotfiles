@@ -314,7 +314,6 @@ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 ## Future Enhancements
 - [ ] Set up nix-darwin configuration for macOS
 - [ ] Add development module with language-specific tools
-- [ ] Set up automatic backup/sync strategy
 
 ## Useful Resources
 - [NixOS Manual](https://nixos.org/manual/nixos/stable/)
