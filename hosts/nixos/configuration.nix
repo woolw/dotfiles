@@ -75,6 +75,10 @@
   # Programs
   programs.git.enable = true;
   programs.zsh.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
   # Qt Wayland support
   qt.enable = true;
@@ -107,6 +111,8 @@
     htop
     btop
     fastfetch
+    jq
+    ripgrep
   ];
 
   nixpkgs.config.allowUnfree = true;

@@ -310,10 +310,10 @@ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 - [x] Hardware documentation template
 - [x] Hyprland as alternative to KDE Plasma
 - [x] One Dark Pro theme throughout
+- [x] Development tooling (direnv, nix-direnv)
 
 ## Future Enhancements
 - [ ] Set up nix-darwin configuration for macOS
-- [ ] Add development module with language-specific tools
 
 ## Useful Resources
 - [NixOS Manual](https://nixos.org/manual/nixos/stable/)
