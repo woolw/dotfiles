@@ -1,4 +1,4 @@
-/* Everforest Dark theme for SwayNC */
+/* One Dark Pro theme for SwayNC */
 
 * {
   font-family: "JetBrainsMono Nerd Font", monospace;
@@ -7,47 +7,47 @@
 
 /* Control Center */
 .control-center {
-  background: #272e33;
-  border: 2px solid #d3c6aa;
+  background: #282c34;
+  border: 2px solid #abb2bf;
   border-radius: 12px;
 }
 
 /* Title widget */
 .widget-title {
-  color: #d3c6aa;
+  color: #abb2bf;
   margin: 8px;
 }
 
 .widget-title > button {
-  background: #3c4841;
-  color: #d3c6aa;
-  border: 1px solid #a7c080;
+  background: #3e4451;
+  color: #abb2bf;
+  border: 1px solid #56b6c2;
   border-radius: 8px;
   padding: 4px 12px;
 }
 
 .widget-title > button:hover {
-  background: #a7c080;
-  color: #272e33;
+  background: #56b6c2;
+  color: #282c34;
 }
 
 /* DND widget */
 .widget-dnd {
-  color: #d3c6aa;
+  color: #abb2bf;
   margin: 8px;
 }
 
 .widget-dnd > switch {
-  background: #3c4841;
+  background: #3e4451;
   border-radius: 12px;
 }
 
 .widget-dnd > switch:checked {
-  background: #e67e80;
+  background: #e06c75;
 }
 
 .widget-dnd > switch slider {
-  background: #d3c6aa;
+  background: #abb2bf;
   border-radius: 50%;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .control-center .notification-row .notification-background {
-  background: #3c4841;
+  background: #3e4451;
   border-radius: 8px;
 }
 
@@ -71,15 +71,15 @@
 
 /* Close button in control center */
 .control-center .notification-row .notification-background .close-button {
-  background: #e67e80;
-  color: #272e33;
+  background: #e06c75;
+  color: #282c34;
   border-radius: 6px;
   margin: 4px;
   padding: 2px 6px;
 }
 
 .control-center .notification-row .notification-background .close-button:hover {
-  background: #f85552;
+  background: #be5046;
 }
 
 /* Popup notifications */
@@ -88,8 +88,8 @@
 }
 
 .notification {
-  background: #272e33;
-  border: 2px solid #d3c6aa;
+  background: #282c34;
+  border: 2px solid #abb2bf;
   border-radius: 12px;
   margin: 8px;
 }
@@ -103,52 +103,52 @@
 }
 
 .notification .notification-default-action:hover {
-  background: #3c4841;
+  background: #3e4451;
 }
 
 /* Notification text */
 .summary {
-  color: #d3c6aa;
+  color: #abb2bf;
   font-weight: bold;
 }
 
 .body {
-  color: #d3c6aa;
+  color: #abb2bf;
 }
 
 .time {
-  color: #859289;
+  color: #5c6370;
 }
 
 /* App name and icon */
 .app-name {
-  color: #a7c080;
+  color: #56b6c2;
   font-weight: bold;
 }
 
 /* Critical notifications */
 .critical {
-  border-color: #e67e80;
+  border-color: #e06c75;
 }
 
 /* Low priority notifications */
 .low {
-  border-color: #859289;
+  border-color: #5c6370;
 }
 
 /* Action buttons */
 .notification-action {
-  background: #3c4841;
-  color: #d3c6aa;
-  border: 1px solid #a7c080;
+  background: #3e4451;
+  color: #abb2bf;
+  border: 1px solid #56b6c2;
   border-radius: 6px;
   margin: 4px;
   padding: 4px 8px;
 }
 
 .notification-action:hover {
-  background: #a7c080;
-  color: #272e33;
+  background: #56b6c2;
+  color: #282c34;
 }
 
 /* Image in notification */
