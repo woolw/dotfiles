@@ -1,5 +1,23 @@
 # NixOS System Configuration
 
+## Quick Reference
+
+| To modify... | Edit this file |
+|--------------|----------------|
+| System packages, services | `hosts/nixos/configuration.nix` |
+| User packages, git, SSH | `home/woolw/home.nix` |
+| Terminal (WezTerm) | `wezterm/wezterm.lua` |
+| Editor (Helix) | `helix/config.toml`, `helix/languages.toml` |
+| Shell (Zsh) | `zsh/zshrc` |
+| Hyprland WM | `hypr/hyprland.conf` → sources `hypr/hyprland/*.conf` |
+| Status bar | `waybar/config.jsonc`, `waybar/style.css` |
+| Gaming (Steam, etc.) | `modules/gaming.nix` |
+| GPU power management | `modules/amd-gpu.nix` |
+
+**Theme**: One Dark Pro (`#282c34` bg, `#abb2bf` fg, `#61afef` blue, `#e06c75` red, `#98c379` green)
+**Font**: JetBrainsMono Nerd Font throughout
+**Audio**: PipeWire (replaces PulseAudio)
+
 ## Current System Info
 - **Hostname**: nixos
 - **Kernel**: 6.18.1 (linuxPackages_latest)
@@ -233,6 +251,20 @@ The `zshrc` includes OS-aware aliases that work on both NixOS and macOS:
 - `rebuild` - Quick rebuild and switch
 - `update` - Update flake inputs and rebuild
 - Plus standard aliases: `ll`, `gs`, `gl`, `gc`, `v` (helix)
+
+### Hyprland Keybinds
+Key bindings defined in `hypr/hyprland/keybinds.conf`:
+- `Super+Space` - Fuzzel app launcher
+- `Super+Return` - WezTerm terminal
+- `Super+Q` - Close window
+- `Super+HJKL` - Focus window (Vim-style)
+- `Super+Shift+HJKL` - Move window
+- `Super+1-5` - Switch workspace
+- `Super+Shift+1-5` - Move window to workspace
+- `Super+Alt+L` - Lock screen (hyprlock)
+- `Super+V` - Clipboard (Klipper)
+- `Print` - Screenshot (Spectacle)
+- Audio keys - Volume/mute control
 
 ## Hardware Issue Documentation
 

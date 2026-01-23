@@ -1,0 +1,133 @@
+/* macOS Spotlight-inspired theme */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  background: transparent;
+}
+
+/* Main window - the layer surface */
+window {
+  background-color: transparent;
+}
+
+/* Main container - light grey like Spotlight */
+.main {
+  background-color: rgba(40, 44, 52, 0.9);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  padding: 16px;
+}
+
+/* Search input field - large like Spotlight */
+entry {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #ffffff;
+  font-size: 52px;
+  font-weight: 300;
+  min-height: 70px;
+  padding: 16px 8px;
+  caret-color: #fafafb;
+}
+
+entry:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+entry placeholder {
+  color: #8e8e93;
+}
+
+/* Results container */
+.matches {
+  background-color: transparent;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Plugin container */
+.plugin {
+  background-color: transparent;
+  padding: 8px 0;
+}
+
+/* Plugin section header */
+.plugin .info {
+  background-color: transparent;
+  margin: 0 4px 8px 4px;
+  padding: 0;
+}
+
+.plugin .info label {
+  background-color: transparent;
+  color: #86868b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.plugin .info image {
+  -gtk-icon-size: 0px;
+  min-width: 0;
+  min-height: 0;
+  opacity: 0;
+}
+
+/* Individual result items - no child backgrounds */
+.match {
+  background-color: transparent;
+  border-radius: 8px;
+  margin: 2px 0;
+  padding: 10px 12px;
+}
+
+.match * {
+  background-color: transparent;
+}
+
+.match:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.match:hover * {
+  background-color: transparent;
+}
+
+.match:selected {
+  background-color: #fafafb51;
+  border: 1px solid rgba(240, 240, 240, 0.7);
+}
+
+.match:selected * {
+  background-color: transparent;
+}
+
+/* Result title */
+.match .title {
+  color: #abb2bf;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.match:selected .title {
+  color: #ffffff;
+}
+
+/* Result description */
+.match .description {
+  color: #86868b;
+  font-size: 12px;
+}
+
+.match:selected .description {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* App icons in results */
+.match image {
+  margin-right: 12px;
+  -gtk-icon-size: 36px;
+}

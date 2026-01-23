@@ -6,7 +6,7 @@ local is_windows = wezterm.target_triple:find("windows")
 if is_windows then
     target_shell = { "C:\\Program Files\\Git\\bin\\bash.exe", "--login", "-i" }
 else
-    target_shell = { "/usr/bin/zsh", "-l" }
+    target_shell = { "zsh", "-l" }
 end
 
 return {

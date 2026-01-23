@@ -2,6 +2,7 @@
 
 **Status**: SOLVED
 **Date Documented**: 2026-01-17
+**Last Updated**: 2026-01-19
 **Affected System**: NixOS Desktop
 
 ---
@@ -16,14 +17,28 @@ Aggressive power management in the amdgpu driver keeps memory clocks too low dur
 
 ## Solution
 
-Force high performance power state via udev rule in `modules/amd-gpu.nix`:
+Force high performance power state via udev rule and resume hook in `modules/amd-gpu.nix`:
 
 ```nix
+# Udev rule applies on boot when device is detected
 services.udev.extraRules = ''
   KERNEL=="card1", SUBSYSTEM=="drm", DRIVERS=="amdgpu",
   ATTR{device/power_dpm_force_performance_level}="high"
 '';
+
+# Re-apply after resume from suspend/hibernation
+# Toggle to "auto" first to force driver to re-apply "high" state
+powerManagement.resumeCommands = ''
+  sleep 1
+  echo auto > /sys/class/drm/card1/device/power_dpm_force_performance_level
+  sleep 0.5
+  echo high > /sys/class/drm/card1/device/power_dpm_force_performance_level
+'';
 ```
+
+### Why the resume hook?
+
+The udev rule only triggers when the device is detected at boot. After hibernation/suspend resume, the driver's internal power state can desync from the sysfs value - even if it still reads "high", the driver may not be enforcing it. Toggling through "auto" forces the driver to re-apply the setting.
 
 ## Verification
 

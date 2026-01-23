@@ -9,6 +9,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Kidex file indexer for anyrun
+    kidex = {
+      url = "github:Kirottu/kidex";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -22,10 +28,12 @@
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
           modules = [
             ./hosts/nixos/configuration.nix
             ./hosts/nixos/hardware-configuration.nix
             ./modules/amd-gpu.nix
+            ./modules/digital-art.nix
             ./modules/gaming.nix
             ./modules/hyprland.nix
 

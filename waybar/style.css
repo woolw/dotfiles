@@ -11,17 +11,68 @@
 }
 
 #workspaces button {
-  padding: 1px;
+  padding: 0;
+  margin: 0 -2px;
 }
 
-#workspaces,
+#workspaces button label {
+  color: #5c6370;
+}
+
+#workspaces button.active label {
+  color: #61afef;
+  font-weight: bold;
+}
+
+/* Right modules - joined as one seamless pill */
 #clock,
 #tray,
-#window,
+#wireplumber,
 #custom-notifications {
   background-color: #282c34;
-  border-radius: 12px;
-  border: 2px solid #abb2bf;
+  border-top: 2px solid #abb2bf;
+  border-bottom: 2px solid #abb2bf;
+  padding: 0 10px;
+  margin: 0;
+}
+
+#clock {
+  border-radius: 12px 0 0 12px;
+  border-left: 2px solid #abb2bf;
+}
+
+#custom-notifications {
+  border-radius: 0 12px 12px 0;
+  border-right: 2px solid #abb2bf;
+  padding: 0 12px 0 10px;
+}
+
+/* Left modules - workspaces + window joined */
+#workspaces,
+#window {
+  background-color: #282c34;
+  border-top: 2px solid #abb2bf;
+  border-bottom: 2px solid #abb2bf;
+  margin: 0;
+}
+
+#workspaces {
+  border-radius: 12px 0 0 12px;
+  border-left: 2px solid #abb2bf;
+}
+
+#window {
+  border-radius: 0 12px 12px 0;
+  border-right: 2px solid #abb2bf;
+  padding: 0 12px 0 8px;
+}
+
+#window.empty {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
 }
 
 tooltip,
@@ -36,41 +87,6 @@ tooltip,
   background-color: #3e4451;
 }
 
-#pulseaudio {
-  background-color: #282c34;
-  border-radius: 12px 0 0 12px;
-  margin-right: -2px;
-  border-top: 2px solid #abb2bf;
-  border-bottom: 2px solid #abb2bf;
-  border-left: 2px solid #abb2bf;
-  padding-left: 10px;
-  padding: 0 10px 0 10px;
-}
-
-#backlight,
-#battery {
-  background-color: #282c34;
-  margin-right: -1px;
-  margin-left: -1px;
-  border-top: 2px solid #abb2bf;
-  border-bottom: 2px solid #abb2bf;
-  padding: 0 10px 0 10px;
-}
-
-#network {
-  background-color: #282c34;
-  border-radius: 0 12px 12px 0;
-  margin-left: -2px;
-  border-top: 2px solid #abb2bf;
-  border-bottom: 2px solid #abb2bf;
-  border-right: 2px solid #abb2bf;
-  padding: 0 16px 0 10px;
-}
-
-#battery.charging {
-  background-color: #98c379;
-  color: #282c34;
-}
 
 #custom-lock {
   background-color: #282c34;
@@ -82,7 +98,3 @@ tooltip,
   font-weight: bold;
 }
 
-#custom-notifications {
-  padding-right: 8px;
-  padding-left: 12px;
-}

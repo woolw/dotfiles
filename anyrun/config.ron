@@ -1,0 +1,19 @@
+Config(
+    x: Fraction(0.5),
+    y: Fraction(0.25),
+    width: Fraction(0.35),
+    hide_icons: false,
+    ignore_exclusive_zones: true,
+    layer: Overlay,
+    hide_plugin_info: false,
+    close_on_click: true,
+    show_results_immediately: false,
+    max_entries: Some(8),
+    plugins: [
+        "/run/current-system/sw/lib/libapplications.so",
+        "/run/current-system/sw/lib/libkidex.so",
+        "/run/current-system/sw/lib/librink.so",
+        "/run/current-system/sw/lib/libshell.so",
+        "/run/current-system/sw/lib/libwebsearch.so",
+    ],
+)

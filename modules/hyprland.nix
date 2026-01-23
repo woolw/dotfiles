@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 
@@ -18,21 +19,29 @@
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
 
-  # Shared keyring for both KDE and Hyprland (for Brave, etc.)
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
+  # KWallet auto-unlock on login (works for both KDE and Hyprland)
+  security.pam.services.sddm.kwallet.enable = true;
+  security.pam.services.login.kwallet.enable = true;
 
-  # Minimal Hyprland-specific packages
-  # Reusing KDE for: screenshots (Spectacle), clipboard (Klipper), audio control
+  # Hyprland-specific packages
   environment.systemPackages = with pkgs; [
     # Hyprland ecosystem
     hyprlock # Screen locker
     hyprpaper # Wallpaper daemon
 
     # Window manager essentials
-    fuzzel # App launcher (Super+Space)
+    fuzzel # App launcher fallback
+    anyrun # Primary app launcher (Spotlight-like)
+    inputs.kidex.packages.${pkgs.system}.kidex # File indexer for anyrun
     waybar # Status bar
     swaynotificationcenter # Notifications with history management
+
+    # Clipboard (Wayland-native)
+    wl-clipboard # wl-copy/wl-paste commands
+    cliphist # Clipboard history manager
+
+    # Screenshots (Wayland-native)
+    hyprshot # Screenshot tool for Hyprland
 
     # Standalone tray applets (for Hyprland, KDE has integrated versions)
     networkmanagerapplet # nm-applet
