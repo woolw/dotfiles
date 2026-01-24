@@ -7,13 +7,6 @@ type MenuEntry = { type: "item"; icon: string; label: string; action: () => void
 const menuItems: MenuEntry[] = [
     {
         type: "item",
-        icon: "󰋼",
-        label: "About This PC",
-        action: () => GLib.spawn_command_line_async("wezterm start --class floating -- sh -c 'fastfetch; read'"),
-    },
-    { type: "separator" },
-    {
-        type: "item",
         icon: "󰒓",
         label: "System Settings...",
         action: () => GLib.spawn_command_line_async("systemsettings"),

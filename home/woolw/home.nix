@@ -142,6 +142,7 @@
     };
     gtk4.extraCss = "@import 'colors.css';";
   };
+  gtk.gtk2.force = true;
 
   # Qt uses KDE platform for proper integration with kdeglobals
   qt = {

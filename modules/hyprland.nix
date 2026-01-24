@@ -16,7 +16,10 @@
   # XDG Portal for Hyprland (KDE provides its own portal too)
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+    ];
   };
 
   # KWallet auto-unlock on login (works for both KDE and Hyprland)
