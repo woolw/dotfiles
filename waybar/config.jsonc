@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 30,
+    "height": 34,
     "spacing": 0,
     "margin": 0,
     "modules-left": [
@@ -11,10 +11,10 @@
     ],
     "modules-center": [],
     "modules-right": [
-        "clock",
         "tray",
         "wireplumber",
-        "custom/notifications"
+        "custom/notifications",
+        "clock"
     ],
     "hyprland/workspaces": {
         "format": "{id}",
@@ -29,7 +29,7 @@
         "tooltip": false
     },
     "clock": {
-        "format": "{:%a %d %b  %H:%M}",
+        "format": "{:%a %b %d  %H:%M}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "month",
@@ -64,9 +64,8 @@
         "format-icons": ["󰕿", "󰖀", "󰕾"]
     },
     "custom/lock": {
-        "format": "󰌾",
-        "on-click": "hyprlock",
-        "interval": 3600,
+        "format": "󱄅",
+        "on-click": "~/dotfiles/scripts/power-menu.sh",
         "tooltip": false
     },
     "custom/notifications": {

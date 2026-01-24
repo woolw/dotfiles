@@ -1,100 +1,126 @@
-/* One Dark Pro theme */
+/* macOS Menu Bar inspired theme */
 
 * {
-  font-family: JetBrainsMono Nerd Font, monospace;
-  font-size: 16px;
-  color: #abb2bf;
-  background: transparent;
-  border: none;
-  padding: 2px 4px;
-  margin: 0 1px;
+    font-family: "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Noto Sans", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
-#workspaces button {
-  padding: 0;
-  margin: 0 -2px;
+window#waybar {
+    background-color: transparent;
 }
 
-#workspaces button label {
-  color: #5c6370;
-}
-
-#workspaces button.active label {
-  color: #61afef;
-  font-weight: bold;
-}
-
-/* Right modules - joined as one seamless pill */
+/* All modules base styling */
+#custom-lock,
+#workspaces,
+#window,
 #clock,
 #tray,
 #wireplumber,
 #custom-notifications {
-  background-color: #282c34;
-  border-top: 2px solid #abb2bf;
-  border-bottom: 2px solid #abb2bf;
-  padding: 0 10px;
-  margin: 0;
+    padding: 0 10px;
 }
 
-#clock {
-  border-radius: 12px 0 0 12px;
-  border-left: 2px solid #abb2bf;
+/* Lock icon (Apple logo position) */
+#custom-lock {
+    font-size: 14px;
+    padding-left: 12px;
+    padding-right: 14px;
+    color: rgba(255, 255, 255, 0.9);
 }
 
-#custom-notifications {
-  border-radius: 0 12px 12px 0;
-  border-right: 2px solid #abb2bf;
-  padding: 0 12px 0 10px;
+#custom-lock:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Left modules - workspaces + window joined */
-#workspaces,
-#window {
-  background-color: #282c34;
-  border-top: 2px solid #abb2bf;
-  border-bottom: 2px solid #abb2bf;
-  margin: 0;
-}
-
+/* Workspaces as menu items */
 #workspaces {
-  border-radius: 12px 0 0 12px;
-  border-left: 2px solid #abb2bf;
+    padding: 0 4px;
 }
 
+#workspaces button {
+    padding: 0 8px;
+    margin: 0;
+    border-radius: 0;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#workspaces button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#workspaces button.active {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+}
+
+/* Active window - like app name */
 #window {
-  border-radius: 0 12px 12px 0;
-  border-right: 2px solid #abb2bf;
-  padding: 0 12px 0 8px;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
 }
 
 #window.empty {
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  min-width: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
 }
 
-tooltip,
-.menu,
-.popup,
-.context-menu {
-  background-color: #282c34;
-  border: 2px solid #abb2bf;
+/* Clock on right */
+#clock {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.popup :hover {
-  background-color: #3e4451;
+/* Tray */
+#tray {
+    padding: 0 6px;
 }
 
-
-#custom-lock {
-  background-color: #282c34;
-  color: #e06c75;
-  border-radius: 12px;
-  border: 2px solid #e06c75;
-  padding-right: 16px;
-  padding-left: 12px;
-  font-weight: bold;
+#tray > .passive {
+    -gtk-icon-effect: dim;
 }
 
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* Volume */
+#wireplumber {
+    font-size: 14px;
+}
+
+#wireplumber.muted {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Notifications */
+#custom-notifications {
+    font-size: 14px;
+    padding-right: 12px;
+}
+
+/* Hover effects */
+#clock:hover,
+#wireplumber:hover,
+#custom-notifications:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tooltips */
+tooltip {
+    background-color: rgba(28, 28, 28, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+tooltip label {
+    color: rgba(255, 255, 255, 0.9);
+}

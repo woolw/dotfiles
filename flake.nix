@@ -9,12 +9,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Kidex file indexer for anyrun
-    kidex = {
-      url = "github:Kirottu/kidex";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =

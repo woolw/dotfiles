@@ -67,10 +67,7 @@
   xdg.configFile."anyrun/config.ron".source = ../../anyrun/config.ron;
   xdg.configFile."anyrun/style.css".source = ../../anyrun/style.css;
   xdg.configFile."anyrun/applications.ron".source = ../../anyrun/applications.ron;
-  xdg.configFile."anyrun/shell.ron".source = ../../anyrun/shell.ron;
   xdg.configFile."anyrun/websearch.ron".source = ../../anyrun/websearch.ron;
-  xdg.configFile."anyrun/kidex.ron".source = ../../anyrun/kidex.ron;
-  xdg.configFile."kidex.ron".source = ../../kidex/kidex.ron;
 
   # Additional home packages
   home.packages = with pkgs; [

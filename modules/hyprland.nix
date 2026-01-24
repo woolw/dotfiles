@@ -32,7 +32,6 @@
     # Window manager essentials
     fuzzel # App launcher fallback
     anyrun # Primary app launcher (Spotlight-like)
-    inputs.kidex.packages.${pkgs.system}.kidex # File indexer for anyrun
     waybar # Status bar
     swaynotificationcenter # Notifications with history management
 
