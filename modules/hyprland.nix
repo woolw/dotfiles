@@ -30,9 +30,6 @@
     hyprpaper # Wallpaper daemon
 
     # Window manager essentials
-    fuzzel # App launcher fallback
-    anyrun # Primary app launcher (Spotlight-like)
-    waybar # Status bar
     swaynotificationcenter # Notifications with history management
 
     # Clipboard (Wayland-native)

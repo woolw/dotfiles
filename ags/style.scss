@@ -1,0 +1,232 @@
+// macOS-style bar
+$bg: rgba(28, 28, 28, 0.85);
+$fg: rgba(255, 255, 255, 0.9);
+
+window.Bar {
+    background: transparent;
+    min-height: 38px;
+}
+
+window.Bar label {
+    color: $fg;
+    font-family: "SF Pro Text", "Noto Sans", sans-serif;
+    font-size: 16px;
+}
+
+window.Bar button {
+    background: transparent;
+    border: none;
+    padding: 0 12px;
+    min-height: 28px;
+}
+
+window.Bar button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+window.Bar button label {
+    color: $fg;
+}
+
+window.Bar .logo label {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 28px;
+}
+
+.workspace {
+    padding: 0 10px;
+}
+
+.workspace.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+.clock {
+    padding: 0 12px;
+}
+
+.tray {
+    padding: 0 4px;
+}
+
+.tray-item {
+    padding: 0 2px;
+    min-width: 20px;
+}
+
+.tray-icon {
+    -gtk-icon-size: 16px;
+}
+
+.tray-item > box > image:last-child {
+    /* Hide dropdown arrow on menu buttons */
+    -gtk-icon-size: 0;
+    min-width: 0;
+}
+
+.volume {
+    padding: 0 8px;
+}
+
+.volume-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+}
+
+.notification-btn {
+    padding: 0 8px;
+}
+
+.notification-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+}
+
+// Launcher (Spotlight-style)
+window.Launcher {
+    background: transparent;
+}
+
+.launcher-container {
+    background: $bg;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    min-width: 680px;
+    margin-top: 280px;
+    padding: 4px 16px;
+}
+
+.search-box {
+    padding: 8px 4px;
+}
+
+.search-icon {
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 12px;
+    -gtk-icon-size: 24px;
+}
+
+.search-entry {
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: $fg;
+    font-size: 28px;
+    font-weight: 300;
+    caret-color: white;
+}
+
+.search-entry:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+entry {
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+entry:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+entry > text {
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+entry > text:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+.results {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 8px;
+    padding-top: 8px;
+    padding-bottom: 4px;
+}
+
+
+.app-item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+}
+
+.app-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.app-item:focus {
+    background: rgba(255, 255, 255, 0.15);
+    outline: none;
+}
+
+.app-item.selected {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.app-item label {
+    color: $fg;
+}
+
+.app-icon {
+    margin-right: 12px;
+    -gtk-icon-size: 36px;
+}
+
+.app-name {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+// Power Menu
+window.PowerMenu {
+    background: transparent;
+}
+
+.powermenu-container {
+    background: $bg;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4px;
+    min-width: 160px;
+}
+
+.menu-item {
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item label {
+    color: $fg;
+}
+
+.menu-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.menu-separator {
+    min-height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 4px 8px;
+}

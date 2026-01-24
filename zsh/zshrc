@@ -73,14 +73,16 @@ case "$OSTYPE" in
   linux*)
     alias ls='ls --color=auto -h'
     # NixOS rebuild aliases
-    alias rebuild='sudo nixos-rebuild switch --flake ~/dotfiles#nixos'
-    alias update='cd ~/dotfiles && sudo nix flake update && sudo nixos-rebuild switch --flake .#nixos'
+    alias nix-rebuild='sudo nixos-rebuild switch --flake ~/dotfiles#nixos'
+    alias nix-update='cd ~/dotfiles && sudo nix flake update && sudo nixos-rebuild switch --flake .#nixos'
+    alias nix-gc='sudo nix-collect-garbage -d && sudo nixos-rebuild boot --flake ~/dotfiles#nixos'
     ;;
   darwin*)
     alias ls='ls -G -h'
     # nix-darwin rebuild aliases
-    alias rebuild='darwin-rebuild switch --flake ~/dotfiles#darwin'
-    alias update='cd ~/dotfiles && nix flake update && darwin-rebuild switch --flake .#darwin'
+    alias nix-rebuild='darwin-rebuild switch --flake ~/dotfiles#darwin'
+    alias nix-update='cd ~/dotfiles && nix flake update && darwin-rebuild switch --flake .#darwin'
+    alias nix-gc='nix-collect-garbage -d'
     ;;
 esac
 

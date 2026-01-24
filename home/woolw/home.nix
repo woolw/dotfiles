@@ -1,6 +1,12 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
+  imports = [ inputs.ags.homeManagerModules.default ];
   home.username = "woolw";
   home.homeDirectory = "/home/woolw";
   home.stateVersion = "25.11";
@@ -53,6 +59,25 @@
     '';
   };
 
+  # AGS (Aylur's GTK Shell) for custom shell widgets
+  programs.ags = {
+    enable = true;
+    configDir = null; # We'll symlink manually
+    extraPackages = with inputs.ags.packages.${pkgs.system}; [
+      apps
+      battery
+      hyprland
+      mpris
+      network
+      notifd
+      tray
+      wireplumber
+    ];
+  };
+
+  # Symlink AGS config directory
+  xdg.configFile."ags".source = ../../ags;
+
   # WezTerm configuration (pure Lua config)
   xdg.configFile."wezterm/wezterm.lua".source = ../../wezterm/wezterm.lua;
 
@@ -61,13 +86,69 @@
 
   # Hyprland ecosystem configs
   xdg.configFile."hypr".source = ../../hypr;
-  xdg.configFile."waybar".source = ../../waybar;
   xdg.configFile."swaync".source = ../../swaync;
-  xdg.configFile."fuzzel".source = ../../fuzzel;
-  xdg.configFile."anyrun/config.ron".source = ../../anyrun/config.ron;
-  xdg.configFile."anyrun/style.css".source = ../../anyrun/style.css;
-  xdg.configFile."anyrun/applications.ron".source = ../../anyrun/applications.ron;
-  xdg.configFile."anyrun/websearch.ron".source = ../../anyrun/websearch.ron;
+
+  # GTK dark theme (preserving existing KDE/Breeze settings)
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Breeze-Dark";
+      package = pkgs.kdePackages.breeze-gtk;
+    };
+    iconTheme = {
+      name = "breeze-dark";
+      package = pkgs.kdePackages.breeze-icons;
+    };
+    cursorTheme = {
+      name = "breeze_cursors";
+      size = 24;
+      package = pkgs.kdePackages.breeze;
+    };
+    font = {
+      name = "Noto Sans";
+      size = 10;
+      package = pkgs.noto-fonts;
+    };
+    gtk2.extraConfig = ''
+      gtk-enable-animations=1
+      gtk-primary-button-warps-slider=1
+      gtk-toolbar-style=3
+      gtk-menu-images=1
+      gtk-button-images=1
+      gtk-cursor-blink-time=1000
+      gtk-cursor-blink=1
+      gtk-sound-theme-name="ocean"
+    '';
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+      gtk-button-images = true;
+      gtk-cursor-blink = true;
+      gtk-cursor-blink-time = 1000;
+      gtk-decoration-layout = "icon:minimize,maximize,close";
+      gtk-enable-animations = true;
+      gtk-menu-images = true;
+      gtk-primary-button-warps-slider = true;
+      gtk-sound-theme-name = "ocean";
+      gtk-toolbar-style = 3;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+      gtk-cursor-blink = true;
+      gtk-cursor-blink-time = 1000;
+      gtk-decoration-layout = "icon:minimize,maximize,close";
+      gtk-enable-animations = true;
+      gtk-primary-button-warps-slider = true;
+      gtk-sound-theme-name = "ocean";
+    };
+    gtk4.extraCss = "@import 'colors.css';";
+  };
+
+  # Qt uses KDE platform for proper integration with kdeglobals
+  qt = {
+    enable = true;
+    platformTheme.name = "kde";
+    style.name = "breeze";
+  };
 
   # Additional home packages
   home.packages = with pkgs; [

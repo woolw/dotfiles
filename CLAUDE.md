@@ -10,19 +10,19 @@
 | Editor (Helix) | `helix/config.toml`, `helix/languages.toml` |
 | Shell (Zsh) | `zsh/zshrc` |
 | Hyprland WM | `hypr/hyprland.conf` → sources `hypr/hyprland/*.conf` |
-| Status bar | `waybar/config.jsonc`, `waybar/style.css` |
+| Desktop shell (AGS) | `ags/app.ts`, `ags/widget/*.tsx`, `ags/style.scss` |
 | Gaming (Steam, etc.) | `modules/gaming.nix` |
 | GPU power management | `modules/amd-gpu.nix` |
 
-**Theme**: One Dark Pro (`#282c34` bg, `#abb2bf` fg, `#61afef` blue, `#e06c75` red, `#98c379` green)
-**Font**: JetBrainsMono Nerd Font throughout
+**Theme**: macOS-inspired dark theme (`rgba(28, 28, 28, 0.85)` bg, semi-transparent)
+**Font**: JetBrainsMono Nerd Font (icons), SF Pro Text/Noto Sans (UI)
 **Audio**: PipeWire (replaces PulseAudio)
 
 ## Current System Info
 - **Hostname**: nixos
 - **Kernel**: 6.18.1 (linuxPackages_latest)
 - **NixOS**: 25.11 (Xantusia)
-- **Desktop**: KDE Plasma 6 on Wayland
+- **Desktop**: Hyprland (Wayland) with AGS shell, KDE Plasma 6 available
 - **User**: woolw
 - **Shell**: Zsh
 
@@ -68,7 +68,7 @@ cat /sys/class/drm/card1/device/pp_dpm_mclk
 ## Project Structure
 ```
 ~/dotfiles/
-├── flake.nix              # Main flake configuration
+├── flake.nix              # Main flake configuration (includes AGS flake input)
 ├── flake.lock             # Locked dependency versions
 ├── CLAUDE.md              # This file (project context for Claude)
 ├── README.md              # Human-readable docs
@@ -103,27 +103,33 @@ cat /sys/class/drm/card1/device/pp_dpm_mclk
 │
 ├── [CROSS-PLATFORM CONFIGS - Pure config files, no Nix]
 │   ├── wezterm/          # Terminal emulator
-│   │   └── wezterm.lua   # Pure Lua config (One Dark theme)
+│   │   └── wezterm.lua   # Pure Lua config
 │   ├── helix/            # Text editor
 │   │   ├── config.toml   # Uses onedark theme
 │   │   └── languages.toml
 │   └── zsh/              # Shell
 │       └── zshrc         # Pure shell config with OS-aware aliases
 │
-├── [HYPRLAND ECOSYSTEM - Linux only, One Dark Pro theme]
+├── [HYPRLAND ECOSYSTEM - Linux only, macOS-inspired theme]
 │   ├── hypr/             # Hyprland compositor configs
-│   ├── waybar/           # Status bar
+│   ├── ags/              # AGS (Aylur's GTK Shell) - unified desktop shell
+│   │   ├── app.ts        # Entry point
+│   │   ├── style.scss    # Global styles
+│   │   └── widget/       # UI components
+│   │       ├── Bar.tsx       # Top bar (workspaces, tray, volume, clock)
+│   │       ├── Launcher.tsx  # Spotlight-style app launcher
+│   │       └── PowerMenu.tsx # macOS-style Apple menu dropdown
 │   ├── swaync/           # Notification center
-│   ├── fuzzel/           # App launcher
-│   └── wallpapers/       # One Dark themed wallpapers
+│   └── wallpapers/       # Wallpapers
 ```
 
 ## Quick Start Commands
 
 ### System Management (via shell aliases)
 ```bash
-rebuild    # Rebuild and switch to new configuration
-update     # Update flake inputs and rebuild
+nix-rebuild  # Rebuild and switch to new configuration
+nix-update   # Update flake inputs and rebuild
+nix-gc       # Garbage collect and rebuild boot
 ```
 
 These aliases work cross-platform:
@@ -145,6 +151,50 @@ cd ~/dotfiles && sudo nix flake update && sudo nixos-rebuild switch --flake .#ni
 sudo nixos-rebuild build --flake ~/dotfiles#nixos
 ```
 
+## AGS Desktop Shell
+
+AGS (Aylur's GTK Shell) provides a unified, macOS-inspired desktop experience replacing waybar, anyrun, and fuzzel.
+
+### Components
+- **Bar** (`ags/widget/Bar.tsx`): Top menu bar with NixOS logo, workspaces, system tray, volume, notifications, clock
+- **Launcher** (`ags/widget/Launcher.tsx`): Spotlight-style app launcher (Super+Space)
+  - Type to search apps
+  - Prefix with `?` for web search (Brave Search)
+  - Arrow keys/Tab to navigate, Enter to launch, Escape to close
+- **PowerMenu** (`ags/widget/PowerMenu.tsx`): macOS-style dropdown from NixOS logo
+  - About This PC (fastfetch)
+  - System Settings
+  - Sleep, Restart, Shut Down
+  - Lock Screen, Log Out
+
+### Styling
+- Semi-transparent dark backgrounds (`rgba(28, 28, 28, 0.85)`)
+- Pill-shaped launcher with 28px border radius
+- SF Pro Text / Noto Sans for UI text
+- JetBrainsMono Nerd Font for icons
+
+### Restarting AGS
+```bash
+pkill -f "ags run"; ags run --gtk 4
+```
+
+## Dark Theme Configuration
+
+All apps use dark themes via Home Manager configuration in `home/woolw/home.nix`:
+
+### GTK Apps
+- Theme: Breeze-Dark (from KDE)
+- Icons: breeze-dark
+- Cursor: breeze_cursors (24px)
+- Font: Noto Sans 10
+
+### Qt/KDE Apps
+- Platform theme: kde (reads kdeglobals)
+- Style: breeze
+- Color scheme: BreezeDark (set in `~/.config/kdeglobals`)
+
+**Note**: Qt apps require `QT_QPA_PLATFORMTHEME=kde` environment variable. This is set after rebuild, but requires logout/login to take effect for running session.
+
 ## GitHub SSH Setup
 
 SSH authentication and commit signing are configured via Home Manager.
@@ -165,9 +215,9 @@ The script will:
 6. Optionally enable SSH commit signing
 
 **Current Configuration**:
-- ✅ SSH authentication configured
-- ✅ SSH commit signing enabled
-- ✅ Auto-loads key via ssh-agent (managed by zshrc)
+- SSH authentication configured
+- SSH commit signing enabled
+- Auto-loads key via ssh-agent (managed by zshrc)
 
 ## Cross-Platform Strategy
 
@@ -180,15 +230,14 @@ This dotfiles repo supports both **NixOS** (Linux) and **nix-darwin** (macOS).
 4. **Shell aliases detect OS** via `$OSTYPE` to use correct rebuild commands
 
 ### Current State
-- ✅ NixOS system configuration fully functional
-- ✅ Cross-platform configs symlinked via Home Manager
-- ✅ WezTerm config: `~/.config/wezterm/wezterm.lua` → `dotfiles/wezterm/wezterm.lua`
-- ✅ Helix config: `~/.config/helix/` → `dotfiles/helix/`
-- ✅ Zsh config: Sources `dotfiles/zsh/zshrc` on shell init
-- ✅ Hyprland ecosystem: `~/.config/{hypr,waybar,swaync,fuzzel}/` → `dotfiles/`
-- ✅ GitHub SSH configured with commit signing
-- ✅ Zsh as default shell
-- ✅ One Dark Pro theme across all configs
+- NixOS system configuration fully functional
+- Cross-platform configs symlinked via Home Manager
+- WezTerm config: `~/.config/wezterm/wezterm.lua` → `dotfiles/wezterm/wezterm.lua`
+- Helix config: `~/.config/helix/` → `dotfiles/helix/`
+- Zsh config: Sources `dotfiles/zsh/zshrc` on shell init
+- AGS config: `~/.config/ags/` → `dotfiles/ags/`
+- GitHub SSH configured with commit signing
+- Zsh as default shell
 
 ### Future nix-darwin Setup
 When setting up macOS:
@@ -244,17 +293,18 @@ When setting up macOS:
 - User-level configs go in `home/woolw/`
 - Changes require rebuild to take effect
 - Manages symlinks to cross-platform configs
-- Handles SSH, git, and shell configuration
+- Handles SSH, git, shell, GTK/Qt theming configuration
 
 ### Shell Aliases
 The `zshrc` includes OS-aware aliases that work on both NixOS and macOS:
-- `rebuild` - Quick rebuild and switch
-- `update` - Update flake inputs and rebuild
+- `nix-rebuild` - Quick rebuild and switch
+- `nix-update` - Update flake inputs and rebuild
+- `nix-gc` - Garbage collect and rebuild boot
 - Plus standard aliases: `ll`, `gs`, `gl`, `gc`, `v` (helix)
 
 ### Hyprland Keybinds
 Key bindings defined in `hypr/hyprland/keybinds.conf`:
-- `Super+Space` - Fuzzel app launcher
+- `Super+Space` - AGS Launcher (Spotlight-style)
 - `Super+Return` - WezTerm terminal
 - `Super+Q` - Close window
 - `Super+HJKL` - Focus window (Vim-style)
@@ -262,8 +312,8 @@ Key bindings defined in `hypr/hyprland/keybinds.conf`:
 - `Super+1-5` - Switch workspace
 - `Super+Shift+1-5` - Move window to workspace
 - `Super+Alt+L` - Lock screen (hyprlock)
-- `Super+V` - Clipboard (Klipper)
-- `Print` - Screenshot (Spectacle)
+- `Super+V` - Clipboard history (cliphist)
+- `Print` - Screenshot (hyprshot)
 - Audio keys - Volume/mute control
 
 ## Hardware Issue Documentation
@@ -271,7 +321,7 @@ Key bindings defined in `hypr/hyprland/keybinds.conf`:
 Hardware-specific issues and their solutions are documented in **`docs/hardware/`**.
 
 **Current documented issues:**
-- [AMD RX 7900 XT Display Artifacts](./docs/hardware/amd-rx7900xt-display-artifacts.md) - ✅ SOLVED
+- [AMD RX 7900 XT Display Artifacts](./docs/hardware/amd-rx7900xt-display-artifacts.md) - SOLVED
 
 **To document a new hardware issue:**
 1. See the template in [`docs/hardware/README.md`](./docs/hardware/README.md)
@@ -285,11 +335,11 @@ This keeps hardware documentation organized and separate from system configurati
 GitHub Actions automatically validates configuration on every push and pull request.
 
 **What's checked**:
-- ✅ Flake evaluation (syntax and structure)
-- ✅ NixOS configuration build (dry-run)
-- ✅ Code formatting (nixfmt)
-- ✅ Static analysis (statix)
-- ✅ Dead code detection (deadnix)
+- Flake evaluation (syntax and structure)
+- NixOS configuration build (dry-run)
+- Code formatting (nixfmt)
+- Static analysis (statix)
+- Dead code detection (deadnix)
 
 **Workflow file**: `.github/workflows/nixos-check.yml`
 
@@ -337,11 +387,12 @@ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 - [x] GitHub SSH authentication
 - [x] SSH commit signing
 - [x] Zsh as default shell
-- [x] OS-aware rebuild aliases
+- [x] OS-aware rebuild aliases (nix-rebuild, nix-update, nix-gc)
 - [x] CI/CD for config validation
 - [x] Hardware documentation template
 - [x] Hyprland as alternative to KDE Plasma
-- [x] One Dark Pro theme throughout
+- [x] AGS desktop shell (macOS-inspired bar, launcher, power menu)
+- [x] Dark theme for GTK and Qt apps (Breeze-Dark)
 - [x] Development tooling (direnv, nix-direnv)
 
 ## Future Enhancements
@@ -352,4 +403,5 @@ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 - [NixOS Wiki](https://wiki.nixos.org/)
 - [Home Manager Manual](https://nix-community.github.io/home-manager/)
 - [Nix Package Search](https://search.nixos.org/packages)
+- [AGS Documentation](https://aylur.github.io/ags/)
 - [nix-darwin](https://github.com/LnL7/nix-darwin) (for future macOS setup)
