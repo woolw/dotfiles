@@ -13,6 +13,7 @@ Personal Nix configurations with flakes and Home Manager.
 - Home Manager for user-level configs
 - Cross-platform shell, editor, and terminal configs
 - **One Dark Pro** theme
+- AGS desktop shell (macOS-inspired)
 
 ## Quick Start
 
@@ -39,22 +40,25 @@ darwin-rebuild switch --flake ~/dotfiles#darwin
 │   └── darwin/               # macOS configuration (planned)
 ├── modules/                  # NixOS modules
 ├── home/                     # Home Manager configs
+│   ├── shared/               # Cross-platform (git, ssh, zsh, nvim, wezterm)
+│   └── woolw/                # NixOS-specific (AGS, GTK, Qt)
 │
+├── nvim/                     # Neovim (cross-platform, lazy.nvim)
 ├── wezterm/                  # Terminal (cross-platform)
-├── helix/                    # Editor (cross-platform)
 ├── zsh/                      # Shell (cross-platform)
 │
+├── ags/                      # AGS desktop shell (Linux only)
 ├── hypr/                     # Hyprland (Linux only)
-├── waybar/                   # Status bar (Linux only)
-├── swaync/                   # Notifications (Linux only)
-└── fuzzel/                   # App launcher (Linux only)
+└── swaync/                   # Notifications (Linux only)
 ```
 
 ## Shell Aliases
 
 ```bash
-rebuild    # Rebuild and switch (works on both platforms)
-update     # Update flake inputs and rebuild
+nix-rebuild  # Rebuild and switch (works on both platforms)
+nix-update   # Update flake inputs and rebuild
+nix-gc       # Garbage collect
+v            # Open nvim
 ```
 
 ## License

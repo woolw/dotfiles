@@ -60,11 +60,11 @@ alias ...='cd ../..'
 alias gs='git status'
 alias gl='git log --oneline --graph --decorate'
 alias gc='git commit'
-alias v='helix'
+alias v='nvim'
 
 # --- Environment ---
-export EDITOR="helix"
-export VISUAL="helix"
+export EDITOR="nvim"
+export VISUAL="nvim"
 export PAGER="less"
 export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.dotnet/tools:$PATH"
 

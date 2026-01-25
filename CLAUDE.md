@@ -7,7 +7,7 @@
 | System packages, services | `hosts/nixos/configuration.nix` |
 | User packages, git, SSH | `home/woolw/home.nix` |
 | Terminal (WezTerm) | `wezterm/wezterm.lua` |
-| Editor (Helix) | `helix/config.toml`, `helix/languages.toml` |
+| Editor (Neovim) | `nvim/init.lua`, `nvim/lua/plugins/*.lua` |
 | Shell (Zsh) | `zsh/zshrc` |
 | Hyprland WM | `hypr/hyprland.conf` → sources `hypr/hyprland/*.conf` |
 | Desktop shell (AGS) | `ags/app.ts`, `ags/widget/*.tsx`, `ags/style.scss` |
@@ -97,16 +97,20 @@ cat /sys/class/drm/card1/device/pp_dpm_mclk
 │   ├── gaming.nix        # Steam, gaming tools
 │   └── hyprland.nix      # Hyprland compositor setup
 │
-├── home/                  # Platform-specific Home Manager configs
+├── home/                  # Home Manager configs
+│   ├── shared/
+│   │   └── default.nix   # Cross-platform config (git, ssh, zsh, wezterm, nvim)
 │   └── woolw/
-│       └── home.nix      # NixOS user-level config (symlinks to cross-platform configs)
+│       └── home.nix      # NixOS-specific config (imports shared, adds AGS, GTK, etc.)
 │
 ├── [CROSS-PLATFORM CONFIGS - Pure config files, no Nix]
 │   ├── wezterm/          # Terminal emulator
 │   │   └── wezterm.lua   # Pure Lua config
-│   ├── helix/            # Text editor
-│   │   ├── config.toml   # Uses onedark theme
-│   │   └── languages.toml
+│   ├── nvim/             # Neovim editor (lazy.nvim)
+│   │   ├── init.lua      # Entry point
+│   │   └── lua/
+│   │       ├── config/   # Core settings, keymaps, lazy bootstrap
+│   │       └── plugins/  # Plugin specs (LSP, treesitter, telescope, etc.)
 │   └── zsh/              # Shell
 │       └── zshrc         # Pure shell config with OS-aware aliases
 │
@@ -178,6 +182,41 @@ AGS (Aylur's GTK Shell) provides a unified, macOS-inspired desktop experience re
 pkill -f "ags run"; ags run --gtk 4
 ```
 
+## Neovim Configuration
+
+Neovim is configured with lazy.nvim and One Dark theme, matching the system's dark aesthetic.
+
+### Plugin Stack
+- **Package manager**: lazy.nvim
+- **Theme**: One Dark Pro
+- **LSP**: mason.nvim + nvim-lspconfig (auto-installs language servers)
+- **Completion**: nvim-cmp with LuaSnip
+- **Fuzzy finder**: Telescope
+- **Syntax**: Tree-sitter
+- **Git**: gitsigns.nvim
+- **Formatting**: conform.nvim (format on save)
+
+### Key Bindings (Space as leader)
+| Key | Action |
+|-----|--------|
+| `Space+Space` | Find files |
+| `Space+fg` | Live grep |
+| `Space+fb` | Buffers |
+| `Space+fs` | Document symbols |
+| `Space+/` | Search in buffer |
+| `gd` | Go to definition |
+| `gr` | References |
+| `K` | Hover docs |
+| `Space+ca` | Code action |
+| `Space+rn` | Rename |
+| `Space+f` | Format |
+| `Space+e` | Show diagnostic |
+| `]d` / `[d` | Next/prev diagnostic |
+| `]h` / `[h` | Next/prev git hunk |
+
+### LSP Servers (auto-installed via Mason)
+- lua_ls, nil_ls (Nix), ts_ls, html, cssls, jsonls, omnisharp (C#)
+
 ## Dark Theme Configuration
 
 All apps use dark themes via Home Manager configuration in `home/woolw/home.nix`:
@@ -224,7 +263,7 @@ The script will:
 This dotfiles repo supports both **NixOS** (Linux) and **nix-darwin** (macOS).
 
 ### Design Principles
-1. **Pure config files** for cross-platform apps (WezTerm, Helix, Zsh) - no Nix code
+1. **Pure config files** for cross-platform apps (WezTerm, Neovim, Zsh) - no Nix code
 2. **Platform-specific** Home Manager configs reference these pure configs via symlinks
 3. **OS-specific modules** stay separate (e.g., `modules/amd-gpu.nix` only for NixOS)
 4. **Shell aliases detect OS** via `$OSTYPE` to use correct rebuild commands
@@ -233,7 +272,7 @@ This dotfiles repo supports both **NixOS** (Linux) and **nix-darwin** (macOS).
 - NixOS system configuration fully functional
 - Cross-platform configs symlinked via Home Manager
 - WezTerm config: `~/.config/wezterm/wezterm.lua` → `dotfiles/wezterm/wezterm.lua`
-- Helix config: `~/.config/helix/` → `dotfiles/helix/`
+- Neovim config: `~/.config/nvim/` → `dotfiles/nvim/`
 - Zsh config: Sources `dotfiles/zsh/zshrc` on shell init
 - AGS config: `~/.config/ags/` → `dotfiles/ags/`
 - GitHub SSH configured with commit signing
@@ -242,12 +281,16 @@ This dotfiles repo supports both **NixOS** (Linux) and **nix-darwin** (macOS).
 ### Future nix-darwin Setup
 When setting up macOS:
 1. Add `hosts/darwin/` with macOS-specific system config
-2. Add `home/woolw-darwin/home.nix` for macOS user config
-3. Both NixOS and darwin Home Manager configs will reference the same:
-   - `wezterm/wezterm.lua`
-   - `helix/` configs
-   - `zsh/zshrc`
-4. Shell aliases will automatically use `darwin-rebuild` on macOS
+2. Add `home/woolw-darwin/home.nix` for macOS user config that imports `../shared`
+3. The shared module (`home/shared/default.nix`) provides:
+   - Git config with SSH signing
+   - SSH config for GitHub
+   - Zsh (sources `zsh/zshrc`)
+   - WezTerm symlink
+   - Neovim symlink + packages (neovim, ripgrep, fd)
+   - Note: Build tools (gcc/make) are platform-specific (NixOS: nixpkgs, macOS: Xcode CLT)
+4. Darwin-specific home.nix adds macOS-specific settings (different theming, etc.)
+5. Shell aliases will automatically use `darwin-rebuild` on macOS
 
 ### Why Keep Configs "Pure"?
 - Same terminal/editor/shell experience across Linux and macOS
@@ -300,7 +343,7 @@ The `zshrc` includes OS-aware aliases that work on both NixOS and macOS:
 - `nix-rebuild` - Quick rebuild and switch
 - `nix-update` - Update flake inputs and rebuild
 - `nix-gc` - Garbage collect and rebuild boot
-- Plus standard aliases: `ll`, `gs`, `gl`, `gc`, `v` (helix)
+- Plus standard aliases: `ll`, `gs`, `gl`, `gc`, `v` (nvim)
 
 ### Hyprland Keybinds
 Key bindings defined in `hypr/hyprland/keybinds.conf`:
@@ -383,7 +426,7 @@ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 - [x] Home Manager integration
 - [x] AMD GPU power management fix
 - [x] Gaming setup (Steam, protonup-qt, GameMode, MangoHud, Gamescope)
-- [x] Cross-platform configs symlinked (WezTerm, Helix, Zsh)
+- [x] Cross-platform configs symlinked (WezTerm, Neovim, Zsh)
 - [x] GitHub SSH authentication
 - [x] SSH commit signing
 - [x] Zsh as default shell

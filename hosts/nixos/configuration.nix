@@ -91,7 +91,6 @@
 
     # Development & Editors
     wezterm
-    helix
     vscodium
     claude-code
 
@@ -113,6 +112,8 @@
     fastfetch
     jq
     ripgrep
+    fuzzel # for clipboard history picker
+    cliphist
   ];
 
   nixpkgs.config.allowUnfree = true;

@@ -10,24 +10,31 @@ const tray = Tray.get_default()
 const wp = Wp.get_default()!
 
 function Volume() {
-    const btn = new Gtk.Button()
-    btn.add_css_class("volume")
+    const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL })
+    box.add_css_class("volume")
 
     const icon = new Gtk.Label()
     icon.add_css_class("volume-icon")
-    btn.set_child(icon)
+
+    const percentLabel = new Gtk.Label()
+    percentLabel.add_css_class("volume-percent")
+
+    box.append(icon)
+    box.append(percentLabel)
 
     const getSpeaker = () => wp.audio?.defaultSpeaker
 
-    const updateIcon = () => {
+    const update = () => {
         const speaker = getSpeaker()
         if (!speaker) {
             icon.label = "󰖁"
+            percentLabel.label = ""
             return
         }
 
         const vol = speaker.volume
         const muted = speaker.mute
+        const percent = Math.round(vol * 100)
 
         if (muted || vol === 0) {
             icon.label = "󰖁"
@@ -38,15 +45,19 @@ function Volume() {
         } else {
             icon.label = "󰕾"
         }
+
+        percentLabel.label = muted ? "mute" : `${percent}%`
     }
 
-    // Toggle mute on click
-    btn.connect("clicked", () => {
+    // Click to toggle mute
+    const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
+    click.connect("pressed", () => {
         const speaker = getSpeaker()
         if (speaker) {
             speaker.mute = !speaker.mute
         }
     })
+    box.add_controller(click)
 
     // Scroll to change volume
     const scroll = new Gtk.EventControllerScroll({ flags: Gtk.EventControllerScrollFlags.VERTICAL })
@@ -58,17 +69,79 @@ function Volume() {
         }
         return true
     })
-    btn.add_controller(scroll)
+    box.add_controller(scroll)
 
-    updateIcon()
+    update()
 
-    // Update on changes - poll since signal binding is tricky
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
-        updateIcon()
+    // Update on changes
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 200, () => {
+        update()
         return true
     })
 
-    return btn
+    return box
+}
+
+function Microphone() {
+    const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL })
+    box.add_css_class("microphone")
+
+    const icon = new Gtk.Label()
+    icon.add_css_class("mic-icon")
+
+    const percentLabel = new Gtk.Label()
+    percentLabel.add_css_class("mic-percent")
+
+    box.append(icon)
+    box.append(percentLabel)
+
+    const getMic = () => wp.audio?.defaultMicrophone
+
+    const update = () => {
+        const mic = getMic()
+        if (!mic) {
+            icon.label = "󰍭"
+            percentLabel.label = ""
+            return
+        }
+
+        const muted = mic.mute
+        const percent = Math.round(mic.volume * 100)
+        icon.label = muted ? "󰍭" : "󰍬"
+        percentLabel.label = muted ? "mute" : `${percent}%`
+    }
+
+    // Click to toggle mute
+    const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
+    click.connect("pressed", () => {
+        const mic = getMic()
+        if (mic) {
+            mic.mute = !mic.mute
+        }
+    })
+    box.add_controller(click)
+
+    // Scroll to change input volume
+    const scroll = new Gtk.EventControllerScroll({ flags: Gtk.EventControllerScrollFlags.VERTICAL })
+    scroll.connect("scroll", (_ctrl, _dx, dy) => {
+        const mic = getMic()
+        if (mic) {
+            const step = 0.05
+            mic.volume = Math.max(0, Math.min(1.5, mic.volume - dy * step))
+        }
+        return true
+    })
+    box.add_controller(scroll)
+
+    update()
+
+    // Update on changes
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 200, () => {
+        update()
+        return true
+    })
+
+    return box
 }
 
 function SystemTray() {
@@ -78,7 +151,9 @@ function SystemTray() {
     const items = new Map<string, Gtk.Widget>()
 
     const addItem = (item: Tray.TrayItem) => {
-        let widget: Gtk.Widget
+        // Use MenuButton for proper menu integration
+        const menuBtn = new Gtk.MenuButton()
+        menuBtn.add_css_class("tray-item")
 
         const icon = new Gtk.Image()
         icon.add_css_class("tray-icon")
@@ -90,33 +165,29 @@ function SystemTray() {
             icon.iconName = item.iconName
         }
 
-        // Use MenuButton if item has a menu
-        if (item.menuModel) {
-            const menuBtn = new Gtk.MenuButton()
-            menuBtn.add_css_class("tray-item")
-            menuBtn.set_child(icon)
-            menuBtn.menuModel = item.menuModel
-            menuBtn.direction = Gtk.ArrowType.DOWN
-            widget = menuBtn
+        menuBtn.set_child(icon)
 
-            // Update menu when it changes
-            item.connect("notify::menu-model", () => {
-                if (item.menuModel) {
-                    menuBtn.menuModel = item.menuModel
-                }
-            })
-        } else {
-            const btn = new Gtk.Button()
-            btn.add_css_class("tray-item")
-            btn.set_child(icon)
-            btn.connect("clicked", () => {
-                item.activate(0, 0)
-            })
-            widget = btn
+        // Create popover with item's menu
+        const popover = Gtk.PopoverMenu.new_from_model(item.menuModel)
+        menuBtn.set_popover(popover)
+
+        // Insert action group for menu actions to work
+        if (item.actionGroup) {
+            popover.insert_action_group("dbusmenu", item.actionGroup)
         }
 
-        items.set(item.itemId, widget)
-        box.append(widget)
+        // Update when menu/actions change
+        item.connect("notify::menu-model", () => {
+            popover.set_menu_model(item.menuModel)
+        })
+        item.connect("notify::action-group", () => {
+            if (item.actionGroup) {
+                popover.insert_action_group("dbusmenu", item.actionGroup)
+            }
+        })
+
+        items.set(item.itemId, menuBtn)
+        box.append(menuBtn)
 
         // Update icon when it changes
         item.connect("notify::gicon", () => {
@@ -237,6 +308,7 @@ export default function Bar(monitor: number) {
                 <Workspaces />
                 <box hexpand />
                 <SystemTray />
+                <Microphone />
                 <Volume />
                 <button
                     cssClasses={["notification-btn"]}

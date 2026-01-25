@@ -65,6 +65,21 @@ window.Bar .logo label {
     min-width: 0;
 }
 
+.microphone {
+    padding: 0 6px;
+}
+
+.mic-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+.mic-percent {
+    font-size: 13px;
+    min-width: 36px;
+}
+
 .volume {
     padding: 0 8px;
 }
@@ -72,6 +87,12 @@ window.Bar .logo label {
 .volume-icon {
     font-family: "JetBrainsMono Nerd Font", monospace;
     font-size: 16px;
+    margin-right: 4px;
+}
+
+.volume-percent {
+    font-size: 13px;
+    min-width: 36px;
 }
 
 .notification-btn {
