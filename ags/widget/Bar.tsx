@@ -5,14 +5,14 @@ import Hyprland from "gi://AstalHyprland"
 import Tray from "gi://AstalTray"
 import Wp from "gi://AstalWp"
 import Battery from "gi://AstalBattery"
-import Mpris from "gi://AstalMpris"
+import Bluetooth from "gi://AstalBluetooth"
 import Network from "gi://AstalNetwork"
 
 const hypr = Hyprland.get_default()
 const tray = Tray.get_default()
 const wp = Wp.get_default()!
 const battery = Battery.get_default()
-const mpris = Mpris.get_default()
+const bluetooth = Bluetooth.get_default()
 const network = Network.get_default()
 
 function Volume() {
@@ -216,57 +216,45 @@ function BatteryWidget() {
     return box
 }
 
-function MediaPlayer() {
+function BluetoothWidget() {
     const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL })
-    box.add_css_class("media")
+    box.add_css_class("bluetooth")
 
     const icon = new Gtk.Label()
-    icon.add_css_class("media-icon")
-
-    const titleLabel = new Gtk.Label()
-    titleLabel.add_css_class("media-title")
-    titleLabel.set_max_width_chars(30)
-    titleLabel.set_ellipsize(3) // PANGO_ELLIPSIZE_END
+    icon.add_css_class("bluetooth-icon")
 
     box.append(icon)
-    box.append(titleLabel)
-
-    const getPlayer = () => {
-        const players = mpris.get_players()
-        // Prefer playing player, otherwise first one
-        return players.find(p => p.playbackStatus === Mpris.PlaybackStatus.PLAYING) || players[0]
-    }
 
     const update = () => {
-        const player = getPlayer()
-
-        if (!player || !player.title) {
-            box.visible = false
+        const adapter = bluetooth.adapter
+        if (!adapter || !adapter.powered) {
+            icon.label = "󰂲" // Bluetooth off
+            box.remove_css_class("connected")
             return
         }
 
-        box.visible = true
-        const playing = player.playbackStatus === Mpris.PlaybackStatus.PLAYING
-        icon.label = playing ? "󰏤" : "󰐊"
+        const devices = bluetooth.get_devices()
+        const connected = devices.filter(d => d.connected)
 
-        const artist = player.artist || ""
-        const title = player.title || ""
-        titleLabel.label = artist ? `${artist} - ${title}` : title
+        if (connected.length > 0) {
+            icon.label = "󰂱" // Bluetooth connected
+            box.add_css_class("connected")
+        } else {
+            icon.label = "󰂯" // Bluetooth on
+            box.remove_css_class("connected")
+        }
     }
 
-    // Click to toggle play/pause
+    // Click to open bluetooth settings
     const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
     click.connect("pressed", () => {
-        const player = getPlayer()
-        if (player) {
-            player.play_pause()
-        }
+        GLib.spawn_command_line_async("systemsettings kcm_bluetooth")
     })
     box.add_controller(click)
 
     update()
 
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => {
         update()
         return true
     })
@@ -407,41 +395,96 @@ function SystemTray() {
     return box
 }
 
+function Clock() {
+    const menuBtn = new Gtk.MenuButton()
+    menuBtn.add_css_class("clock")
+
+    const clockLabel = new Gtk.Label({
+        label: GLib.DateTime.new_now_local().format("%a %b %d  %H:%M")!,
+    })
+    menuBtn.set_child(clockLabel)
+
+    // Update clock every second
+    GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 1, () => {
+        clockLabel.label = GLib.DateTime.new_now_local().format("%a %b %d  %H:%M")!
+        return true
+    })
+
+    // Calendar popover
+    const popover = new Gtk.Popover()
+    popover.add_css_class("calendar-popover")
+
+    const calBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 8 })
+    calBox.add_css_class("calendar-box")
+
+    const calendar = new Gtk.Calendar()
+    calendar.add_css_class("calendar")
+
+    calBox.append(calendar)
+    popover.set_child(calBox)
+    menuBtn.set_popover(popover)
+
+    return menuBtn
+}
+
 function Workspaces() {
     const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL })
     box.add_css_class("workspaces")
 
+    // Create 5 static workspace buttons with circle indicators
+    const buttons: { btn: Gtk.Button; label: Gtk.Label }[] = []
+    for (let i = 1; i <= 5; i++) {
+        const btn = new Gtk.Button()
+        btn.add_css_class("workspace")
+
+        const label = new Gtk.Label({ label: "○" }) // Empty circle
+        label.add_css_class("workspace-icon")
+        btn.set_child(label)
+
+        btn.connect("clicked", () => {
+            hypr.dispatch("workspace", String(i))
+        })
+
+        buttons.push({ btn, label })
+        box.append(btn)
+    }
+
     const updateWorkspaces = () => {
-        // Clear existing
-        let child = box.get_first_child()
-        while (child) {
-            const next = child.get_next_sibling()
-            box.remove(child)
-            child = next
-        }
-
-        // Get workspaces with windows, sorted by id
-        const workspaces = hypr.workspaces
-            .filter(ws => ws.id > 0)
-            .sort((a, b) => a.id - b.id)
-
         const focusedId = hypr.focused_workspace?.id || 1
 
-        workspaces.forEach(ws => {
-            const btn = new Gtk.Button()
-            btn.add_css_class("workspace")
-            if (ws.id === focusedId) {
-                btn.add_css_class("active")
+        // Get workspace IDs that have windows
+        const occupiedIds = new Set(
+            hypr.workspaces
+                .filter(ws => ws.id > 0 && ws.id <= 5)
+                .map(ws => ws.id)
+        )
+
+        buttons.forEach(({ btn, label }, idx) => {
+            const wsId = idx + 1
+            const isActive = wsId === focusedId
+            const isOccupied = occupiedIds.has(wsId)
+
+            // Update circle icon
+            if (isActive) {
+                label.label = "●" // Filled circle for active
+            } else if (isOccupied) {
+                label.label = "◐" // Half-filled for occupied
+            } else {
+                label.label = "○" // Empty circle
             }
 
-            const label = new Gtk.Label({ label: String(ws.id) })
-            btn.set_child(label)
+            // CSS classes
+            if (isActive) {
+                btn.add_css_class("active")
+            } else {
+                btn.remove_css_class("active")
+            }
 
-            btn.connect("clicked", () => {
-                ws.focus()
-            })
-
-            box.append(btn)
+            if (isOccupied) {
+                btn.add_css_class("occupied")
+            } else {
+                btn.remove_css_class("occupied")
+            }
         })
     }
 
@@ -455,21 +498,40 @@ function Workspaces() {
     return box
 }
 
+function ActiveWindow() {
+    const label = new Gtk.Label()
+    label.add_css_class("active-window")
+
+    const formatAppName = (className: string): string => {
+        // Handle reverse-domain names (org.wezfurlong.wezterm -> wezterm)
+        if (className.includes(".")) {
+            const parts = className.split(".")
+            return parts[parts.length - 1]
+        }
+        return className
+    }
+
+    const update = () => {
+        const client = hypr.focused_client
+        if (client && client.class) {
+            label.label = formatAppName(client.class)
+            label.visible = true
+        } else {
+            label.visible = false
+        }
+    }
+
+    update()
+
+    hypr.connect("notify::focused-client", update)
+
+    return label
+}
+
 export default function Bar(monitor: number) {
     const anchor = Astal.WindowAnchor.TOP
         | Astal.WindowAnchor.LEFT
         | Astal.WindowAnchor.RIGHT
-
-    // Clock label - updates every second
-    const clockLabel = new Gtk.Label({
-        label: GLib.DateTime.new_now_local().format("%a %b %d  %H:%M")!,
-    })
-    clockLabel.add_css_class("clock")
-
-    GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 1, () => {
-        clockLabel.label = GLib.DateTime.new_now_local().format("%a %b %d  %H:%M")!
-        return true
-    })
 
     return (
         <window
@@ -488,9 +550,10 @@ export default function Bar(monitor: number) {
                     <label label="󱄅" />
                 </button>
                 <Workspaces />
+                <ActiveWindow />
                 <box hexpand />
-                <MediaPlayer />
                 <SystemTray />
+                <BluetoothWidget />
                 <NetworkWidget />
                 <Microphone />
                 <Volume />
@@ -501,7 +564,7 @@ export default function Bar(monitor: number) {
                 >
                     <label cssClasses={["notification-icon"]} label="󰂚" />
                 </button>
-                {clockLabel}
+                <Clock />
             </box>
         </window>
     )

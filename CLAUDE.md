@@ -160,7 +160,18 @@ sudo nixos-rebuild build --flake ~/dotfiles#nixos
 AGS (Aylur's GTK Shell) provides a unified, macOS-inspired desktop experience replacing waybar, anyrun, and fuzzel.
 
 ### Components
-- **Bar** (`ags/widget/Bar.tsx`): Top menu bar with NixOS logo, workspaces, system tray, volume, notifications, clock
+- **Bar** (`ags/widget/Bar.tsx`): Top menu bar with:
+  - NixOS logo (opens power menu)
+  - Workspace indicators (circles: ○ empty, ◐ occupied, ● active)
+  - Active window app name
+  - System tray
+  - Bluetooth (click for settings)
+  - Network/WiFi (click for settings)
+  - Microphone (click to mute, scroll to adjust)
+  - Volume (click to mute, scroll to adjust)
+  - Battery (if present)
+  - Notifications button
+  - Clock with calendar popup
 - **Launcher** (`ags/widget/Launcher.tsx`): Spotlight-style app launcher (Super+Space)
   - Type to search apps
   - Prefix with `?` for web search (Brave Search)
@@ -179,7 +190,7 @@ AGS (Aylur's GTK Shell) provides a unified, macOS-inspired desktop experience re
 
 ### Restarting AGS
 ```bash
-pkill -f "ags run"; ags run --gtk 4
+pkill gjs; ags run -g 4
 ```
 
 ## Neovim Configuration

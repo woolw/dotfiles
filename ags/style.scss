@@ -33,13 +33,32 @@ window.Bar .logo label {
     font-size: 28px;
 }
 
-.workspace {
-    padding: 0 10px;
+.workspaces {
+    padding: 0 4px;
 }
 
-.workspace.active {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 4px;
+.workspace {
+    padding: 0 4px;
+    min-width: 20px;
+}
+
+.workspace-icon {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.workspace.occupied .workspace-icon {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.workspace.active .workspace-icon {
+    color: #61afef;
+}
+
+.active-window {
+    margin-left: 12px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .clock {
@@ -66,7 +85,7 @@ window.Bar .logo label {
 }
 
 .microphone {
-    padding: 0 6px;
+    padding: 0 10px;
 }
 
 .mic-icon {
@@ -124,22 +143,21 @@ window.Bar .logo label {
     color: #e06c75;
 }
 
-.media {
-    padding: 0 8px;
+.bluetooth {
+    padding: 0 10px;
 }
 
-.media-icon {
+.bluetooth-icon {
     font-family: "JetBrainsMono Nerd Font", monospace;
     font-size: 16px;
-    margin-right: 6px;
 }
 
-.media-title {
-    font-size: 13px;
+.bluetooth.connected .bluetooth-icon {
+    color: #61afef;
 }
 
 .network {
-    padding: 0 6px;
+    padding: 0 10px;
 }
 
 .network-icon {
@@ -293,4 +311,58 @@ window.PowerMenu {
     min-height: 1px;
     background: rgba(255, 255, 255, 0.1);
     margin: 4px 8px;
+}
+
+// Calendar popover
+.calendar-popover {
+    background: $bg;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calendar-box {
+    padding: 12px;
+}
+
+.calendar {
+    background: transparent;
+    color: $fg;
+    font-family: "SF Pro Text", "Noto Sans", sans-serif;
+    font-size: 14px;
+}
+
+.calendar > header {
+    padding: 4px 8px;
+}
+
+.calendar > header > button {
+    color: $fg;
+    background: transparent;
+    border: none;
+}
+
+.calendar > header > button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.calendar > grid > label {
+    padding: 8px;
+}
+
+.calendar > grid > label.day-number {
+    border-radius: 50%;
+}
+
+.calendar > grid > label.day-number:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.calendar > grid > label.today {
+    background: rgba(97, 175, 239, 0.3);
+    border-radius: 50%;
+}
+
+.calendar > grid > label.other-month {
+    color: rgba(255, 255, 255, 0.3);
 }
