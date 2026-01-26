@@ -4,10 +4,16 @@ import GLib from "gi://GLib"
 import Hyprland from "gi://AstalHyprland"
 import Tray from "gi://AstalTray"
 import Wp from "gi://AstalWp"
+import Battery from "gi://AstalBattery"
+import Mpris from "gi://AstalMpris"
+import Network from "gi://AstalNetwork"
 
 const hypr = Hyprland.get_default()
 const tray = Tray.get_default()
 const wp = Wp.get_default()!
+const battery = Battery.get_default()
+const mpris = Mpris.get_default()
+const network = Network.get_default()
 
 function Volume() {
     const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL })
@@ -137,6 +143,182 @@ function Microphone() {
 
     // Update on changes
     GLib.timeout_add(GLib.PRIORITY_DEFAULT, 200, () => {
+        update()
+        return true
+    })
+
+    return box
+}
+
+function BatteryWidget() {
+    const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL })
+    box.add_css_class("battery")
+
+    const icon = new Gtk.Label()
+    icon.add_css_class("battery-icon")
+
+    const percentLabel = new Gtk.Label()
+    percentLabel.add_css_class("battery-percent")
+
+    box.append(icon)
+    box.append(percentLabel)
+
+    const update = () => {
+        if (!battery || !battery.isPresent) {
+            box.visible = false
+            return
+        }
+
+        box.visible = true
+        const percent = Math.round(battery.percentage * 100)
+        const charging = battery.charging
+
+        if (charging) {
+            icon.label = "󰂄"
+        } else if (percent > 90) {
+            icon.label = "󰁹"
+        } else if (percent > 70) {
+            icon.label = "󰂁"
+        } else if (percent > 50) {
+            icon.label = "󰁿"
+        } else if (percent > 30) {
+            icon.label = "󰁽"
+        } else if (percent > 10) {
+            icon.label = "󰁻"
+        } else {
+            icon.label = "󰂃"
+        }
+
+        percentLabel.label = `${percent}%`
+
+        // Add warning class if low
+        if (percent <= 20 && !charging) {
+            box.add_css_class("low")
+        } else {
+            box.remove_css_class("low")
+        }
+    }
+
+    // Click to open power settings
+    const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
+    click.connect("pressed", () => {
+        GLib.spawn_command_line_async("systemsettings kcm_powerdevilprofilesconfig")
+    })
+    box.add_controller(click)
+
+    update()
+
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
+        update()
+        return true
+    })
+
+    return box
+}
+
+function MediaPlayer() {
+    const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL })
+    box.add_css_class("media")
+
+    const icon = new Gtk.Label()
+    icon.add_css_class("media-icon")
+
+    const titleLabel = new Gtk.Label()
+    titleLabel.add_css_class("media-title")
+    titleLabel.set_max_width_chars(30)
+    titleLabel.set_ellipsize(3) // PANGO_ELLIPSIZE_END
+
+    box.append(icon)
+    box.append(titleLabel)
+
+    const getPlayer = () => {
+        const players = mpris.get_players()
+        // Prefer playing player, otherwise first one
+        return players.find(p => p.playbackStatus === Mpris.PlaybackStatus.PLAYING) || players[0]
+    }
+
+    const update = () => {
+        const player = getPlayer()
+
+        if (!player || !player.title) {
+            box.visible = false
+            return
+        }
+
+        box.visible = true
+        const playing = player.playbackStatus === Mpris.PlaybackStatus.PLAYING
+        icon.label = playing ? "󰏤" : "󰐊"
+
+        const artist = player.artist || ""
+        const title = player.title || ""
+        titleLabel.label = artist ? `${artist} - ${title}` : title
+    }
+
+    // Click to toggle play/pause
+    const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
+    click.connect("pressed", () => {
+        const player = getPlayer()
+        if (player) {
+            player.play_pause()
+        }
+    })
+    box.add_controller(click)
+
+    update()
+
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
+        update()
+        return true
+    })
+
+    return box
+}
+
+function NetworkWidget() {
+    const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL })
+    box.add_css_class("network")
+
+    const icon = new Gtk.Label()
+    icon.add_css_class("network-icon")
+    icon.label = "󰤨" // Default icon
+
+    box.append(icon)
+
+    const update = () => {
+        const wifi = network.wifi
+        const wired = network.wired
+
+        // Prefer WiFi display if it has an active connection (SSID present)
+        if (wifi && wifi.ssid) {
+            const strength = wifi.strength
+            if (wifi.internet === Network.Internet.DISCONNECTED) {
+                icon.label = "󰤭"
+            } else if (strength > 75) {
+                icon.label = "󰤨"
+            } else if (strength > 50) {
+                icon.label = "󰤥"
+            } else if (strength > 25) {
+                icon.label = "󰤢"
+            } else {
+                icon.label = "󰤟"
+            }
+        } else if (wired && wired.internet === Network.Internet.CONNECTED) {
+            icon.label = "󰈁"
+        } else {
+            icon.label = "󰤮"
+        }
+    }
+
+    // Click to open network settings
+    const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
+    click.connect("pressed", () => {
+        GLib.spawn_command_line_async("systemsettings kcm_networkmanagement")
+    })
+    box.add_controller(click)
+
+    update()
+
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => {
         update()
         return true
     })
@@ -307,9 +489,12 @@ export default function Bar(monitor: number) {
                 </button>
                 <Workspaces />
                 <box hexpand />
+                <MediaPlayer />
                 <SystemTray />
+                <NetworkWidget />
                 <Microphone />
                 <Volume />
+                <BatteryWidget />
                 <button
                     cssClasses={["notification-btn"]}
                     onClicked={() => GLib.spawn_command_line_async("swaync-client -t")}

@@ -104,6 +104,49 @@ window.Bar .logo label {
     font-size: 16px;
 }
 
+.battery {
+    padding: 0 8px;
+}
+
+.battery-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+.battery-percent {
+    font-size: 13px;
+    min-width: 36px;
+}
+
+.battery.low .battery-icon,
+.battery.low .battery-percent {
+    color: #e06c75;
+}
+
+.media {
+    padding: 0 8px;
+}
+
+.media-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+    margin-right: 6px;
+}
+
+.media-title {
+    font-size: 13px;
+}
+
+.network {
+    padding: 0 6px;
+}
+
+.network-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+}
+
 // Launcher (Spotlight-style)
 window.Launcher {
     background: transparent;

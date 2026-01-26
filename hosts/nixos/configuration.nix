@@ -80,6 +80,9 @@
     nix-direnv.enable = true;
   };
 
+  # Enable nix-ld for running dynamically linked binaries (Mason LSPs)
+  programs.nix-ld.enable = true;
+
   # Qt Wayland support
   qt.enable = true;
 

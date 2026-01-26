@@ -84,18 +84,21 @@ return {
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    config = function()
-      local wk = require("which-key")
-      wk.setup()
-      wk.add({
+    opts = {
+      spec = {
         { "<leader>f", group = "Find" },
+        { "<leader>g", group = "Git" },
         { "<leader>h", group = "Git hunks" },
         { "<leader>s", group = "Split" },
         { "<leader>b", group = "Buffer" },
         { "<leader>c", group = "Code" },
-        { "<leader>d", group = "Diagnostics" },
-      })
-    end,
+        { "<leader>d", group = "Debug" },
+        { "<leader>x", group = "Diagnostics" },
+        { "<leader>q", group = "Session" },
+        { "<leader>m", group = "Markdown" },
+        { "<leader>r", group = "Refactor" },
+      },
+    },
   },
 
   -- Auto format on save

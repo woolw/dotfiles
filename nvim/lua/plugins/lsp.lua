@@ -1,4 +1,4 @@
--- LSP Configuration
+-- LSP Configuration (Neovim 0.11+ native API)
 return {
   {
     "williamboman/mason.nvim",
@@ -27,6 +27,10 @@ return {
     end,
   },
   {
+    "hrsh7th/cmp-nvim-lsp",
+    lazy = true,
+  },
+  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
@@ -35,16 +39,14 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      local lspconfig = require("lspconfig")
       local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
       local capabilities = cmp_nvim_lsp.default_capabilities()
 
       -- Diagnostic keymaps
       vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
       vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-      vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic" })
-      vim.keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "Diagnostic list" })
+      vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Show diagnostic" })
+      vim.keymap.set("n", "<leader>xl", vim.diagnostic.setloclist, { desc = "Diagnostic list" })
 
       -- LSP attach keymaps
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -60,14 +62,14 @@ return {
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
           vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
           vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "References" }))
-          vim.keymap.set("n", "<leader>f", function()
+          vim.keymap.set("n", "<leader>F", function()
             vim.lsp.buf.format({ async = true })
           end, vim.tbl_extend("force", opts, { desc = "Format" }))
         end,
       })
 
-      -- Configure servers
-      lspconfig.lua_ls.setup({
+      -- Configure LSP servers using native vim.lsp.config (Neovim 0.11+)
+      vim.lsp.config("lua_ls", {
         capabilities = capabilities,
         settings = {
           Lua = {
@@ -82,13 +84,25 @@ return {
         },
       })
 
-      lspconfig.nil_ls.setup({ capabilities = capabilities })
-      lspconfig.ols.setup({ capabilities = capabilities })
-      lspconfig.ts_ls.setup({ capabilities = capabilities })
-      lspconfig.html.setup({ capabilities = capabilities })
-      lspconfig.cssls.setup({ capabilities = capabilities })
-      lspconfig.jsonls.setup({ capabilities = capabilities })
-      lspconfig.omnisharp.setup({ capabilities = capabilities })
+      vim.lsp.config("nil_ls", { capabilities = capabilities })
+      vim.lsp.config("ols", { capabilities = capabilities })
+      vim.lsp.config("ts_ls", { capabilities = capabilities })
+      vim.lsp.config("html", { capabilities = capabilities })
+      vim.lsp.config("cssls", { capabilities = capabilities })
+      vim.lsp.config("jsonls", { capabilities = capabilities })
+      vim.lsp.config("omnisharp", { capabilities = capabilities })
+
+      -- Enable all configured servers
+      vim.lsp.enable({
+        "lua_ls",
+        "nil_ls",
+        "ols",
+        "ts_ls",
+        "html",
+        "cssls",
+        "jsonls",
+        "omnisharp",
+      })
     end,
   },
 }

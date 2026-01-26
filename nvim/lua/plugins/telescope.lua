@@ -1,7 +1,7 @@
 -- Telescope fuzzy finder
 return {
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
+  branch = "master",
   dependencies = {
     "nvim-lua/plenary.nvim",
     {
@@ -9,6 +9,12 @@ return {
       build = "make",
     },
   },
+  init = function()
+    -- Compatibility shim for Neovim 0.11+ (must run before telescope loads)
+    if vim.treesitter.language.get_lang and not vim.treesitter.language.ft_to_lang then
+      vim.treesitter.language.ft_to_lang = vim.treesitter.language.get_lang
+    end
+  end,
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")

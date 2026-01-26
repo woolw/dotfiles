@@ -39,7 +39,6 @@ map("n", "N", "Nzzzv", { desc = "Previous search result" })
 
 -- Save file
 map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
-map("n", "<leader>q", ":q<CR>", { desc = "Quit" })
 
 -- Split windows
 map("n", "<leader>sv", ":vsplit<CR>", { desc = "Split vertical" })
