@@ -1,7 +1,7 @@
 import app from "ags/gtk4/app"
 import GLib from "gi://GLib"
 import style from "./style.scss"
-import Bar from "./widget/Bar"
+import Bar from "./widget/bar/index"
 import Launcher from "./widget/Launcher"
 import PowerMenu from "./widget/PowerMenu"
 
