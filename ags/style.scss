@@ -313,7 +313,16 @@ window.PowerMenu {
     margin: 4px 8px;
 }
 
-// Calendar popover
+// Calendar window
+window.Calendar {
+    background: transparent;
+}
+
+.calendar-backdrop {
+    background: transparent;
+    border: none;
+}
+
 .calendar-popover {
     background: $bg;
     border-radius: 12px;
@@ -350,19 +359,302 @@ window.PowerMenu {
     padding: 8px;
 }
 
-.calendar > grid > label.day-number {
+.calendar day {
     border-radius: 50%;
 }
 
-.calendar > grid > label.day-number:hover {
+.calendar day:hover {
     background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
 }
 
-.calendar > grid > label.today {
+.calendar day.today {
     background: rgba(97, 175, 239, 0.3);
     border-radius: 50%;
 }
 
 .calendar > grid > label.other-month {
     color: rgba(255, 255, 255, 0.3);
+}
+
+// Quick Settings window
+window.QuickSettings {
+    background: transparent;
+}
+
+.qs-backdrop {
+    background: transparent;
+    border: none;
+}
+
+.quick-settings {
+    padding: 0 10px;
+    background: transparent;
+    border: none;
+}
+
+.quick-settings:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.qs-bar-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+    color: $fg;
+}
+
+.qs-popover {
+    background: $bg;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.qs-content {
+    padding: 12px;
+    min-width: 280px;
+}
+
+.qs-row {
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.qs-separator {
+    margin: 4px 0;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.qs-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 20px;
+    color: $fg;
+    min-width: 24px;
+}
+
+.qs-icon-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.qs-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.qs-icon-btn.muted {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.qs-icon-btn.muted .qs-icon {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.qs-slider {
+    margin: 0 4px;
+}
+
+.qs-slider trough {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    min-height: 8px;
+}
+
+.qs-slider highlight {
+    background: #61afef;
+    border-radius: 4px;
+}
+
+.qs-slider slider {
+    background: white;
+    border-radius: 50%;
+    min-width: 16px;
+    min-height: 16px;
+    margin: -4px;
+}
+
+.qs-btn {
+    background: transparent;
+    border: none;
+}
+
+.qs-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.qs-btn.off .qs-icon {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.qs-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: $fg;
+}
+
+.qs-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.qs-arrow {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.qs-tray {
+    padding: 8px 4px;
+}
+
+.qs-tray-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    min-width: 36px;
+    min-height: 36px;
+}
+
+.qs-tray-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.qs-tray-icon {
+    -gtk-icon-size: 20px;
+}
+
+.qs-tray-item > box > image:last-child {
+    -gtk-icon-size: 0;
+    min-width: 0;
+}
+
+// Network section
+.qs-network-section {
+    padding: 4px 0;
+}
+
+.qs-back-btn {
+    background: transparent;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    min-width: 32px;
+    min-height: 32px;
+}
+
+.qs-back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.qs-page-header {
+    padding: 8px;
+}
+
+.qs-page-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: $fg;
+}
+
+.qs-toggle {
+    margin-right: 4px;
+}
+
+.qs-network-list-scroll {
+    margin-top: 4px;
+}
+
+.qs-network-list {
+    padding: 0 4px;
+}
+
+.qs-network-item {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.qs-network-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.qs-network-item.connected {
+    background: rgba(97, 175, 239, 0.15);
+}
+
+.qs-network-item-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+    color: $fg;
+    min-width: 20px;
+}
+
+.qs-network-item-name {
+    font-size: 13px;
+    color: $fg;
+}
+
+.qs-network-item-lock {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.qs-network-item-connected {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 14px;
+    color: #61afef;
+}
+
+.qs-password-box {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.qs-password-label {
+    font-size: 13px;
+    color: $fg;
+}
+
+.qs-password-entry {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: $fg;
+}
+
+.qs-password-entry:focus {
+    border-color: #61afef;
+}
+
+.qs-password-btn {
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+}
+
+.qs-password-btn:not(.suggested-action) {
+    background: rgba(255, 255, 255, 0.1);
+    color: $fg;
+}
+
+.qs-password-btn:not(.suggested-action):hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.qs-password-btn.suggested-action {
+    background: #61afef;
+    color: #1c1c1c;
+}
+
+.qs-password-btn.suggested-action:hover {
+    background: #7ebfff;
 }

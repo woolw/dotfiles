@@ -160,24 +160,31 @@ sudo nixos-rebuild build --flake ~/dotfiles#nixos
 AGS (Aylur's GTK Shell) provides a unified, macOS-inspired desktop experience replacing waybar, anyrun, and fuzzel.
 
 ### Components
-- **Bar** (`ags/widget/Bar.tsx`): Top menu bar with:
+- **Bar** (`ags/widget/bar/`): Top menu bar (modularized into separate files):
   - NixOS logo (opens power menu)
   - Workspace indicators (circles: ○ empty, ◐ occupied, ● active)
   - Active window app name
-  - System tray
-  - Bluetooth (click for settings)
-  - Network/WiFi (click for settings)
-  - Microphone (click to mute, scroll to adjust)
-  - Volume (click to mute, scroll to adjust)
+  - QuickSettings button (volume/network icons)
   - Battery (if present)
   - Notifications button
-  - Clock with calendar popup
+  - Clock (opens calendar)
+- **QuickSettings** (`ags/widget/bar/QuickSettings.tsx`): GNOME-style popup panel:
+  - Volume slider with mute toggle
+  - Microphone slider with mute toggle
+  - Network row (click to open network page)
+  - Bluetooth row (click for KDE settings)
+  - System tray icons
+  - **Network page** (SPA-style transition):
+    - WiFi toggle and network list
+    - Password dialog for secured networks
+    - Ethernet toggle
+    - VPN list with connect/disconnect
+- **Calendar** (`ags/widget/bar/Clock.tsx`): Window-based calendar popup
 - **Launcher** (`ags/widget/Launcher.tsx`): Spotlight-style app launcher (Super+Space)
   - Type to search apps
   - Prefix with `?` for web search (Brave Search)
   - Arrow keys/Tab to navigate, Enter to launch, Escape to close
 - **PowerMenu** (`ags/widget/PowerMenu.tsx`): macOS-style dropdown from NixOS logo
-  - About This PC (fastfetch)
   - System Settings
   - Sleep, Restart, Shut Down
   - Lock Screen, Log Out
@@ -185,6 +192,7 @@ AGS (Aylur's GTK Shell) provides a unified, macOS-inspired desktop experience re
 ### Styling
 - Semi-transparent dark backgrounds (`rgba(28, 28, 28, 0.85)`)
 - Pill-shaped launcher with 28px border radius
+- Circular hover highlights for icon buttons and tray items
 - SF Pro Text / Noto Sans for UI text
 - JetBrainsMono Nerd Font for icons
 

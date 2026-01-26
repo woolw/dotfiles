@@ -2,15 +2,11 @@ import { Astal, Gtk } from "ags/gtk4"
 import app from "ags/gtk4/app"
 import GLib from "gi://GLib"
 
-import Volume from "./Volume"
-import Microphone from "./Microphone"
 import Battery from "./Battery"
-import Bluetooth from "./Bluetooth"
-import Network from "./Network"
-import SystemTray from "./SystemTray"
 import Clock from "./Clock"
 import Workspaces from "./Workspaces"
 import ActiveWindow from "./ActiveWindow"
+import QuickSettings from "./QuickSettings"
 
 export default function Bar(monitor: number) {
     const anchor = Astal.WindowAnchor.TOP
@@ -36,11 +32,7 @@ export default function Bar(monitor: number) {
                 <Workspaces />
                 <ActiveWindow />
                 <box hexpand />
-                <SystemTray />
-                <Bluetooth />
-                <Network />
-                <Microphone />
-                <Volume />
+                <QuickSettings />
                 <Battery />
                 <button
                     cssClasses={["notification-btn"]}
