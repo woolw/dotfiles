@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # Bootloader
@@ -15,6 +20,7 @@
   # Networking
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  boot.kernelModules = [ "rtw89_8852ce" ];
 
   # Locale
   time.timeZone = "Europe/Berlin";
@@ -71,6 +77,15 @@
     ];
     shell = pkgs.zsh;
   };
+
+  # Flatpak
+  services.flatpak.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.enable = true;
+  environment.sessionVariables.XDG_DATA_DIRS = lib.mkAfter [
+    "/var/lib/flatpak/exports/share"
+    "/home/woolw/.local/share/flatpak/exports/share"
+  ];
 
   # Programs
   programs.git.enable = true;

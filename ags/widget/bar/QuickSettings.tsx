@@ -1,10 +1,26 @@
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import app from "ags/gtk4/app"
 import GLib from "gi://GLib"
+import Gio from "gi://Gio"
 import Wp from "gi://AstalWp"
 import AstalBluetooth from "gi://AstalBluetooth"
 import AstalNetwork from "gi://AstalNetwork"
 import Tray from "gi://AstalTray"
+
+function execAsync(cmd: string, callback: (output: string) => void) {
+    try {
+        const proc = Gio.Subprocess.new(
+            ["bash", "-c", cmd],
+            Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_SILENCE,
+        )
+        proc.communicate_utf8_async(null, null, (_proc, res) => {
+            try {
+                const [, stdout] = _proc!.communicate_utf8_finish(res)
+                if (stdout) callback(stdout)
+            } catch (e) { /* ignore */ }
+        })
+    } catch (e) { /* ignore */ }
+}
 
 const wp = Wp.get_default()!
 const bluetooth = AstalBluetooth.get_default()
@@ -490,82 +506,83 @@ export function QuickSettingsWindow() {
     pwdEntry.connect("activate", () => pwdConnect.emit("clicked"))
 
     // Ethernet toggle and status
+    let ethDevice = ""
+    let ethUpdating = false
     const updateEth = () => {
         if (wired) {
             const connected = wired.internet === AstalNetwork.Internet.CONNECTED
             ethIcon.label = connected ? "󰈁" : "󰈂"
             ethSubtitle.label = connected ? "Connected" : "Not connected"
-            // Check if ethernet device is enabled via nmcli
-            try {
-                const [ok, out] = GLib.spawn_command_line_sync("nmcli -t -f DEVICE,STATE device")
-                if (ok) {
-                    const output = new TextDecoder().decode(out)
-                    const ethLine = output.split('\n').find(l => l.startsWith('eth') || l.startsWith('enp'))
-                    ethToggle.active = ethLine ? !ethLine.includes('disconnected') && !ethLine.includes('unavailable') : false
-                }
-            } catch (e) {
-                ethToggle.active = connected
-            }
         } else {
             ethIcon.label = "󰈂"
             ethSubtitle.label = "Not available"
-            ethToggle.active = false
             ethToggle.sensitive = false
         }
+        // Detect device name and sync toggle state
+        execAsync("nmcli -t -f DEVICE,TYPE,STATE device", (output) => {
+            const ethLine = output.split('\n').find(l => l.includes(':ethernet:'))
+            if (ethLine) {
+                ethDevice = ethLine.split(':')[0]
+                const active = !ethLine.includes('disconnected') && !ethLine.includes('unavailable')
+                if (ethToggle.active !== active) {
+                    ethUpdating = true
+                    ethToggle.active = active
+                    GLib.idle_add(GLib.PRIORITY_DEFAULT, () => { ethUpdating = false; return false })
+                }
+            }
+        })
     }
     ethToggle.connect("notify::active", () => {
+        if (ethUpdating) return
+        if (!ethDevice) return
         if (ethToggle.active) {
-            GLib.spawn_command_line_async("nmcli device connect enp5s0")
+            GLib.spawn_command_line_async(`nmcli device connect ${ethDevice}`)
         } else {
-            GLib.spawn_command_line_async("nmcli device disconnect enp5s0")
+            GLib.spawn_command_line_async(`nmcli device disconnect ${ethDevice}`)
         }
     })
 
     // VPN list management
     const updateVpnList = () => {
-        let child = vpnList.get_first_child()
-        while (child) { const next = child.get_next_sibling(); vpnList.remove(child); child = next }
+        execAsync("nmcli -t -f NAME,TYPE,STATE connection show", (output) => {
+            let child = vpnList.get_first_child()
+            while (child) { const next = child.get_next_sibling(); vpnList.remove(child); child = next }
 
-        try {
-            const [ok, out] = GLib.spawn_command_line_sync("nmcli -t -f NAME,TYPE,STATE connection show")
-            if (ok) {
-                const output = new TextDecoder().decode(out)
-                const vpns = output.split('\n')
-                    .filter(l => l.includes(':vpn:') || l.includes(':wireguard:'))
-                    .map(l => {
-                        const [name, type, state] = l.split(':')
-                        return { name, type, active: state === 'activated' }
-                    })
-
-                vpns.forEach(vpn => {
-                    const row = new Gtk.Button()
-                    row.add_css_class("qs-network-item")
-                    if (vpn.active) row.add_css_class("connected")
-                    const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL, spacing: 8 })
-                    const icon = new Gtk.Label({ label: vpn.type === 'wireguard' ? "󰖂" : "󰦝" })
-                    icon.add_css_class("qs-network-item-icon")
-                    const name = new Gtk.Label({ label: vpn.name, xalign: 0, hexpand: true })
-                    name.add_css_class("qs-network-item-name")
-                    box.append(icon)
-                    box.append(name)
-                    if (vpn.active) {
-                        const check = new Gtk.Label({ label: "󰄬" })
-                        check.add_css_class("qs-network-item-connected")
-                        box.append(check)
-                    }
-                    row.set_child(box)
-                    row.connect("clicked", () => {
-                        if (vpn.active) {
-                            GLib.spawn_command_line_async(`nmcli connection down "${vpn.name}"`)
-                        } else {
-                            GLib.spawn_command_line_async(`nmcli connection up "${vpn.name}"`)
-                        }
-                        GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => { updateVpnList(); return false })
-                    })
-                    vpnList.append(row)
+            const vpns = output.split('\n')
+                .filter(l => l.includes(':vpn:') || l.includes(':wireguard:'))
+                .map(l => {
+                    const [name, type, state] = l.split(':')
+                    return { name, type, active: state === 'activated' }
                 })
-            }
-        } catch (e) { /* ignore */ }
+
+            vpns.forEach(vpn => {
+                const row = new Gtk.Button()
+                row.add_css_class("qs-network-item")
+                if (vpn.active) row.add_css_class("connected")
+                const box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL, spacing: 8 })
+                const icon = new Gtk.Label({ label: vpn.type === 'wireguard' ? "󰖂" : "󰦝" })
+                icon.add_css_class("qs-network-item-icon")
+                const name = new Gtk.Label({ label: vpn.name, xalign: 0, hexpand: true })
+                name.add_css_class("qs-network-item-name")
+                box.append(icon)
+                box.append(name)
+                if (vpn.active) {
+                    const check = new Gtk.Label({ label: "󰄬" })
+                    check.add_css_class("qs-network-item-connected")
+                    box.append(check)
+                }
+                row.set_child(box)
+                row.connect("clicked", () => {
+                    if (vpn.active) {
+                        GLib.spawn_command_line_async(`nmcli connection down "${vpn.name}"`)
+                    } else {
+                        GLib.spawn_command_line_async(`nmcli connection up "${vpn.name}"`)
+                    }
+                    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => { updateVpnList(); return false })
+                })
+                vpnList.append(row)
+            })
+        })
     }
 
     addVpnBtn.connect("clicked", () => {
@@ -595,7 +612,8 @@ export function QuickSettingsWindow() {
     if (wifi) wifi.scan()
 
     GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => { updateVol(); updateMic(); return true })
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => { updateNetRow(); updateWifi(); updateWifiList(); updateEth(); updateBt(); updateVpnList(); return true })
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => { updateNetRow(); updateWifi(); updateWifiList(); updateBt(); return true })
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => { updateEth(); updateVpnList(); return true })
     GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10000, () => { if (wifi && wifi.enabled) wifi.scan(); return true })
 
     return win
