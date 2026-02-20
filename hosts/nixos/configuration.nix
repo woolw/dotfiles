@@ -105,7 +105,7 @@
   environment.systemPackages = with pkgs; [
     # Browsers & Communication
     brave
-    discord
+    vesktop
 
     # Development & Editors
     wezterm
