@@ -5,7 +5,7 @@ Personal Nix configurations with flakes and Home Manager.
 ## Platforms
 
 - **NixOS** (Linux) - Full system configuration
-- **nix-darwin** (macOS) - Coming soon
+- **nix-darwin** (macOS) - Apple Silicon (aarch64-darwin)
 
 ## Features
 
@@ -25,10 +25,19 @@ cd ~/dotfiles
 sudo nixos-rebuild switch --flake .#nixos
 ```
 
-### macOS (future)
+### macOS
 
 ```bash
-darwin-rebuild switch --flake ~/dotfiles#darwin
+git clone https://github.com/woolw/dotfiles ~/dotfiles
+
+# 1. Install Nix (Determinate installer)
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+
+# 2. Bootstrap nix-darwin (first time only)
+nix run nix-darwin -- switch --flake ~/dotfiles#darwin
+
+# Subsequent rebuilds
+nix-rebuild
 ```
 
 ## Structure
@@ -37,11 +46,12 @@ darwin-rebuild switch --flake ~/dotfiles#darwin
 ├── flake.nix                 # Main flake configuration
 ├── hosts/                    # Platform-specific system configs
 │   ├── nixos/                # NixOS configuration
-│   └── darwin/               # macOS configuration (planned)
+│   └── darwin/               # macOS configuration
 ├── modules/                  # NixOS modules
 ├── home/                     # Home Manager configs
 │   ├── shared/               # Cross-platform (git, ssh, zsh, nvim, wezterm)
-│   └── woolw/                # NixOS-specific (AGS, GTK, Qt)
+│   ├── woolw/                # NixOS-specific (AGS, GTK, Qt)
+│   └── woolw-darwin/         # macOS-specific
 │
 ├── nvim/                     # Neovim (cross-platform, lazy.nvim)
 ├── wezterm/                  # Terminal (cross-platform)

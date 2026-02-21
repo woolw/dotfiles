@@ -458,7 +458,7 @@ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 - [x] Development tooling (direnv, nix-direnv)
 
 ## Future Enhancements
-- [ ] Set up nix-darwin configuration for macOS
+- [x] Set up nix-darwin configuration for macOS
 
 ## Useful Resources
 - [NixOS Manual](https://nixos.org/manual/nixos/stable/)
