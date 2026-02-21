@@ -39,7 +39,7 @@
     enable = true;
     onActivation = {
       cleanup = "zap";
-      autoUpdate = false;
+      autoUpdate = true;
     };
     casks = [
       "brave-browser"
