@@ -62,6 +62,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
 
   # Printing
@@ -105,7 +106,7 @@
   environment.systemPackages = with pkgs; [
     # Browsers & Communication
     brave
-    vesktop
+    discord
 
     # Development & Editors
     wezterm
