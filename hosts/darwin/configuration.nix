@@ -42,6 +42,7 @@
       autoUpdate = true;
     };
     casks = [
+      "bambu-studio"
       "brave-browser"
       "claude-code"
       "discord"
