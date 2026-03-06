@@ -383,9 +383,29 @@ export function QuickSettingsWindow() {
     })
     win.add_controller(keyController)
 
-    // Reset to main page when window closes
+    // Polling timers - only active while window is visible
+    let pollingTimers: number[] = []
+
+    const startPolling = () => {
+        updateVol(); updateMic(); updateNetRow(); updateWifi(); updateWifiList(); updateEth(); updateBt(); updateVpnList()
+        if (wifi) wifi.scan()
+        pollingTimers.push(GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => { updateVol(); updateMic(); return true }))
+        pollingTimers.push(GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => { updateNetRow(); updateWifi(); updateWifiList(); updateBt(); return true }))
+        pollingTimers.push(GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => { updateEth(); updateVpnList(); return true }))
+        pollingTimers.push(GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10000, () => { if (wifi && wifi.enabled) wifi.scan(); return true }))
+    }
+
+    const stopPolling = () => {
+        pollingTimers.forEach(id => GLib.source_remove(id))
+        pollingTimers = []
+    }
+
     app.connect("window-toggled", (_, w) => {
-        if (w.name === "quicksettings" && !w.visible) {
+        if (w.name !== "quicksettings") return
+        if (w.visible) {
+            startPolling()
+        } else {
+            stopPolling()
             stack.set_visible_child_name("main")
             pwdBox.visible = false
             wifiScroll.visible = true
@@ -607,15 +627,6 @@ export function QuickSettingsWindow() {
         GLib.spawn_command_line_async("systemsettings kcm_bluetooth")
     })
 
-    // Initial updates
-    updateVol(); updateMic(); updateNetRow(); updateWifi(); updateWifiList(); updateEth(); updateBt(); updateVpnList()
-    if (wifi) wifi.scan()
-
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => { updateVol(); updateMic(); return true })
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => { updateNetRow(); updateWifi(); updateWifiList(); updateBt(); return true })
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => { updateEth(); updateVpnList(); return true })
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10000, () => { if (wifi && wifi.enabled) wifi.scan(); return true })
-
     return win
 }
 
@@ -648,7 +659,29 @@ export default function QuickSettings() {
         netIcon.label = getNetworkIcon()
     }
     updateBarIcons()
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => { updateBarIcons(); return true })
+
+    // Use signals instead of polling for bar icon updates
+    const connectBarAudio = () => {
+        const speaker = wp.audio?.defaultSpeaker
+        if (speaker) {
+            speaker.connect("notify::volume", updateBarIcons)
+            speaker.connect("notify::mute", updateBarIcons)
+        }
+    }
+    connectBarAudio()
+    wp.audio?.connect("notify::default-speaker", connectBarAudio)
+
+    const barWifi = network.wifi
+    const barWired = network.wired
+    if (barWifi) {
+        barWifi.connect("notify::ssid", updateBarIcons)
+        barWifi.connect("notify::strength", updateBarIcons)
+        barWifi.connect("notify::internet", updateBarIcons)
+        barWifi.connect("notify::enabled", updateBarIcons)
+    }
+    if (barWired) {
+        barWired.connect("notify::internet", updateBarIcons)
+    }
 
     btn.connect("clicked", () => app.toggle_window("quicksettings"))
 

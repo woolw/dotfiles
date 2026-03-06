@@ -1,5 +1,4 @@
 import { Gtk, Gdk } from "ags/gtk4"
-import GLib from "gi://GLib"
 import Wp from "gi://AstalWp"
 
 const wp = Wp.get_default()!
@@ -55,12 +54,16 @@ export default function Microphone() {
     })
     box.add_controller(scroll)
 
-    update()
-
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 200, () => {
+    const connectMic = () => {
+        const mic = wp.audio?.defaultMicrophone
+        if (mic) {
+            mic.connect("notify::volume", update)
+            mic.connect("notify::mute", update)
+        }
         update()
-        return true
-    })
+    }
+    connectMic()
+    wp.audio?.connect("notify::default-microphone", connectMic)
 
     return box
 }

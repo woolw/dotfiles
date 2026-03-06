@@ -61,10 +61,11 @@ export default function Battery() {
 
     update()
 
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
-        update()
-        return true
-    })
+    if (battery) {
+        battery.connect("notify::percentage", update)
+        battery.connect("notify::charging", update)
+        battery.connect("notify::is-present", update)
+    }
 
     return box
 }

@@ -48,10 +48,17 @@ export default function Network() {
 
     update()
 
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => {
-        update()
-        return true
-    })
+    const wifi = network.wifi
+    const wired = network.wired
+    if (wifi) {
+        wifi.connect("notify::ssid", update)
+        wifi.connect("notify::strength", update)
+        wifi.connect("notify::internet", update)
+        wifi.connect("notify::enabled", update)
+    }
+    if (wired) {
+        wired.connect("notify::internet", update)
+    }
 
     return box
 }

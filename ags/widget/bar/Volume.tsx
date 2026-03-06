@@ -1,5 +1,4 @@
 import { Gtk, Gdk } from "ags/gtk4"
-import GLib from "gi://GLib"
 import Wp from "gi://AstalWp"
 
 const wp = Wp.get_default()!
@@ -66,12 +65,16 @@ export default function Volume() {
     })
     box.add_controller(scroll)
 
-    update()
-
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 200, () => {
+    const connectSpeaker = () => {
+        const speaker = wp.audio?.defaultSpeaker
+        if (speaker) {
+            speaker.connect("notify::volume", update)
+            speaker.connect("notify::mute", update)
+        }
         update()
-        return true
-    })
+    }
+    connectSpeaker()
+    wp.audio?.connect("notify::default-speaker", connectSpeaker)
 
     return box
 }
