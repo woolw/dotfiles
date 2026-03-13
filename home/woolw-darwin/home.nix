@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, fenix, ... }:
 
 {
   imports = [ ../shared ];
@@ -16,6 +16,7 @@
   home.packages = with pkgs; [
     gcc
     gnumake
+    fenix.packages.${pkgs.system}.stable.toolchain
   ];
 
   # Wallpapers symlink

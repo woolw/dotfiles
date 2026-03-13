@@ -26,6 +26,12 @@
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
     };
+
+    # fenix for Rust toolchain management
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -35,6 +41,7 @@
       home-manager,
       nix-darwin,
       nix-homebrew,
+      fenix,
       ...
     }@inputs:
     {
@@ -81,7 +88,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.extraSpecialArgs = { inherit inputs fenix; };
               home-manager.backupFileExtension = "bak";
               home-manager.users.woolw = import ./home/woolw-darwin/home.nix;
             }

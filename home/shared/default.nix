@@ -62,8 +62,6 @@
     ripgrep # for telescope live_grep
     fd # for telescope find_files
     nodejs # mason installs TS/JS LSPs via npm
-    cargo # mason builds some servers (nil_ls) from source
-    rustc
     unzip # mason extracts server archives (ols/omnisharp)
     lazygit # git TUI
   ];

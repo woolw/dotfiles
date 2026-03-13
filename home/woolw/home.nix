@@ -118,5 +118,8 @@
     # Build tools for nvim plugins (telescope-fzf-native)
     gcc
     gnumake
+    # Rust toolchain (mason needs cargo/rustc to build some LSP servers)
+    cargo
+    rustc
   ];
 }
