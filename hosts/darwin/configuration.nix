@@ -64,6 +64,7 @@
       "yt-dlp"
       "aria2"
       "fzf"
+      "rustup"
     ];
   };
 
