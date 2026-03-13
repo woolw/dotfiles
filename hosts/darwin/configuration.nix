@@ -52,6 +52,7 @@
       "hot"
       "iina"
       "protonvpn"
+      "signal"
       "steam"
       "syncplay"
       "vscodium"
