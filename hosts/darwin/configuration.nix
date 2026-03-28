@@ -45,7 +45,6 @@
       "bambu-studio"
       "brave-browser"
       "claude-code"
-      "discord"
       "element"
       "font-jetbrains-mono-nerd-font"
       "gimp"
