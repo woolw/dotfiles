@@ -53,6 +53,9 @@
 
     # Neovim configuration (pure Lua config with lazy.nvim)
     "nvim".source = ../../nvim;
+
+    # mpv configuration
+    "mpv/mpv.conf".source = ../../mpv/mpv.conf;
   };
 
   # Cross-platform packages
