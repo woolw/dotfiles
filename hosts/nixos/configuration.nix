@@ -63,6 +63,22 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+    wireplumber.extraConfig = {
+      # Prevent DP/HDMI audio nodes from being suspended when idle.
+      # Without this, the audio device disappears after a period of silence
+      # and doesn't always recover when the DP connection renegotiates.
+      "10-dp-audio-no-suspend" = {
+        "monitor.alsa.rules" = [
+          {
+            matches = [ { "node.name" = "~alsa_output.pci-*.hdmi.*"; } ];
+            actions.update-props = {
+              "session.suspend-timeout-seconds" = 0;
+              "node.pause-on-idle" = false;
+            };
+          }
+        ];
+      };
+    };
   };
 
   # Printing
