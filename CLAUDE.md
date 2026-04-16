@@ -21,7 +21,7 @@
 ## Current System Info
 - **Hostname**: nixos
 - **Kernel**: 6.18.1 (linuxPackages_latest)
-- **NixOS**: 25.11 (Xantusia)
+- **NixOS**: 26.05
 - **Desktop**: Hyprland (Wayland) with AGS shell, KDE Plasma 6 available
 - **User**: woolw
 - **Shell**: Zsh
