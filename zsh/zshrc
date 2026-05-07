@@ -17,6 +17,9 @@ setopt PROMPT_SUBST
 
 # Function to show git branch
 git_prompt_info() {
+  # Bail immediately if not in a git repo (avoids slow subprocess in non-repo dirs)
+  [[ -n "$GIT_DIR" || -d .git ]] || git rev-parse --git-dir &>/dev/null || return
+
   local ref
   if ref=$(git symbolic-ref --quiet --short HEAD 2>/dev/null); then
     echo " %F{magenta}[$ref]%f"
@@ -27,23 +30,34 @@ git_prompt_info() {
 
 # Build prompt dynamically with color on error
 build_prompt() {
-  local exit_code=$?  # exit code of last command
+  local exit_code=$?
   local prompt_char=">"
-  local prompt_color="%F{green}"  # green if last command succeeded
+  local prompt_color="%F{green}"
   if [[ $exit_code -ne 0 ]]; then
-    prompt_color="%F{red}"        # red if last command failed
+    prompt_color="%F{red}"
   fi
   PROMPT="%F{cyan}%n%f@%F{green}%m%f %F{yellow}%~%f$(git_prompt_info) ${prompt_color}${prompt_char}%f "
 }
 
-# Run before each prompt
 precmd_functions+=(build_prompt)
 
 # --- Completion ---
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-compinit -u   # suppress insecure dirs warning
+
+# Only regenerate completion dump once per day
+() {
+  local zcd="${ZDOTDIR:-$HOME}/.zcompdump"
+  local zcdc="$zcd.zwc"
+  if [[ -f "$zcd"(#qN.mh+24) || ! -f "$zcd" ]]; then
+    compinit -u
+    [[ -f "$zcdc" ]] && rm -f "$zcdc"
+    zcompile "$zcd"
+  else
+    compinit -C -u
+  fi
+}
 
 # --- Keybindings ---
 bindkey -e
@@ -72,14 +86,12 @@ export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.dotnet/tools:$PATH"
 case "$OSTYPE" in
   linux*)
     alias ls='ls --color=auto -h'
-    # NixOS rebuild aliases
     alias nix-rebuild='sudo nixos-rebuild switch --flake ~/dotfiles#nixos'
     alias nix-update='cd ~/dotfiles && sudo nix flake update && sudo nixos-rebuild switch --flake .#nixos'
     alias nix-gc='sudo nix-collect-garbage -d && sudo nixos-rebuild boot --flake ~/dotfiles#nixos'
     ;;
   darwin*)
     alias ls='ls -G -h'
-    # nix-darwin rebuild aliases
     alias nix-rebuild='sudo darwin-rebuild switch --flake ~/dotfiles#darwin'
     alias nix-update='cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --flake .#darwin'
     alias nix-gc='nix-collect-garbage -d'
@@ -87,12 +99,10 @@ case "$OSTYPE" in
 esac
 
 # --- SSH Agent ---
-# Reuse ssh-agent if one exists, otherwise start a new one
 export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
 if ! pgrep -u "$USER" ssh-agent >/dev/null 2>&1; then
   eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK" >/dev/null 2>&1)" >/dev/null 2>&1
 fi
-export SSH_AUTH_SOCK
 
 # ==========================
 #  End of Zsh Config

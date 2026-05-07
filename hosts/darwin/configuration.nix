@@ -54,6 +54,7 @@
       "signal"
       "steam"
       "syncplay"
+      "xppen-pentablet"
       "vscodium"
       "wezterm"
     ];

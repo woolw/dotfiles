@@ -25,6 +25,13 @@
     # nix-homebrew for declarative Homebrew management
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
+      inputs.brew-src.follows = "brew-src";
+    };
+
+    # Override brew-src to latest to fix cask depends_on nil parsing bug
+    brew-src = {
+      url = "github:Homebrew/brew";
+      flake = false;
     };
 
     # fenix for Rust toolchain management

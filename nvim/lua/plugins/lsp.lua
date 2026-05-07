@@ -11,17 +11,21 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     config = function()
+      local ensure_installed = {
+        "lua_ls",
+        "ols", -- Odin
+        "ts_ls",
+        "html",
+        "cssls",
+        "jsonls",
+        "omnisharp", -- C#
+      }
+      -- nil_ls (Nix LSP) requires cargo; only install on Linux where it's available via nixpkgs
+      if vim.fn.has("linux") == 1 then
+        table.insert(ensure_installed, "nil_ls")
+      end
       require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "nil_ls", -- Nix
-          "ols", -- Odin
-          "ts_ls",
-          "html",
-          "cssls",
-          "jsonls",
-          "omnisharp", -- C#
-        },
+        ensure_installed = ensure_installed,
         automatic_installation = true,
       })
     end,

@@ -1,7 +1,9 @@
 local wezterm = require("wezterm")
+local act = wezterm.action
 
 local target_shell
 local is_windows = wezterm.target_triple:find("windows")
+local is_macos = wezterm.target_triple:find("apple")
 
 if is_windows then
     target_shell = { "C:\\Program Files\\Git\\bin\\bash.exe", "--login", "-i" }
@@ -9,7 +11,7 @@ else
     target_shell = { "zsh", "-l" }
 end
 
-return {
+local config = {
     font = wezterm.font_with_fallback({
         "JetBrainsMono Nerd Font",
     }),
@@ -45,5 +47,21 @@ return {
     adjust_window_size_when_changing_font_size = false,
 
     exit_behavior = "Close",
-    window_close_confirmation = "NeverPrompt"
+    window_close_confirmation = "NeverPrompt",
 }
+
+if is_macos then
+    -- Treat Option as Meta (send escape sequences) instead of composing accented chars
+    config.send_composed_key_when_left_alt_is_pressed = false
+    config.send_composed_key_when_right_alt_is_pressed = false
+
+    config.keys = {
+        -- Option+Left/Right: word navigation
+        { key = "LeftArrow",  mods = "OPT", action = act.SendKey({ key = "b", mods = "ALT" }) },
+        { key = "RightArrow", mods = "OPT", action = act.SendKey({ key = "f", mods = "ALT" }) },
+        -- Option+Backspace: delete word
+        { key = "Backspace",  mods = "OPT", action = act.SendKey({ key = "w", mods = "CTRL" }) },
+    }
+end
+
+return config
