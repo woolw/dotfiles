@@ -1,0 +1,66 @@
+name: Nix Configuration Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-nixos:
+    runs-on: ubuntu-latest
+    container:
+      image: nixos/nix:latest
+    steps:
+      - name: Install git
+        run: nix-env -iA nixpkgs.git
+
+      - uses: actions/checkout@v4
+
+      - name: Configure Nix
+        run: |
+          echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
+          echo "accept-flake-config = true" >> /etc/nix/nix.conf
+
+      - name: Build NixOS configuration
+        run: nix build .#nixosConfigurations.nixos.config.system.build.toplevel --dry-run
+
+      - name: Check flake formatting
+        run: nix run nixpkgs#nixfmt-tree -- --fail-on-change .
+        continue-on-error: true
+
+  check-darwin:
+    # Requires a macOS runner registered on this Forgejo instance
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix (Determinate)
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix \
+            | sh -s -- install --no-confirm
+          echo "/nix/var/nix/profiles/default/bin" >> "$GITHUB_PATH"
+
+      - name: Build darwin configuration
+        run: nix build .#darwinConfigurations.darwin.config.system.build.toplevel --dry-run
+
+  lint:
+    runs-on: ubuntu-latest
+    container:
+      image: nixos/nix:latest
+    steps:
+      - name: Install git
+        run: nix-env -iA nixpkgs.git
+
+      - uses: actions/checkout@v4
+
+      - name: Configure Nix
+        run: echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
+
+      - name: statix
+        run: nix run nixpkgs#statix -- check .
+        continue-on-error: true
+
+      - name: deadnix
+        run: nix run nixpkgs#deadnix -- --fail .
+        continue-on-error: true
