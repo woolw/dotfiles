@@ -93,7 +93,7 @@ case "$OSTYPE" in
   darwin*)
     alias ls='ls -G -h'
     alias nix-rebuild='sudo darwin-rebuild switch --flake ~/dotfiles#darwin'
-    alias nix-update='cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --flake .#darwin'
+    alias nix-update='cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --flake .#darwin && brew upgrade'
     alias nix-gc='nix-collect-garbage -d'
     ;;
 esac

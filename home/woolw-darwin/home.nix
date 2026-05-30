@@ -1,4 +1,4 @@
-{ pkgs, fenix, ... }:
+{ pkgs, lib, fenix, ... }:
 
 {
   imports = [ ../shared ];
@@ -19,6 +19,13 @@
   };
 
   programs.git.settings.user.signingkey = "~/.ssh/darwin_ed25519.pub";
+
+  home.activation.updateAllowedSigners = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p ~/.config/git
+    if [ -f ~/.ssh/darwin_ed25519.pub ]; then
+      echo "git@woolw.dev $(cat ~/.ssh/darwin_ed25519.pub)" > ~/.config/git/allowed_signers
+    fi
+  '';
 
   # Build tools for Neovim plugins (telescope-fzf-native needs C compiler)
   home.packages = with pkgs; [

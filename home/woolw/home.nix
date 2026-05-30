@@ -2,6 +2,7 @@
 {
   config,
   pkgs,
+  lib,
   inputs,
   ...
 }:
@@ -29,6 +30,13 @@
   };
 
   programs.git.settings.user.signingkey = "~/.ssh/nixos_ed25519.pub";
+
+  home.activation.updateAllowedSigners = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p ~/.config/git
+    if [ -f ~/.ssh/nixos_ed25519.pub ]; then
+      echo "git@woolw.dev $(cat ~/.ssh/nixos_ed25519.pub)" > ~/.config/git/allowed_signers
+    fi
+  '';
 
   # AGS (Aylur's GTK Shell) for custom shell widgets - Linux only
   programs.ags = {

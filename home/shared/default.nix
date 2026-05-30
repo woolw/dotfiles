@@ -6,6 +6,7 @@
   # Git configuration
   programs.git = {
     enable = true;
+    package = pkgs.gitMinimal;
     settings = {
       user.name = "woolw";
       user.email = "git@woolw.dev";
@@ -14,6 +15,7 @@
       # SSH signing
       gpg.format = "ssh";
       commit.gpgsign = true;
+      gpg.ssh.allowedSignersFile = "~/.config/git/allowed_signers";
       # Additional git settings
       fetch.prune = true;
       core.longpaths = true;

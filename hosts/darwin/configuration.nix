@@ -7,6 +7,8 @@
   # it's only used by darwin-uninstaller's internal lint step
   nixpkgs.overlays = [
     (final: prev: {
+      git = prev.gitMinimal;
+
       shellcheck = prev.runCommand "shellcheck-stub"
         { passthru.compiler.bootstrapAvailable = false; }
         ''
