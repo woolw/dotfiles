@@ -6,7 +6,7 @@
   # Git configuration
   programs.git = {
     enable = true;
-    package = pkgs.gitMinimal;
+    package = null; # don't install via Nix; macOS provides git via Xcode CLT
     settings = {
       user.name = "woolw";
       user.email = "git@woolw.dev";
