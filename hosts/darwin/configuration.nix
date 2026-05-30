@@ -3,6 +3,22 @@
 {
   nixpkgs.config.allowUnfree = true;
 
+  # shellcheck source build is broken in this nixpkgs rev; stub it out since
+  # it's only used by darwin-uninstaller's internal lint step
+  nixpkgs.overlays = [
+    (final: prev: {
+      shellcheck = prev.runCommand "shellcheck-stub"
+        { passthru.compiler.bootstrapAvailable = false; }
+        ''
+          mkdir -p $out/bin
+          printf '#!/bin/sh\nexit 0\n' > $out/bin/shellcheck
+          chmod +x $out/bin/shellcheck
+        '';
+      shellcheck-minimal = final.shellcheck;
+    })
+  ];
+
+
   # Determinate Nix manages its own daemon — disable nix-darwin's Nix management
   nix.enable = false;
 
@@ -40,6 +56,7 @@
     onActivation = {
       cleanup = "zap";
       autoUpdate = true;
+      extraFlags = [ "--force" ];
     };
     casks = [
       "bambu-studio"
@@ -54,6 +71,7 @@
       "signal"
       "steam"
       "syncplay"
+      "tailscale-app"
       "xppen-pentablet"
       "vscodium"
       "wezterm"

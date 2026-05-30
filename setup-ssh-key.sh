@@ -7,12 +7,14 @@ RED="\033[1;31m"
 BLUE="\033[1;34m"
 RESET="\033[0m"
 
-SSH_KEY_PATH="$HOME/.ssh/github_ed25519"
+DEVICE="$(hostname -s)"
+SSH_KEY_PATH="$HOME/.ssh/${DEVICE}_ed25519"
 SSH_PUB_KEY_PATH="${SSH_KEY_PATH}.pub"
 
 echo -e "${BLUE}╔════════════════════════════════════════╗${RESET}"
-echo -e "${BLUE}║  GitHub SSH Setup for NixOS           ║${RESET}"
+echo -e "${BLUE}║  SSH Key Setup                         ║${RESET}"
 echo -e "${BLUE}╚════════════════════════════════════════╝${RESET}"
+echo -e "Device: ${DEVICE}  →  key: ${SSH_KEY_PATH}"
 echo ""
 
 # Check if SSH key already exists
@@ -48,28 +50,7 @@ fi
 chmod 600 "$SSH_KEY_PATH"
 chmod 644 "$SSH_PUB_KEY_PATH"
 
-# Configure SSH for GitHub
-echo -e "${GREEN}==> Configuring SSH for GitHub...${RESET}"
-
-SSH_CONFIG="$HOME/.ssh/config"
-if [[ ! -f "$SSH_CONFIG" ]] || ! grep -q "Host github.com" "$SSH_CONFIG"; then
-    cat >> "$SSH_CONFIG" << EOF
-
-# GitHub
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile $SSH_KEY_PATH
-    IdentitiesOnly yes
-    AddKeysToAgent yes
-EOF
-    chmod 600 "$SSH_CONFIG"
-    echo -e "${GREEN}==> SSH config updated${RESET}"
-else
-    echo -e "${YELLOW}==> GitHub SSH config already exists, skipping...${RESET}"
-fi
-
-# Start SSH agent and add key (your zshrc handles persistence)
+# Start SSH agent and add key (zshrc handles persistence)
 echo -e "${GREEN}==> Adding SSH key to ssh-agent...${RESET}"
 eval "$(ssh-agent -s)" >/dev/null
 ssh-add "$SSH_KEY_PATH" 2>/dev/null || true
@@ -84,7 +65,10 @@ cat "$SSH_PUB_KEY_PATH"
 echo ""
 
 # Copy to clipboard if available
-if command -v wl-copy &> /dev/null; then
+if command -v pbcopy &> /dev/null; then
+    cat "$SSH_PUB_KEY_PATH" | pbcopy
+    echo -e "${GREEN}✓ Public key copied to clipboard!${RESET}"
+elif command -v wl-copy &> /dev/null; then
     cat "$SSH_PUB_KEY_PATH" | wl-copy
     echo -e "${GREEN}✓ Public key copied to clipboard!${RESET}"
 elif command -v xclip &> /dev/null; then
@@ -96,66 +80,34 @@ fi
 echo -e "${YELLOW}╔════════════════════════════════════════════════════════════════╗${RESET}"
 echo -e "${YELLOW}║  Next Steps:                                                   ║${RESET}"
 echo -e "${YELLOW}╠════════════════════════════════════════════════════════════════╣${RESET}"
-echo -e "${YELLOW}║  1. Go to: ${BLUE}https://github.com/settings/keys${YELLOW}                 ║${RESET}"
-echo -e "${YELLOW}║  2. Click 'New SSH key'                                        ║${RESET}"
-echo -e "${YELLOW}║  3. Title: 'NixOS Desktop'                                     ║${RESET}"
-echo -e "${YELLOW}║  4. Key type: 'Authentication Key'                             ║${RESET}"
-echo -e "${YELLOW}║  5. Paste the key above (already in clipboard)                 ║${RESET}"
-echo -e "${YELLOW}║  6. Click 'Add SSH key'                                        ║${RESET}"
+echo -e "${YELLOW}║  GitHub (github.com/settings/keys):                            ║${RESET}"
+echo -e "${YELLOW}║  1. Add Authentication Key titled '${DEVICE}'                  ║${RESET}"
+echo -e "${YELLOW}║  2. Add Signing Key titled '${DEVICE} (signing)'               ║${RESET}"
 echo -e "${YELLOW}║                                                                ║${RESET}"
-echo -e "${YELLOW}║  For commit signing (optional but recommended):                ║${RESET}"
-echo -e "${YELLOW}║  7. Click 'New SSH key' again                                  ║${RESET}"
-echo -e "${YELLOW}║  8. Title: 'NixOS Desktop (Signing)'                           ║${RESET}"
-echo -e "${YELLOW}║  9. Key type: 'Signing Key'                                    ║${RESET}"
-echo -e "${YELLOW}║  10. Paste the SAME key                                        ║${RESET}"
-echo -e "${YELLOW}║  11. Click 'Add SSH key'                                       ║${RESET}"
+echo -e "${YELLOW}║  Forgejo (git.woolw.dev/user/settings/keys):                   ║${RESET}"
+echo -e "${YELLOW}║  3. Add Authentication Key titled '${DEVICE}'                  ║${RESET}"
 echo -e "${YELLOW}╚════════════════════════════════════════════════════════════════╝${RESET}"
 echo ""
 
-# Wait for user to add key to GitHub
-echo -e "${GREEN}Press Enter after you've added the key to GitHub...${RESET}"
+# Wait for user to add keys
+echo -e "${GREEN}Press Enter after you've added the key to all services...${RESET}"
 read -r
 
-# Test connection
+# Test connections
 echo -e "${GREEN}==> Testing GitHub SSH connection...${RESET}"
 if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
     echo -e "${GREEN}✓ GitHub SSH connection successful!${RESET}"
     CONNECTION_OK=true
 else
-    echo -e "${YELLOW}⚠ Connection test inconclusive. Try manually: ssh -T git@github.com${RESET}"
+    echo -e "${YELLOW}⚠ GitHub test inconclusive. Try manually: ssh -T git@github.com${RESET}"
     CONNECTION_OK=false
 fi
 
-# Ask about enabling SSH commit signing
-echo ""
-echo -e "${BLUE}╔════════════════════════════════════════════════════════════════╗${RESET}"
-echo -e "${BLUE}║  Enable SSH Commit Signing?                                    ║${RESET}"
-echo -e "${BLUE}╚════════════════════════════════════════════════════════════════╝${RESET}"
-echo -e "${YELLOW}This will modify your Home Manager config to sign commits with SSH.${RESET}"
-echo -e "${YELLOW}Do you want to enable SSH commit signing? (y/n)${RESET}"
-read -r enable_signing
-
-if [[ "$enable_signing" == "y" || "$enable_signing" == "Y" ]]; then
-    HOME_NIX="$HOME/dotfiles/home/woolw/home.nix"
-
-    if [[ -f "$HOME_NIX" ]]; then
-        # Check if the lines are commented
-        if grep -q "# gpg.format = \"ssh\";" "$HOME_NIX"; then
-            echo -e "${GREEN}==> Enabling SSH commit signing in Home Manager...${RESET}"
-
-            # Uncomment the SSH signing lines
-            sed -i 's/# gpg\.format = "ssh";/gpg.format = "ssh";/' "$HOME_NIX"
-            sed -i 's|# user\.signingkey = "~/.ssh/github_ed25519\.pub";|user.signingkey = "~/.ssh/github_ed25519.pub";|' "$HOME_NIX"
-            sed -i 's/# commit\.gpgsign = true;/commit.gpgsign = true;/' "$HOME_NIX"
-
-            echo -e "${GREEN}✓ SSH commit signing enabled in home.nix${RESET}"
-            echo -e "${YELLOW}⚠ Run 'sudo nixos-rebuild switch --flake ~/dotfiles#nixos' to apply${RESET}"
-        else
-            echo -e "${YELLOW}==> SSH signing might already be enabled or config format changed${RESET}"
-        fi
-    fi
+echo -e "${GREEN}==> Testing Forgejo SSH connection...${RESET}"
+if ssh -T -p 2222 git@git.woolw.dev 2>&1 | grep -q "successfully authenticated\|Welcome\|logged in"; then
+    echo -e "${GREEN}✓ Forgejo SSH connection successful!${RESET}"
 else
-    echo -e "${YELLOW}==> Skipping SSH commit signing setup${RESET}"
+    echo -e "${YELLOW}⚠ Forgejo test inconclusive. Try manually: ssh -T git@git.woolw.dev${RESET}"
 fi
 
 echo ""
@@ -169,7 +121,7 @@ echo -e "  Public:  ${SSH_PUB_KEY_PATH}"
 echo ""
 echo -e "${BLUE}SSH Agent Persistence:${RESET}"
 echo -e "  ✓ Your zshrc already handles SSH agent persistence"
-echo -e "  ✓ Keys auto-load via AddKeysToAgent in SSH config"
+echo -e "  ✓ SSH config (via Home Manager) loads the key for github.com automatically"
 echo -e "  ✓ No manual ssh-add needed in new terminals"
 echo ""
 

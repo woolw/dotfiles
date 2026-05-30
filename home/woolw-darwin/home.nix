@@ -9,8 +9,22 @@
 
   programs.home-manager.enable = true;
 
-  # Disable default SSH config generation (we manage it in shared)
-  programs.ssh.enableDefaultConfig = false;
+  programs.ssh = {
+    enableDefaultConfig = false;
+    settings = {
+      "github.com" = {
+        IdentityFile = "~/.ssh/darwin_ed25519";
+        IdentitiesOnly = true;
+      };
+      "git.woolw.dev" = {
+        IdentityFile = "~/.ssh/darwin_ed25519";
+        IdentitiesOnly = true;
+        Port = 2222;
+      };
+    };
+  };
+
+  programs.git.settings.user.signingkey = "~/.ssh/darwin_ed25519.pub";
 
   # Build tools for Neovim plugins (telescope-fzf-native needs C compiler)
   home.packages = with pkgs; [

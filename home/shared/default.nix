@@ -13,7 +13,6 @@
       pull.rebase = false;
       # SSH signing
       gpg.format = "ssh";
-      user.signingkey = "~/.ssh/github_ed25519.pub";
       commit.gpgsign = true;
       # Additional git settings
       fetch.prune = true;
@@ -24,16 +23,11 @@
     };
   };
 
-  # SSH configuration
-  programs.ssh = {
-    enable = true;
-    matchBlocks = {
-      "github.com" = {
-        identityFile = "~/.ssh/github_ed25519";
-        identitiesOnly = true;
-      };
-    };
-  };
+  # SSH configuration (settings set per device in machine-specific home files)
+  programs.ssh.enable = true;
+
+  # Both nixpkgs and HM track unstable; version numbers diverge cosmetically
+  home.enableNixpkgsReleaseCheck = false;
 
   # Zsh configuration (using pure zshrc from dotfiles)
   programs.zsh = {

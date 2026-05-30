@@ -19,8 +19,22 @@
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
 
-  # NixOS-specific: Disable enableDefaultConfig (not available on darwin)
-  programs.ssh.enableDefaultConfig = false;
+  programs.ssh = {
+    enableDefaultConfig = false;
+    settings = {
+      "github.com" = {
+        IdentityFile = "~/.ssh/nixos_ed25519";
+        IdentitiesOnly = true;
+      };
+      "git.woolw.dev" = {
+        IdentityFile = "~/.ssh/nixos_ed25519";
+        IdentitiesOnly = true;
+        Port = 2222;
+      };
+    };
+  };
+
+  programs.git.settings.user.signingkey = "~/.ssh/nixos_ed25519.pub";
 
   # AGS (Aylur's GTK Shell) for custom shell widgets - Linux only
   programs.ags = {

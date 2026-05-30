@@ -96,6 +96,9 @@
     shell = pkgs.zsh;
   };
 
+  # Tailscale
+  services.tailscale.enable = true;
+
   # Flatpak
   services.flatpak.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
