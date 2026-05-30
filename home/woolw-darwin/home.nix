@@ -11,16 +11,10 @@
 
   programs.ssh = {
     enableDefaultConfig = false;
-    settings = {
-      "github.com" = {
-        IdentityFile = "~/.ssh/darwin_ed25519";
-        IdentitiesOnly = true;
-      };
-      "git.woolw.dev" = {
-        IdentityFile = "~/.ssh/darwin_ed25519";
-        IdentitiesOnly = true;
-        Port = 2222;
-      };
+    settings."git.woolw.dev" = {
+      IdentityFile = "~/.ssh/darwin_ed25519";
+      IdentitiesOnly = true;
+      Port = 2222;
     };
   };
 

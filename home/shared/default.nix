@@ -8,7 +8,7 @@
     enable = true;
     settings = {
       user.name = "woolw";
-      user.email = "gh@woolw.dev";
+      user.email = "git@woolw.dev";
       init.defaultBranch = "main";
       pull.rebase = false;
       # SSH signing

@@ -41,7 +41,7 @@ if [[ "$GENERATE_NEW" == true ]]; then
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh
 
-    ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -C "gh@woolw.dev" -N ""
+    ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -C "git@woolw.dev" -N ""
 
     echo -e "${GREEN}==> SSH key generated successfully!${RESET}"
 fi
@@ -80,34 +80,24 @@ fi
 echo -e "${YELLOW}╔════════════════════════════════════════════════════════════════╗${RESET}"
 echo -e "${YELLOW}║  Next Steps:                                                   ║${RESET}"
 echo -e "${YELLOW}╠════════════════════════════════════════════════════════════════╣${RESET}"
-echo -e "${YELLOW}║  GitHub (github.com/settings/keys):                            ║${RESET}"
+echo -e "${YELLOW}║  Forgejo (git.woolw.dev/user/settings/keys):                   ║${RESET}"
 echo -e "${YELLOW}║  1. Add Authentication Key titled '${DEVICE}'                  ║${RESET}"
 echo -e "${YELLOW}║  2. Add Signing Key titled '${DEVICE} (signing)'               ║${RESET}"
-echo -e "${YELLOW}║                                                                ║${RESET}"
-echo -e "${YELLOW}║  Forgejo (git.woolw.dev/user/settings/keys):                   ║${RESET}"
-echo -e "${YELLOW}║  3. Add Authentication Key titled '${DEVICE}'                  ║${RESET}"
 echo -e "${YELLOW}╚════════════════════════════════════════════════════════════════╝${RESET}"
 echo ""
 
-# Wait for user to add keys
-echo -e "${GREEN}Press Enter after you've added the key to all services...${RESET}"
+# Wait for user to add key
+echo -e "${GREEN}Press Enter after you've added the key to Forgejo...${RESET}"
 read -r
 
-# Test connections
-echo -e "${GREEN}==> Testing GitHub SSH connection...${RESET}"
-if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-    echo -e "${GREEN}✓ GitHub SSH connection successful!${RESET}"
+# Test connection
+echo -e "${GREEN}==> Testing Forgejo SSH connection...${RESET}"
+if ssh -T git@git.woolw.dev 2>&1 | grep -q "successfully authenticated\|Welcome\|logged in"; then
+    echo -e "${GREEN}✓ Forgejo SSH connection successful!${RESET}"
     CONNECTION_OK=true
 else
-    echo -e "${YELLOW}⚠ GitHub test inconclusive. Try manually: ssh -T git@github.com${RESET}"
-    CONNECTION_OK=false
-fi
-
-echo -e "${GREEN}==> Testing Forgejo SSH connection...${RESET}"
-if ssh -T -p 2222 git@git.woolw.dev 2>&1 | grep -q "successfully authenticated\|Welcome\|logged in"; then
-    echo -e "${GREEN}✓ Forgejo SSH connection successful!${RESET}"
-else
     echo -e "${YELLOW}⚠ Forgejo test inconclusive. Try manually: ssh -T git@git.woolw.dev${RESET}"
+    CONNECTION_OK=false
 fi
 
 echo ""
@@ -121,13 +111,13 @@ echo -e "  Public:  ${SSH_PUB_KEY_PATH}"
 echo ""
 echo -e "${BLUE}SSH Agent Persistence:${RESET}"
 echo -e "  ✓ Your zshrc already handles SSH agent persistence"
-echo -e "  ✓ SSH config (via Home Manager) loads the key for github.com automatically"
+echo -e "  ✓ SSH config (via Home Manager) loads the key for git.woolw.dev automatically"
 echo -e "  ✓ No manual ssh-add needed in new terminals"
 echo ""
 
 if [[ "$CONNECTION_OK" == true ]]; then
-    echo -e "${GREEN}✓ You're all set! GitHub SSH is ready to use.${RESET}"
+    echo -e "${GREEN}✓ You're all set! Forgejo SSH is ready to use.${RESET}"
 else
-    echo -e "${YELLOW}⚠ Verify connection with: ssh -T git@github.com${RESET}"
+    echo -e "${YELLOW}⚠ Verify connection with: ssh -T git@git.woolw.dev${RESET}"
 fi
 echo ""

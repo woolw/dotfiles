@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-nixos:
-    runs-on: ubuntu-latest
+    runs-on: docker
     container:
       image: nixos/nix:latest
     steps:
@@ -29,23 +29,8 @@ jobs:
         run: nix run nixpkgs#nixfmt-tree -- --fail-on-change .
         continue-on-error: true
 
-  check-darwin:
-    # Requires a macOS runner registered on this Forgejo instance
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Nix (Determinate)
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix \
-            | sh -s -- install --no-confirm
-          echo "/nix/var/nix/profiles/default/bin" >> "$GITHUB_PATH"
-
-      - name: Build darwin configuration
-        run: nix build .#darwinConfigurations.darwin.config.system.build.toplevel --dry-run
-
   lint:
-    runs-on: ubuntu-latest
+    runs-on: docker
     container:
       image: nixos/nix:latest
     steps:
