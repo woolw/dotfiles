@@ -12,8 +12,8 @@ jobs:
     container:
       image: nixos/nix:latest
     steps:
-      - name: Install git
-        run: nix-env -iA nixpkgs.git
+      - name: Bootstrap Node.js
+        run: nix-env -iA nixpkgs.nodejs
 
       - uses: actions/checkout@v4
 
@@ -34,8 +34,8 @@ jobs:
     container:
       image: nixos/nix:latest
     steps:
-      - name: Install git
-        run: nix-env -iA nixpkgs.git
+      - name: Bootstrap Node.js
+        run: nix-env -iA nixpkgs.nodejs
 
       - uses: actions/checkout@v4
 
