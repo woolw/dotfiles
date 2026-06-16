@@ -63,6 +63,7 @@
     # Hyprland ecosystem configs
     "hypr".source = ../../hypr;
     "swaync".source = ../../swaync;
+    "fuzzel".source = ../../fuzzel;
   };
 
   # GTK dark theme (Linux/KDE specific)

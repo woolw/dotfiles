@@ -22,6 +22,12 @@
   "hide-on-clear": true,
   "hide-on-action": true,
   "script-fail-notify": true,
+  "scripts": {
+    "notification-sound": {
+      "exec": "pw-play /run/current-system/sw/share/sounds/ocean/stereo/message-new-instant.oga",
+      "run-on": "receive"
+    }
+  },
   "widgets": [
     "title",
     "dnd",
