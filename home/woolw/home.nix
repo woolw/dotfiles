@@ -42,7 +42,7 @@
   programs.ags = {
     enable = true;
     configDir = null; # We'll symlink manually
-    extraPackages = with inputs.ags.packages.${pkgs.system}; [
+    extraPackages = with inputs.ags.packages.${pkgs.stdenv.hostPlatform.system}; [
       apps
       battery
       bluetooth
@@ -53,6 +53,15 @@
       tray
       wireplumber
     ];
+  };
+
+  home.file."Pictures/Screenshots/.keep".text = "";
+
+  home.pointerCursor = {
+    name = "breeze_cursors";
+    size = 24;
+    package = pkgs.kdePackages.breeze;
+    gtk.enable = true;
   };
 
   # Linux-specific config symlinks
@@ -69,6 +78,7 @@
   # GTK dark theme (Linux/KDE specific)
   gtk = {
     enable = true;
+    gtk4.theme = config.gtk.theme;
     theme = {
       name = "Breeze-Dark";
       package = pkgs.kdePackages.breeze-gtk;

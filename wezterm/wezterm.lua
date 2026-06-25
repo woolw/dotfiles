@@ -31,8 +31,6 @@ local config = {
         bottom = 4,
     },
 
-    enable_wayland = false,
-
     initial_rows = 32,
     initial_cols = 120,
 
@@ -61,6 +59,22 @@ if is_macos then
         { key = "RightArrow", mods = "OPT", action = act.SendKey({ key = "f", mods = "ALT" }) },
         -- Option+Backspace: delete word
         { key = "Backspace",  mods = "OPT", action = act.SendKey({ key = "w", mods = "CTRL" }) },
+    }
+else
+    config.keys = {
+        -- Super+C arrives as Ctrl+C via keyd. Copy if text is selected, SIGINT otherwise.
+        {
+            key = "c",
+            mods = "CTRL",
+            action = wezterm.action_callback(function(window, pane)
+                local sel = window:get_selection_text_for_pane(pane)
+                if sel and #sel > 0 then
+                    window:perform_action(act.CopyTo("Clipboard"), pane)
+                else
+                    window:perform_action(act.SendKey({ key = "c", mods = "CTRL" }), pane)
+                end
+            end),
+        },
     }
 end
 

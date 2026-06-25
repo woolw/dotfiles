@@ -1,6 +1,7 @@
 local mod = "SUPER"
 
 hl.bind(mod .. " + Space",         hl.dsp.exec_cmd("ags toggle launcher"))
+hl.bind(mod .. " + Return",        hl.dsp.exec_cmd("wezterm"))
 
 hl.bind(mod .. " + H",             hl.dsp.focus({ direction = "left" }))
 hl.bind(mod .. " + L",             hl.dsp.focus({ direction = "right" }))
@@ -27,7 +28,7 @@ hl.bind(mod .. " + D",             hl.dsp.window.fullscreen(1))
 
 for i = 1, 5 do
     hl.bind(mod .. " + " .. i,         hl.dsp.focus({ workspace = i }))
-    hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
+    hl.bind(mod .. " + CTRL + " .. i,  hl.dsp.window.move({ workspace = i }))
 end
 
 hl.bind("XF86AudioRaiseVolume",    hl.dsp.exec_cmd("pamixer -i 5"))
@@ -40,11 +41,9 @@ hl.bind("F1",                      hl.dsp.exec_cmd("systemctl suspend"),  { lock
 hl.bind("F2",                      hl.dsp.exec_cmd("systemctl reboot"),   { locked = true })
 hl.bind("F3",                      hl.dsp.exec_cmd("systemctl poweroff"), { locked = true })
 
-hl.bind(mod .. " + V",             hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"))
+hl.bind(mod .. " + ALT + P",       hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"))
 
-hl.bind("Print",                   hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
-hl.bind("SHIFT + Print",           hl.dsp.exec_cmd("hyprshot -m region -o ~/Pictures/Screenshots"))
-hl.bind(mod .. " + Print",         hl.dsp.exec_cmd("hyprshot -m window --clipboard-only"))
-hl.bind(mod .. " + SHIFT + Print", hl.dsp.exec_cmd("hyprshot -m output -o ~/Pictures/Screenshots"))
-
-hl.bind(mod .. " + C",             hl.dsp.exec_cmd("codium"))
+hl.bind(mod .. " + SHIFT + 5",               hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
+hl.bind(mod .. " + SHIFT + 4",               hl.dsp.exec_cmd("hyprshot -m region -o ~/Pictures/Screenshots"))
+hl.bind(mod .. " + SHIFT + 3",               hl.dsp.exec_cmd("hyprshot -m output -o ~/Pictures/Screenshots"))
+hl.bind(mod .. " + CTRL + SHIFT + 3",        hl.dsp.exec_cmd("hyprshot -m output --clipboard-only"))

@@ -96,6 +96,32 @@
     shell = pkgs.zsh;
   };
 
+  # macOS-style Super+key → Ctrl+key for copy/paste/etc.
+  services.keyd = {
+    enable = true;
+    keyboards.default = {
+      ids = [ "*" ];
+      settings = {
+        main = {
+          leftmeta = "layer(super)";
+          rightmeta = "layer(super)";
+        };
+        # :M hint passes all unmapped Super+key combos through to Hyprland unchanged
+        "super:M" = {
+          a = "C-a";
+          c = "C-c";
+          r = "C-r";
+          t = "C-t";
+          v = "C-v";
+          w = "C-w";
+          x = "C-x";
+          z = "C-z";
+          "shift+z" = "C-S-z";
+        };
+      };
+    };
+  };
+
   # Tailscale
   services.tailscale.enable = true;
 
@@ -158,6 +184,27 @@
     fuzzel # for clipboard history picker
     cliphist
   ];
+
+  # Disable USB mouse wakeup — mouse movement was waking the system from sleep
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{product}=="Razer Cobra Pro", ATTR{power/wakeup}="disabled"
+  '';
+
+  # Re-enable Hyprland displays after resume.
+  # Without this, turning off the monitor before/during sleep causes Hyprland to
+  # lose its output and enter a recovery session on resume.
+  powerManagement.resumeCommands = ''
+    sleep 2
+    uid=$(id -u woolw)
+    for sig in /tmp/hypr/*/; do
+      [ -d "$sig" ] || continue
+      name=''${sig%/}
+      name=''${name##*/}
+      XDG_RUNTIME_DIR=/run/user/$uid \
+      HYPRLAND_INSTANCE_SIGNATURE=$name \
+      ${pkgs.hyprland}/bin/hyprctl dispatch dpms on 2>/dev/null || true
+    done
+  '';
 
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "25.11";

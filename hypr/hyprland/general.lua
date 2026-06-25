@@ -33,6 +33,7 @@ hl.config({
 
     input = {
         kb_layout      = "us",
+        kb_variant     = "mac",
         follow_mouse   = 1,
         natural_scroll = true,
         touchpad = {
