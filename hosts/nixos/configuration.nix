@@ -48,7 +48,6 @@
   # Display
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
   services.xserver.xkb = {
     layout = "us";
     variant = "";
@@ -92,6 +91,7 @@
       "networkmanager"
       "wheel"
       "input"
+      "plugdev"
     ];
     shell = pkgs.zsh;
   };
@@ -111,6 +111,7 @@
           a = "C-a";
           c = "C-c";
           r = "C-r";
+          s = "C-s";
           t = "C-t";
           v = "C-v";
           w = "C-w";
@@ -124,6 +125,11 @@
 
   # Tailscale
   services.tailscale.enable = true;
+
+  # Gnome Keyring — provides libsecret backend for Electron/Chromium apps
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
 
   # Flatpak
   services.flatpak.enable = true;
@@ -145,18 +151,36 @@
   # Enable nix-ld for running dynamically linked binaries (Mason LSPs)
   programs.nix-ld.enable = true;
 
+  # QMK keyboard firmware flashing
+  hardware.keyboard.qmk.enable = true;
+
   # XPPen tablet (Deco Pro LW Gen 2)
   hardware.opentabletdriver.enable = true;
   hardware.opentabletdriver.daemon.enable = true;
 
-  # Qt Wayland support
-  qt.enable = true;
-
   # System packages
   environment.systemPackages = with pkgs; [
     # Browsers & Communication
-    brave
+    (pkgs.symlinkJoin {
+      name = "brave";
+      paths = [ pkgs.brave ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/brave \
+          --add-flags "--password-store=gnome-libsecret"
+      '';
+    })
     discord
+    (pkgs.symlinkJoin {
+      name = "element-desktop";
+      paths = [ pkgs.element-desktop ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/element-desktop \
+          --add-flags "--password-store=gnome-libsecret"
+      '';
+    })
+    signal-desktop
 
     # Development & Editors
     wezterm
@@ -169,8 +193,6 @@
     syncplay
     python313Packages.pyside6
 
-    # Qt Wayland
-    libsForQt5.qtwayland
     qt6.qtwayland
 
     # Utilities

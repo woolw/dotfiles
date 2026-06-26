@@ -36,7 +36,7 @@ export default function Bluetooth() {
     // Click to open bluetooth settings
     const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
     click.connect("pressed", () => {
-        GLib.spawn_command_line_async("systemsettings kcm_bluetooth")
+        GLib.spawn_command_line_async("blueman-manager")
     })
     box.add_controller(click)
 

@@ -13,7 +13,7 @@
     xwayland.enable = true;
   };
 
-  # XDG Portal for Hyprland (KDE provides its own portal too)
+  # XDG Portal for Hyprland
   xdg.portal = {
     enable = true;
     extraPortals = [
@@ -21,10 +21,6 @@
       pkgs.xdg-desktop-portal-gtk
     ];
   };
-
-  # KWallet auto-unlock on login (works for both KDE and Hyprland)
-  security.pam.services.sddm.kwallet.enable = true;
-  security.pam.services.login.kwallet.enable = true;
 
   # Hyprland-specific packages
   environment.systemPackages = with pkgs; [
@@ -42,7 +38,7 @@
     # Screenshots (Wayland-native)
     hyprshot # Screenshot tool for Hyprland
 
-    # Standalone tray applets (for Hyprland, KDE has integrated versions)
+    # Standalone tray applets
     networkmanagerapplet # nm-applet
     blueman # blueman-applet
   ];

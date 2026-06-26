@@ -42,7 +42,7 @@ export default function Network() {
     // Click to open network settings
     const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
     click.connect("pressed", () => {
-        GLib.spawn_command_line_async("systemsettings kcm_networkmanagement")
+        GLib.spawn_command_line_async("nm-connection-editor")
     })
     box.add_controller(click)
 

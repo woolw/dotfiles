@@ -1,17 +1,11 @@
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import app from "ags/gtk4/app"
 import GLib from "gi://GLib"
+import Gio from "gi://Gio"
 
 type MenuEntry = { type: "item"; icon: string; label: string; action: () => void } | { type: "separator" }
 
 const menuItems: MenuEntry[] = [
-    {
-        type: "item",
-        icon: "󰒓",
-        label: "System Settings...",
-        action: () => GLib.spawn_command_line_async("systemsettings"),
-    },
-    { type: "separator" },
     {
         type: "item",
         icon: "󰤄",
@@ -41,7 +35,10 @@ const menuItems: MenuEntry[] = [
         type: "item",
         icon: "󰍃",
         label: "Log Out...",
-        action: () => GLib.spawn_command_line_async("hyprctl dispatch exit"),
+        action: () => Gio.Subprocess.new(
+            ["pkill", "-f", "bin/Hyprland"],
+            Gio.SubprocessFlags.NONE
+        ),
     },
 ]
 

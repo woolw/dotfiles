@@ -58,9 +58,9 @@
   home.file."Pictures/Screenshots/.keep".text = "";
 
   home.pointerCursor = {
-    name = "breeze_cursors";
+    name = "Adwaita";
     size = 24;
-    package = pkgs.kdePackages.breeze;
+    package = pkgs.adwaita-icon-theme;
     gtk.enable = true;
   };
 
@@ -75,22 +75,22 @@
     "fuzzel".source = ../../fuzzel;
   };
 
-  # GTK dark theme (Linux/KDE specific)
+  # GTK dark theme
   gtk = {
     enable = true;
-    gtk4.theme = config.gtk.theme;
+    gtk4.theme = null;
     theme = {
-      name = "Breeze-Dark";
-      package = pkgs.kdePackages.breeze-gtk;
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
     };
     iconTheme = {
-      name = "breeze-dark";
-      package = pkgs.kdePackages.breeze-icons;
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
     cursorTheme = {
-      name = "breeze_cursors";
+      name = "Adwaita";
       size = 24;
-      package = pkgs.kdePackages.breeze;
+      package = pkgs.adwaita-icon-theme;
     };
     font = {
       name = "Noto Sans";
@@ -132,16 +132,21 @@
   };
   gtk.gtk2.force = true;
 
-  # Qt uses KDE platform for proper integration with kdeglobals
   qt = {
     enable = true;
-    platformTheme.name = "kde";
-    style.name = "breeze";
+    platformTheme.name = "qtct";
+    style = {
+      name = "adwaita-dark";
+      package = pkgs.adwaita-qt6;
+    };
   };
 
   # NixOS-specific packages
   home.packages = with pkgs; [
     mangayomi
+    qmk
+    qt6Packages.qt6ct
+    adwaita-qt6
     # Build tools for nvim plugins (telescope-fzf-native)
     gcc
     gnumake

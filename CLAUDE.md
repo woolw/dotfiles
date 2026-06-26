@@ -36,7 +36,7 @@ Rebuild macOS: `darwin-rebuild switch --flake ~/dotfiles#darwin`
 
 ## System Info
 
-**NixOS** (primary desktop): hostname `nixos`, `linuxPackages_latest` kernel, NixOS 26.05, Hyprland + AGS shell (KDE Plasma 6 also available)
+**NixOS** (primary desktop): hostname `nixos`, `linuxPackages_latest` kernel, NixOS 26.05, Hyprland + AGS shell
 
 **macOS** (laptop): hostname `darwin`, aarch64-darwin, nix-darwin + nix-homebrew, Determinate Nix (`nix.enable = false` — daemon managed externally)
 

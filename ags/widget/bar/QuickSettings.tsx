@@ -607,7 +607,7 @@ export function QuickSettingsWindow() {
 
     addVpnBtn.connect("clicked", () => {
         app.toggle_window("quicksettings")
-        GLib.spawn_command_line_async("systemsettings kcm_networkmanagement")
+        GLib.spawn_command_line_async("nm-connection-editor")
     })
 
     // Bluetooth
@@ -624,7 +624,7 @@ export function QuickSettingsWindow() {
     }
     btRow.connect("clicked", () => {
         app.toggle_window("quicksettings")
-        GLib.spawn_command_line_async("systemsettings kcm_bluetooth")
+        GLib.spawn_command_line_async("blueman-manager")
     })
 
     return win

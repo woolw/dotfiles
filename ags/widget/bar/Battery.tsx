@@ -52,12 +52,6 @@ export default function Battery() {
         }
     }
 
-    // Click to open power settings
-    const click = new Gtk.GestureClick({ button: Gdk.BUTTON_PRIMARY })
-    click.connect("pressed", () => {
-        GLib.spawn_command_line_async("systemsettings kcm_powerdevilprofilesconfig")
-    })
-    box.add_controller(click)
 
     update()
 
