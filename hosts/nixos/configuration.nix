@@ -228,6 +228,28 @@
     done
   '';
 
+  # Write DRAM speed to a world-readable file so AGS can display it without root
+  systemd.services.dmi-memspeed = {
+    description = "Export DRAM speed from DMI to /run/dmi-memspeed";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      speed=$(${pkgs.dmidecode}/bin/dmidecode -t 17 2>/dev/null \
+        | grep -m1 "Configured Memory Speed:" \
+        | grep -oP '\d+(?= MT/s)' || true)
+      if [ -z "$speed" ]; then
+        speed=$(${pkgs.dmidecode}/bin/dmidecode -t 17 2>/dev/null \
+          | grep -m1 "Speed:" \
+          | grep -oP '\d+(?= MT/s)' || true)
+      fi
+      echo -n "''${speed:-0}" > /run/dmi-memspeed
+      chmod 644 /run/dmi-memspeed
+    '';
+  };
+
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "25.11";
 }

@@ -4,6 +4,7 @@ import GLib from "gi://GLib"
 
 import Battery from "./Battery"
 import Clock from "./Clock"
+import SystemStats from "./SystemStats"
 import Workspaces from "./Workspaces"
 import ActiveWindow from "./ActiveWindow"
 import QuickSettings from "./QuickSettings"
@@ -32,6 +33,7 @@ export default function Bar(monitor: number) {
                 <Workspaces />
                 <ActiveWindow />
                 <box hexpand />
+                <SystemStats />
                 <QuickSettings />
                 <Battery />
                 <button

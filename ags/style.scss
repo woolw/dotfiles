@@ -123,6 +123,58 @@ window.Bar .logo label {
     font-size: 16px;
 }
 
+.system-stats {
+    padding: 0 4px;
+}
+
+.stat-group {
+    padding: 0 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-group:last-child {
+    border-right: none;
+}
+
+.stat-icon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.stat-val {
+    font-size: 13px;
+    margin-right: 6px;
+}
+
+.stat-val:last-child {
+    margin-right: 0;
+}
+
+// fixed widths — sized to widest possible value to prevent jitter
+.cpu-usage-val { min-width: 38px; }   // "100%"
+.cpu-clock-val { min-width: 54px; }   // "4.9GHz"
+.cpu-temp-val  { min-width: 44px; }   // "100°C"
+.gpu-usage-val { min-width: 38px; }   // "100%"
+.gpu-temp-val  { min-width: 44px; }   // "100°C"
+.ram-used-val  { min-width: 58px; }   // "31.9GiB"
+.ram-clock-val { min-width: 66px; }   // "6000MT/s"
+
+.stat-group.warm .stat-icon,
+.stat-group.warm .stat-val {
+    color: #e5c07b;
+}
+
+.stat-group.hot .stat-icon,
+.stat-group.hot .stat-val {
+    color: #e06c75;
+}
+
+.stat-group.high .stat-icon,
+.stat-group.high .stat-val {
+    color: #e06c75;
+}
+
 .battery {
     padding: 0 8px;
 }
