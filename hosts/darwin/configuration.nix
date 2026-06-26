@@ -59,7 +59,6 @@
       extraFlags = [ "--force" ];
     };
     casks = [
-      "bambu-studio"
       "brave-browser"
       "claude-code"
       "element"
@@ -83,6 +82,8 @@
       "yt-dlp"
       "aria2"
       "fzf"
+      "odin"
+      "ols"
     ];
   };
 

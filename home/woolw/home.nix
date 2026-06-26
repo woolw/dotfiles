@@ -143,6 +143,8 @@
 
   # NixOS-specific packages
   home.packages = with pkgs; [
+    odin
+    ols
     mangayomi
     qmk
     qt6Packages.qt6ct
