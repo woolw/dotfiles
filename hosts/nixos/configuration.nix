@@ -53,6 +53,15 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
+    # Breeze has no user-config override (no theme.conf.user support), so
+    # this is a copy of it with just the background swapped.
+    theme = "breeze-nixos";
+    settings.Theme = {
+      # Lost by renaming away from "breeze" — the module only special-cases
+      # that exact name (see nixos/modules/.../sddm.nix), restore manually.
+      CursorTheme = "breeze_cursors";
+      CursorSize = 24;
+    };
   };
   services.desktopManager.plasma6.enable = true;
   services.xserver.xkb = {
@@ -130,8 +139,11 @@
     };
   };
 
-  # Tailscale
+  # Tailscale — installed but not autostarted; only used occasionally to SSH
+  # into the VPS, so no reason to make every boot wait on it. Start on demand
+  # with `tailscale-on` (see zsh/zshrc).
   services.tailscale.enable = true;
+  systemd.services.tailscaled.wantedBy = lib.mkForce [ ];
 
   # Gnome Keyring — provides libsecret backend for Electron/Chromium apps
   services.gnome.gnome-keyring.enable = true;
@@ -167,6 +179,15 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
+    # SDDM login theme — copy of Breeze with the background swapped
+    (pkgs.runCommand "sddm-theme-breeze-nixos" { } ''
+      mkdir -p $out/share/sddm/themes
+      cp -r ${pkgs.kdePackages.plasma-desktop}/share/sddm/themes/breeze $out/share/sddm/themes/breeze-nixos
+      chmod -R u+w $out/share/sddm/themes/breeze-nixos
+      sed -i "s|^background=.*|background=${../../wallpapers/od_nixos.png}|" \
+        $out/share/sddm/themes/breeze-nixos/theme.conf
+    '')
+
     # Browsers & Communication
     (pkgs.symlinkJoin {
       name = "brave";

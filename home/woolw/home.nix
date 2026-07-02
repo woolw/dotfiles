@@ -121,13 +121,25 @@
       wallpaperFillMode = "preserveAspectCrop";
     };
 
+    # Separate from both the SDDM greeter theme and the desktop wallpaper —
+    # this is what shows on the lock screen after inactivity/sleep/resume,
+    # and defaults to Breeze's own stock wallpaper unless set explicitly.
+    kscreenlocker.appearance.wallpaper = ../../wallpapers/od_nixos.png;
+
     panels = [
       {
         location = "top";
-        height = 32;
+        height = 44;
         widgets = [
-          "org.kde.plasma.kickoff"
-          "org.kde.plasma.pager"
+          {
+            kickoff.icon = "nix-snowflake-white";
+          }
+          {
+            pager.general = {
+              showWindowOutlines = false;
+              displayedText = "none";
+            };
+          }
           {
             iconTasks = {
               launchers = [
@@ -137,9 +149,83 @@
               ];
             };
           }
+          {
+            systemMonitor = {
+              title = "CPU";
+              displayStyle = "org.kde.ksysguard.textonly";
+              showTitle = true;
+              sensors = [
+                {
+                  name = "cpu/all/usage";
+                  color = "61,174,233";
+                  label = "CPU %";
+                }
+              ];
+              # totalSensors/textOnlySensors go through plasma-manager's
+              # toEscapedList, which double-escapes quotes (writes literal
+              # `\\"` into the ini instead of `"`), leaving the widget with
+              # zero parseable sensors. `settings` bypasses that broken path
+              # since it isn't pre-escaped, so this is the actual fix, not a
+              # duplicate of the above.
+              settings.Sensors = {
+                highPrioritySensorIds = ''["cpu/all/usage"]'';
+                totalSensors = ''["cpu/all/usage"]'';
+                lowPrioritySensorIds = ''["cpu/all/averageTemperature", "cpu/all/averageFrequency"]'';
+              };
+            };
+          }
+          "org.kde.plasma.marginsseparator"
+          {
+            systemMonitor = {
+              title = "GPU";
+              displayStyle = "org.kde.ksysguard.textonly";
+              showTitle = true;
+              sensors = [
+                {
+                  name = "gpu/gpu0/usage";
+                  color = "209,17,65";
+                  label = "GPU %";
+                }
+              ];
+              settings.Sensors = {
+                highPrioritySensorIds = ''["gpu/gpu0/usage"]'';
+                totalSensors = ''["gpu/gpu0/usage"]'';
+                lowPrioritySensorIds = ''["gpu/gpu0/temperature"]'';
+              };
+            };
+          }
+          "org.kde.plasma.marginsseparator"
+          {
+            systemMonitor = {
+              title = "RAM";
+              displayStyle = "org.kde.ksysguard.textonly";
+              showTitle = true;
+              sensors = [
+                {
+                  name = "memory/physical/usedPercent";
+                  color = "39,174,96";
+                  label = "RAM %";
+                }
+              ];
+              settings.Sensors = {
+                highPrioritySensorIds = ''["memory/physical/usedPercent"]'';
+                totalSensors = ''["memory/physical/usedPercent"]'';
+                lowPrioritySensorIds = ''["memory/physical/used", "memory/physical/total"]'';
+              };
+            };
+          }
           "org.kde.plasma.marginsseparator"
           "org.kde.plasma.systemtray"
-          "org.kde.plasma.digitalclock"
+          {
+            digitalClock = {
+              time.format = "24h";
+              date = {
+                enable = true;
+                position = "besideTime";
+                format = "isoDate";
+              };
+            };
+          }
         ];
       }
     ];
@@ -171,6 +257,7 @@
 
   # NixOS-specific packages
   home.packages = with pkgs; [
+    nixos-icons
     odin
     ols
     mangayomi
