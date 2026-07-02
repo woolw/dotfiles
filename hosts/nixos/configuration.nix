@@ -47,7 +47,11 @@
 
   # Display
   services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+  services.desktopManager.plasma6.enable = true;
   services.xserver.xkb = {
     layout = "us";
     variant = "";
@@ -106,7 +110,7 @@
           leftmeta = "layer(super)";
           rightmeta = "layer(super)";
         };
-        # :M hint passes all unmapped Super+key combos through to Hyprland unchanged
+        # :M hint passes all unmapped Super+key combos through to the compositor unchanged
         "super:M" = {
           a = "C-a";
           c = "C-c";
@@ -203,52 +207,12 @@
     fastfetch
     jq
     ripgrep
-    fuzzel # for clipboard history picker
-    cliphist
   ];
 
   # Disable USB mouse wakeup — mouse movement was waking the system from sleep
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", ATTR{product}=="Razer Cobra Pro", ATTR{power/wakeup}="disabled"
   '';
-
-  # Re-enable Hyprland displays after resume.
-  # Without this, turning off the monitor before/during sleep causes Hyprland to
-  # lose its output and enter a recovery session on resume.
-  powerManagement.resumeCommands = ''
-    sleep 2
-    uid=$(id -u woolw)
-    for sig in /tmp/hypr/*/; do
-      [ -d "$sig" ] || continue
-      name=''${sig%/}
-      name=''${name##*/}
-      XDG_RUNTIME_DIR=/run/user/$uid \
-      HYPRLAND_INSTANCE_SIGNATURE=$name \
-      ${pkgs.hyprland}/bin/hyprctl dispatch dpms on 2>/dev/null || true
-    done
-  '';
-
-  # Write DRAM speed to a world-readable file so AGS can display it without root
-  systemd.services.dmi-memspeed = {
-    description = "Export DRAM speed from DMI to /run/dmi-memspeed";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      speed=$(${pkgs.dmidecode}/bin/dmidecode -t 17 2>/dev/null \
-        | grep -m1 "Configured Memory Speed:" \
-        | grep -oP '\d+(?= MT/s)' || true)
-      if [ -z "$speed" ]; then
-        speed=$(${pkgs.dmidecode}/bin/dmidecode -t 17 2>/dev/null \
-          | grep -m1 "Speed:" \
-          | grep -oP '\d+(?= MT/s)' || true)
-      fi
-      echo -n "''${speed:-0}" > /run/dmi-memspeed
-      chmod 644 /run/dmi-memspeed
-    '';
-  };
 
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "25.11";

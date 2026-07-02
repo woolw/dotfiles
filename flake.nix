@@ -10,12 +10,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # AGS (Aylur's GTK Shell) for custom shell widgets
-    ags = {
-      url = "github:aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # nix-darwin for macOS system management
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -38,6 +32,13 @@
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # plasma-manager for declarative KDE Plasma configuration
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
   };
 
@@ -62,7 +63,6 @@
             ./modules/amd-gpu.nix
             ./modules/digital-art.nix
             ./modules/gaming.nix
-            ./modules/hyprland.nix
 
             # Home Manager integration
             home-manager.nixosModules.home-manager

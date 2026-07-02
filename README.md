@@ -13,7 +13,7 @@ Personal Nix configurations with flakes and Home Manager.
 - Home Manager for user-level configs
 - Cross-platform shell, editor, and terminal configs
 - **One Dark Pro** theme
-- AGS desktop shell (macOS-inspired)
+- KDE Plasma desktop (declarative via plasma-manager)
 
 ## Quick Start
 
@@ -50,16 +50,12 @@ nix-rebuild
 ├── modules/                  # NixOS modules
 ├── home/                     # Home Manager configs
 │   ├── shared/               # Cross-platform (git, ssh, zsh, nvim, wezterm)
-│   ├── woolw/                # NixOS-specific (AGS, GTK, Qt)
+│   ├── woolw/                # NixOS-specific (KDE Plasma, GTK)
 │   └── woolw-darwin/         # macOS-specific
 │
 ├── nvim/                     # Neovim (cross-platform, lazy.nvim)
 ├── wezterm/                  # Terminal (cross-platform)
-├── zsh/                      # Shell (cross-platform)
-│
-├── ags/                      # AGS desktop shell (Linux only)
-├── hypr/                     # Hyprland (Linux only)
-└── swaync/                   # Notifications (Linux only)
+└── zsh/                      # Shell (cross-platform)
 ```
 
 ## Shell Aliases

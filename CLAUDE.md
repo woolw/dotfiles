@@ -7,8 +7,7 @@
 |--------------|----------------|
 | System packages, services | `hosts/nixos/configuration.nix` |
 | User packages, git, SSH | `home/woolw/home.nix` |
-| Hyprland WM | `hypr/hyprland.conf` → sources `hypr/hyprland/*.conf` |
-| Desktop shell (AGS) | `ags/app.ts`, `ags/widget/*.tsx`, `ags/style.scss` |
+| KDE Plasma (panels, theme, kwin) | `home/woolw/home.nix` (`programs.plasma`, via plasma-manager) |
 | Gaming (Steam, etc.) | `modules/gaming.nix` |
 | GPU power management | `modules/amd-gpu.nix` |
 | Digital art apps, tablet | `modules/digital-art.nix` |
@@ -30,13 +29,13 @@ Rebuild macOS: `darwin-rebuild switch --flake ~/dotfiles#darwin`
 | Video player (mpv) | `mpv/mpv.conf` |
 | Shared HM config (git, SSH, symlinks) | `home/shared/default.nix` |
 
-**Theme**: macOS-inspired dark theme (semi-transparent, OneDark palette)
+**Theme**: KDE Plasma, BreezeDark color scheme + icon theme; GTK apps themed separately (Adwaita-dark + Papirus-Dark)
 **Font**: JetBrainsMono Nerd Font (icons), SF Pro Text/Noto Sans (UI)
 **Audio**: PipeWire
 
 ## System Info
 
-**NixOS** (primary desktop): hostname `nixos`, `linuxPackages_latest` kernel, NixOS 26.05, Hyprland + AGS shell
+**NixOS** (primary desktop): hostname `nixos`, `linuxPackages_latest` kernel, NixOS 26.05, KDE Plasma 6 (Wayland, SDDM)
 
 **macOS** (laptop): hostname `darwin`, aarch64-darwin, nix-darwin + nix-homebrew, Determinate Nix (`nix.enable = false` — daemon managed externally)
 
@@ -60,9 +59,6 @@ sudo nixos-rebuild build --flake ~/dotfiles#nixos  # dry-run
 
 # macOS manual
 darwin-rebuild switch --flake ~/dotfiles#darwin
-
-# AGS restart (NixOS only)
-pkill gjs; ags run -g 4
 ```
 
 ## Development Workflow

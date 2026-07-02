@@ -9,7 +9,7 @@
 
 {
   imports = [
-    inputs.ags.homeManagerModules.default
+    inputs.plasma-manager.homeModules.plasma-manager
     ../shared # Cross-platform config
   ];
 
@@ -38,22 +38,13 @@
     fi
   '';
 
-  # AGS (Aylur's GTK Shell) for custom shell widgets - Linux only
-  programs.ags = {
-    enable = true;
-    configDir = null; # We'll symlink manually
-    extraPackages = with inputs.ags.packages.${pkgs.stdenv.hostPlatform.system}; [
-      apps
-      battery
-      bluetooth
-      hyprland
-      mpris
-      network
-      notifd
-      tray
-      wireplumber
-    ];
-  };
+  # KDE's icon loader (KIconLoader) persists a disk cache of resolved icon
+  # theme + name lookups. Icon overrides under ~/.local/share/icons dropped
+  # by home.file won't be picked up by already-cached names/themes until
+  # this is cleared.
+  home.activation.clearIconCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    rm -f "$HOME/.cache/icon-cache.kcache"
+  '';
 
   home.file."Pictures/Screenshots/.keep".text = "";
 
@@ -62,17 +53,6 @@
     size = 24;
     package = pkgs.adwaita-icon-theme;
     gtk.enable = true;
-  };
-
-  # Linux-specific config symlinks
-  xdg.configFile = {
-    # AGS config directory
-    "ags".source = ../../ags;
-
-    # Hyprland ecosystem configs
-    "hypr".source = ../../hypr;
-    "swaync".source = ../../swaync;
-    "fuzzel".source = ../../fuzzel;
   };
 
   # GTK dark theme
@@ -132,14 +112,62 @@
   };
   gtk.gtk2.force = true;
 
-  qt = {
+  programs.plasma = {
     enable = true;
-    platformTheme.name = "qtct";
-    style = {
-      name = "adwaita-dark";
-      package = pkgs.adwaita-qt6;
+    workspace = {
+      colorScheme = "BreezeDark";
+      iconTheme = "breeze-dark";
+      wallpaper = ../../wallpapers/od_nixos.png;
+      wallpaperFillMode = "preserveAspectCrop";
+    };
+
+    panels = [
+      {
+        location = "top";
+        height = 32;
+        widgets = [
+          "org.kde.plasma.kickoff"
+          "org.kde.plasma.pager"
+          {
+            iconTasks = {
+              launchers = [
+                "applications:org.wezfurlong.wezterm.desktop"
+                "applications:brave-browser.desktop"
+                "applications:steam.desktop"
+              ];
+            };
+          }
+          "org.kde.plasma.marginsseparator"
+          "org.kde.plasma.systemtray"
+          "org.kde.plasma.digitalclock"
+        ];
+      }
+    ];
+
+    # Keep the desktop empty: point the desktop containment's Folder View at
+    # a directory that's never written to instead of the default `desktop:/`
+    # (~/Desktop), so no icons ever appear regardless of what lands there.
+    startup.desktopScript."empty_desktop" = {
+      text = ''
+        let allDesktops = desktops();
+        for (const d of allDesktops) {
+          d.currentConfigGroup = ["General"];
+          d.writeConfig("url", "file://${config.home.homeDirectory}/.local/share/empty-desktop");
+        }
+      '';
+      priority = 3;
     };
   };
+
+  home.file.".local/share/empty-desktop/.keep".text = "";
+
+  # KRunner's window icon is looked up by theme name "krunner" (see
+  # org.kde.krunner.desktop), resolved via Plasma's active icon theme
+  # (breeze-dark, see kdeglobals [Icons] Theme). Overriding it in place
+  # requires shadowing that exact theme + relative path, since generic name
+  # lookup stops at the first theme in the inheritance chain that has it.
+  home.file.".local/share/icons/breeze-dark/preferences/32/krunner.svg".source =
+    "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
 
   # NixOS-specific packages
   home.packages = with pkgs; [
@@ -147,8 +175,6 @@
     ols
     mangayomi
     qmk
-    qt6Packages.qt6ct
-    adwaita-qt6
     # Build tools for nvim plugins (telescope-fzf-native)
     gcc
     gnumake

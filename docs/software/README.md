@@ -4,4 +4,4 @@ This directory contains documented software, configuration, and application-spec
 
 ## Documented Issues
 
-- [AGS Progressive Performance Degradation](./ags-performance-degradation.md) - ✅ SOLVED
+None currently.
