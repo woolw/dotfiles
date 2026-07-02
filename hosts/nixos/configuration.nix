@@ -9,6 +9,9 @@
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # Default is 5s, spent waiting in case you want to pick another generation.
+  # Hold Space/Esc during boot to force the menu open when needed.
+  boot.loader.timeout = 0;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Enable flakes

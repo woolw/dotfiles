@@ -89,6 +89,7 @@ case "$OSTYPE" in
     alias nix-rebuild='sudo nixos-rebuild switch --flake ~/dotfiles#nixos'
     alias nix-update='cd ~/dotfiles && sudo nix flake update && sudo nixos-rebuild switch --flake .#nixos'
     alias nix-gc='sudo nix-collect-garbage -d && sudo nixos-rebuild boot --flake ~/dotfiles#nixos'
+    alias nixos-uefi='systemctl reboot --firmware-setup'
     ;;
   darwin*)
     alias ls='ls -G -h'
