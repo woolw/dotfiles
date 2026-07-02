@@ -20,6 +20,34 @@
     "flakes"
   ];
 
+  # Store was at 43G with no automatic cleanup — only the manual nix-gc alias.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  # Desktop always on wall power, doing gaming/dev work — trade the minor
+  # extra idle power draw for no frequency-ramp latency. Was "powersave".
+  powerManagement.cpuFreqGovernor = "performance";
+
+  # Plasma pulls this in by default (it's what the power-profile widget
+  # talks to), but it actively re-applies its own governor/EPP policy based
+  # on the selected profile ("balanced" by default) shortly after boot —
+  # it was silently overriding cpuFreqGovernor above right after it ran.
+  # Laptop-oriented feature; this is a desktop with no battery to manage.
+  services.power-profiles-daemon.enable = false;
+
+  # Compressed RAM-based swap tier ahead of the 34G disk swap partition, so
+  # memory pressure spikes (gaming + browser + Electron apps) hit fast
+  # compressed RAM instead of NVMe first.
+  zramSwap.enable = true;
+
+  # Was uncapped (658M and growing).
+  services.journald.extraConfig = ''
+    SystemMaxUse=500M
+  '';
+
   # Networking
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -64,6 +92,21 @@
     };
   };
   services.desktopManager.plasma6.enable = true;
+  # Hide "Plasma (X11)" from the SDDM session picker — only ever want
+  # Wayland. Session list is a plain merged list across modules, so a
+  # normal reassignment wouldn't drop plasma6's own contribution; this
+  # replaces it outright with a copy that's missing the xsessions entry.
+  services.displayManager.sessionPackages = lib.mkForce [
+    (pkgs.runCommand "plasma-sessions-wayland-only"
+      {
+        passthru.providedSessions = [ "plasma" ];
+      }
+      ''
+        mkdir -p $out/share
+        cp -r ${pkgs.kdePackages.plasma-workspace.sessions}/share/wayland-sessions $out/share/
+      ''
+    )
+  ];
   services.xserver.xkb = {
     layout = "us";
     variant = "";
