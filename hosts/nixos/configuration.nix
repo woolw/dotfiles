@@ -109,7 +109,9 @@
   ];
   services.xserver.xkb = {
     layout = "us";
-    variant = "";
+    # "mac" variant: AltGr dead keys for umlauts/ß (RAlt+u then u → ü, etc).
+    # Was set on Hyprland's own kb_variant before the KDE switch dropped it.
+    variant = "mac";
   };
 
   # Audio
@@ -141,6 +143,11 @@
 
   # Printing
   services.printing.enable = true;
+
+  # Bluetooth — adapter (hci0) was present but unused since BlueZ was never
+  # enabled, so KDE's Bluetooth settings page had nothing to talk to.
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   # User
   users.users.woolw = {
