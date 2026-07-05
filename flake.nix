@@ -40,6 +40,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    # my ani-cli fork/patches
+    ani-cli-woolw = {
+      url = "git+https://git.woolw.dev/woolw/ani-cli.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

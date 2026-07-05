@@ -1,13 +1,33 @@
 {
   "nodes": {
+    "ani-cli-woolw": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783276261,
+        "narHash": "sha256-6toHHvR4wBdBtYnIeLtpVeus+sj0JBRynrwe30HE5Gc=",
+        "ref": "refs/heads/master",
+        "rev": "7d515a4480b4ca94c04280b0575a69e86c1128bb",
+        "revCount": 792,
+        "type": "git",
+        "url": "https://git.woolw.dev/woolw/ani-cli.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.woolw.dev/woolw/ani-cli.git"
+      }
+    },
     "brew-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1783002708,
-        "narHash": "sha256-BYEc5cNTMd8FB73JwAFabwe1q2AWBTcdSmH2yroOZlI=",
+        "lastModified": 1783247655,
+        "narHash": "sha256-yLwrV4TwwxFGDNEr5M8PPARbzQ+lDbPrRtV8WILJyFw=",
         "owner": "Homebrew",
         "repo": "brew",
-        "rev": "f0bc156b60d182cfc87daf32e437be0dd3e53492",
+        "rev": "275490fa8a7ffeb4c5f243ac0deb915bc41629f2",
         "type": "github"
       },
       "original": {
@@ -44,11 +64,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783005591,
-        "narHash": "sha256-NcLHV5uBAeggDUE2wPbKszjfyaSLsoqaYt7izOphkZw=",
+        "lastModified": 1783222121,
+        "narHash": "sha256-E/ElL373TO8lQ2aMvYyzN+k4xkVaUGoRqoa8AtM71tI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "f469c79b955609d6a8fdd9e689be76a93b1621d7",
+        "rev": "a1645f40777620c4bd2b6d854b290c2fc354a266",
         "type": "github"
       },
       "original": {
@@ -99,11 +119,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1782723713,
-        "narHash": "sha256-oPXCU/SSUokcGaJREHibG1CBX3+s/W7orDWQOZDsEeQ=",
+        "lastModified": 1782959384,
+        "narHash": "sha256-xnJJk+ct+D2+wdRxj1wk36w5zV9RVESwRqcklPdt3fM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "b5aa0fbd538984f6e3d201be0005b4463d8b09f8",
+        "rev": "65179426c83bb3f6bc14898b42ea1c6f01d374b0",
         "type": "github"
       },
       "original": {
@@ -138,6 +158,7 @@
     },
     "root": {
       "inputs": {
+        "ani-cli-woolw": "ani-cli-woolw",
         "brew-src": "brew-src",
         "fenix": "fenix",
         "home-manager": "home-manager",
