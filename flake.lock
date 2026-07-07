@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783276261,
-        "narHash": "sha256-6toHHvR4wBdBtYnIeLtpVeus+sj0JBRynrwe30HE5Gc=",
+        "lastModified": 1783445778,
+        "narHash": "sha256-pcY/GAL/UGMzM2XNM/74t7jsg9e+yGoRy7HUC/PoMC4=",
         "ref": "refs/heads/master",
-        "rev": "7d515a4480b4ca94c04280b0575a69e86c1128bb",
-        "revCount": 792,
+        "rev": "dd7e308397dca94481d5031017a50e8a9a6c04aa",
+        "revCount": 793,
         "type": "git",
         "url": "https://git.woolw.dev/woolw/ani-cli.git"
       },
@@ -23,11 +23,11 @@
     "brew-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1783438556,
-        "narHash": "sha256-P2JzS5JlBi4AargY9YSyzkohPEKoWpXHyyPx9Sywxfs=",
+        "lastModified": 1783442517,
+        "narHash": "sha256-fRLuF9CL/A4Xt4QLERcvdWD3ZyYubL9rgwjOzAGTEU0=",
         "owner": "Homebrew",
         "repo": "brew",
-        "rev": "873eaa691ae2e4f417bcb92f831d35b104fc7df7",
+        "rev": "1954a82ebff47552d220807172c59cd72bb1d5e6",
         "type": "github"
       },
       "original": {

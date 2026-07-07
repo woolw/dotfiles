@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   nixpkgs.config.allowUnfree = true;
@@ -85,6 +85,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    inputs.ani-cli-woolw.packages.aarch64-darwin.default
     curl
     wget
     htop
