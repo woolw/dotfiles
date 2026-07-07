@@ -20,7 +20,7 @@ return {
         "jsonls",
         "omnisharp", -- C#
       }
-      -- nil_ls (Nix LSP) requires cargo; only install on Linux where it's available via nixpkgs
+      -- nil_ls (Nix LSP) only on Linux
       if vim.fn.has("linux") == 1 then
         table.insert(ensure_installed, "nil_ls")
       end

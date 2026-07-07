@@ -20,7 +20,6 @@ return {
           "nix",
           "odin",
           "python",
-          "rust",
           "scss",
           "toml",
           "tsx",

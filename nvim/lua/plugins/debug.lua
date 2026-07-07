@@ -94,7 +94,7 @@ return {
         },
       }
 
-      -- LLDB (C, C++, Rust, Odin)
+      -- LLDB (C, C++, Odin)
       dap.adapters.lldb = {
         type = "executable",
         command = "lldb-dap",
@@ -117,7 +117,6 @@ return {
 
       dap.configurations.c = lldb_config
       dap.configurations.cpp = lldb_config
-      dap.configurations.rust = lldb_config
       dap.configurations.odin = lldb_config
 
       -- Lua (local-lua-debugger-vscode)
