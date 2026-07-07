@@ -90,6 +90,7 @@
     wget
     htop
     btop
+    fastfetch
     jq
     python3
   ];
