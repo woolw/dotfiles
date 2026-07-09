@@ -115,7 +115,7 @@
   programs.plasma = {
     enable = true;
     workspace = {
-      colorScheme = "BreezeDark";
+      colorScheme = "BreezeDarkOled";
       iconTheme = "breeze-dark";
       wallpaper = ../../wallpapers/od_nixos.png;
       wallpaperFillMode = "preserveAspectCrop";
@@ -230,6 +230,10 @@
       }
     ];
 
+    # Always boot into a clean session instead of reopening whatever windows
+    # were open at last logout/reboot.
+    session.sessionRestore.restoreOpenApplicationsOnLogin = "startWithEmptySession";
+
     # Keep the desktop empty: point the desktop containment's Folder View at
     # a directory that's never written to instead of the default `desktop:/`
     # (~/Desktop), so no icons ever appear regardless of what lands there.
@@ -254,6 +258,12 @@
   # lookup stops at the first theme in the inheritance chain that has it.
   home.file.".local/share/icons/breeze-dark/preferences/32/krunner.svg".source =
     "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+
+  # Breeze Dark with a pure black Window colorset instead of its default
+  # dark grey (32,35,38) — the Plasma panel background is drawn from this
+  # colorset, and there's no other supported way to flatten just the panel
+  # to true black for OLED. Referenced above as workspace.colorScheme.
+  home.file.".local/share/color-schemes/BreezeDarkOled.colors".source = ./BreezeDarkOled.colors;
 
   # NixOS-specific packages
   home.packages = with pkgs; [
