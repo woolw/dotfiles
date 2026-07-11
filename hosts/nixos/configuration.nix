@@ -267,7 +267,7 @@
     claude-code
 
     # Media
-    inputs.ani-cli-woolw.packages.${pkgs.system}.default
+    inputs.ani-cli-woolw.packages.${pkgs.stdenv.hostPlatform.system}.default
     mpv
     syncplay
     python313Packages.pyside6
