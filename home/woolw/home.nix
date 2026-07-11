@@ -115,6 +115,17 @@
 
   programs.plasma = {
     enable = true;
+
+    shortcuts = {
+      # Close (not kill) the active window; keep Alt+F4 too. Meta+Q was
+      # freed from the Activity Switcher below. KWin's force-kill stays
+      # on its default Meta+Ctrl+Esc.
+      kwin."Window Close" = [
+        "Meta+Q"
+        "Alt+F4"
+      ];
+      plasmashell."manage activities" = [ ];
+    };
     workspace = {
       colorScheme = "BreezeDarkOled";
       iconTheme = "breeze-dark";
