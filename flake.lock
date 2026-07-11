@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783542692,
-        "narHash": "sha256-qre1T8FH5idhbytntJEcJjQvC/6MoPGu7FUkiaD2kh8=",
+        "lastModified": 1783759873,
+        "narHash": "sha256-L0EPj36Uqogumbv3jHRIjCvaT/LWmzxd/oaBMcyJcdc=",
         "ref": "refs/heads/master",
-        "rev": "04681e6c54a40d445c9e00319321deed7dd5b436",
-        "revCount": 795,
+        "rev": "5f5bdf3fc265d6d790f6668d0dc720bd10f57536",
+        "revCount": 796,
         "type": "git",
         "url": "https://git.woolw.dev/woolw/ani-cli.git"
       },
@@ -23,11 +23,11 @@
     "brew-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1783582452,
-        "narHash": "sha256-0WW5v/cxsDShtIWt7XeinLi7I3tmM0ekIPZQM/00kws=",
+        "lastModified": 1783754116,
+        "narHash": "sha256-DALFEOCij2jyFzhnHRTWOs0va4F23TE0mG9y7/REA0E=",
         "owner": "Homebrew",
         "repo": "brew",
-        "rev": "77dad1917053dd0dd6d30a9a3a902dbe92a71152",
+        "rev": "bc79adb5a1b159934333c32c9cd02dec02c85fb2",
         "type": "github"
       },
       "original": {
@@ -43,11 +43,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783550008,
-        "narHash": "sha256-qbbZUk9IG9dLNwCPwdPBs6I5clxwugRpP+1YU+GPK20=",
+        "lastModified": 1783744526,
+        "narHash": "sha256-yYVxW+uIbCx0Nt870fbErQbz+b2+3Gwpppe+JbIU+Co=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "f4d01c1d87c7c2ec909549165d5a8338f1bd3315",
+        "rev": "2afec152df4e284d264f8489d16004c264aebf4c",
         "type": "github"
       },
       "original": {
@@ -98,11 +98,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1783224372,
-        "narHash": "sha256-8i/87eeoqiGE4yOTjwSA3Eh/ziJRQEmd/unYU+K27sk=",
+        "lastModified": 1783522502,
+        "narHash": "sha256-iffAls3iaNTyJC2faYcUXSI+Gp02cDjYl+MygxKl2GI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d407951447dcd00442e97087bf374aad70c04cea",
+        "rev": "0bb7ec54c8483066ec9d7720e780a5caa71f8612",
         "type": "github"
       },
       "original": {
