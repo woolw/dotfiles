@@ -7,6 +7,17 @@
   ...
 }:
 
+let
+  # Content-addressed copy of the wallpaper. Referencing the file directly
+  # embeds the whole flake source's store path, which changes on every commit —
+  # making plasma-manager wipe and regenerate the desktop config on the next
+  # login (a race with plasmashell startup that can leave the default
+  # wallpaper) and leaving GC-able stale paths in the applet config.
+  wallpaperImage = builtins.path {
+    path = ../../wallpapers/od_nixos.png;
+    name = "od_nixos.png";
+  };
+in
 {
   imports = [
     inputs.plasma-manager.homeModules.plasma-manager
@@ -129,14 +140,14 @@
     workspace = {
       colorScheme = "BreezeDarkOled";
       iconTheme = "breeze-dark";
-      wallpaper = ../../wallpapers/od_nixos.png;
+      wallpaper = wallpaperImage;
       wallpaperFillMode = "preserveAspectCrop";
     };
 
     # Separate from both the SDDM greeter theme and the desktop wallpaper —
     # this is what shows on the lock screen after inactivity/sleep/resume,
     # and defaults to Breeze's own stock wallpaper unless set explicitly.
-    kscreenlocker.appearance.wallpaper = ../../wallpapers/od_nixos.png;
+    kscreenlocker.appearance.wallpaper = wallpaperImage;
 
     panels = [
       {
