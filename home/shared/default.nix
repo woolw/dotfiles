@@ -54,6 +54,12 @@
     "mpv/mpv.conf".source = ../../mpv/mpv.conf;
   };
 
+  # ~/code — scaffolding script for new projects (git + direnv-managed flake devShell)
+  home.file."code/new_project.sh" = {
+    source = ../../code/new_project.sh;
+    executable = true;
+  };
+
   # Cross-platform packages
   home.packages = with pkgs; [
     # Neovim and dependencies
