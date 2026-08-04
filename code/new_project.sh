@@ -53,11 +53,27 @@ cat > .gitignore <<'EOF'
 result
 result-*
 
+# build output
+bin/
+obj/
+build/
+dist/
+out/
+target/
+node_modules/
+__pycache__/
+*.pyc
+*.o
+*.obj
+*.class
+
 # OS
 .DS_Store
 
 # editor
 *.swp
+.vscode/
+.idea/
 EOF
 
 direnv allow
