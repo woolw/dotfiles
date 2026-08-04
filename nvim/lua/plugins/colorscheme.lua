@@ -7,6 +7,12 @@ return {
       style = "dark",
       transparent = false,
       term_colors = true,
+      -- Flatten just the editor background to pure black for OLED, same
+      -- approach as BreezeDarkOled.colors — leave the rest of the palette
+      -- (floats, statusline, syntax colors) untouched.
+      colors = {
+        bg0 = "#000000",
+      },
       code_style = {
         comments = "italic",
         keywords = "none",

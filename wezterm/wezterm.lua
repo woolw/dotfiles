@@ -9,6 +9,11 @@ local config = {
     }),
     font_size = 12,
     color_scheme = "OneDark (base16)",
+    -- Flatten just the background to pure black for OLED, same approach as
+    -- BreezeDarkOled.colors — everything else stays OneDark's stock palette.
+    colors = {
+        background = "#000000",
+    },
 
     enable_tab_bar = false,
     use_fancy_tab_bar = false,
@@ -26,8 +31,10 @@ local config = {
     initial_rows = 32,
     initial_cols = 120,
 
-    window_background_opacity = 0.87,
-    macos_window_background_blur = 20,
+    -- Fully opaque so the OLED-black background renders as true black
+    -- regardless of what's behind the window (macos_window_background_blur
+    -- has no effect at opacity 1.0, so it's dropped too).
+    window_background_opacity = 1.0,
 
     enable_scroll_bar = false,
     native_macos_fullscreen_mode = true,
