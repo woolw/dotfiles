@@ -1,15 +1,7 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
-local target_shell
-local is_windows = wezterm.target_triple:find("windows")
 local is_macos = wezterm.target_triple:find("apple")
-
-if is_windows then
-    target_shell = { "C:\\Program Files\\Git\\bin\\bash.exe", "--login", "-i" }
-else
-    target_shell = { "zsh", "-l" }
-end
 
 local config = {
     font = wezterm.font_with_fallback({
@@ -40,12 +32,30 @@ local config = {
     enable_scroll_bar = false,
     native_macos_fullscreen_mode = true,
 
-    default_prog = target_shell,
+    default_prog = { "zsh", "-l" },
 
     adjust_window_size_when_changing_font_size = false,
 
     exit_behavior = "Close",
     window_close_confirmation = "NeverPrompt",
+}
+
+-- Pane multiplexing: identical on both platforms (CTRL+SHIFT so it never
+-- depends on keyd's Super layer on Linux or Cmd on macOS). Vim-style h/j/k/l
+-- for navigation; add ALT to split in that direction instead.
+local pane_keys = {
+    { key = "h", mods = "CTRL|SHIFT",      action = act.ActivatePaneDirection("Left") },
+    { key = "j", mods = "CTRL|SHIFT",      action = act.ActivatePaneDirection("Down") },
+    { key = "k", mods = "CTRL|SHIFT",      action = act.ActivatePaneDirection("Up") },
+    { key = "l", mods = "CTRL|SHIFT",      action = act.ActivatePaneDirection("Right") },
+
+    { key = "h", mods = "CTRL|SHIFT|ALT",  action = act.SplitPane({ direction = "Left" }) },
+    { key = "j", mods = "CTRL|SHIFT|ALT",  action = act.SplitPane({ direction = "Down" }) },
+    { key = "k", mods = "CTRL|SHIFT|ALT",  action = act.SplitPane({ direction = "Up" }) },
+    { key = "l", mods = "CTRL|SHIFT|ALT",  action = act.SplitPane({ direction = "Right" }) },
+
+    { key = "z", mods = "CTRL|SHIFT",      action = act.TogglePaneZoomState },
+    { key = "w", mods = "CTRL|SHIFT",      action = act.CloseCurrentPane({ confirm = false }) },
 }
 
 if is_macos then
@@ -76,6 +86,10 @@ else
             end),
         },
     }
+end
+
+for _, k in ipairs(pane_keys) do
+    table.insert(config.keys, k)
 end
 
 return config
