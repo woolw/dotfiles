@@ -201,8 +201,15 @@
   security.pam.services.login.enableGnomeKeyring = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
 
-  # Flatpak
+  # Flatpak — remotes managed declaratively via nix-flatpak; apps still
+  # installed imperatively (e.g. `flatpak install`) on top of this
   services.flatpak.enable = true;
+  services.flatpak.remotes = [
+    {
+      name = "flathub";
+      location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+    }
+  ];
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.enable = true;
   environment.sessionVariables.XDG_DATA_DIRS = lib.mkAfter [

@@ -40,6 +40,9 @@
       url = "git+https://git.woolw.dev/woolw/ani-cli.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # declarative Flatpak remotes/packages
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
   outputs =
@@ -49,6 +52,7 @@
       home-manager,
       nix-darwin,
       nix-homebrew,
+      nix-flatpak,
       ...
     }@inputs:
     {
@@ -62,6 +66,7 @@
             ./modules/amd-gpu.nix
             ./modules/digital-art.nix
             ./modules/gaming.nix
+            nix-flatpak.nixosModules.nix-flatpak
 
             # Home Manager integration
             home-manager.nixosModules.home-manager

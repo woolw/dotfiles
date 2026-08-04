@@ -75,3 +75,4 @@ Implementation details and code snippets.
 ## Documented Issues
 
 - [AMD RX 7900 XT Display Artifacts](./amd-rx7900xt-display-artifacts.md) - ✅ SOLVED
+- [KVM Switch USB 2.0 Companion Lane Failure](./kvm-usb2-companion-lane-failure.md) - ⚠️ WORKAROUND
