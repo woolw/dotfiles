@@ -298,8 +298,5 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # syncplay 1.7.5 crashes on connect against pyOpenSSL 26 (see overlay)
-  nixpkgs.overlays = [ (import ../../overlays/syncplay-fix.nix) ];
-
   system.stateVersion = "25.11";
 }
