@@ -42,8 +42,8 @@ Rebuild macOS: `darwin-rebuild switch --flake ~/dotfiles#darwin`
 Both: user `woolw`, shell Zsh
 
 ## Hardware
-- **GPU**: AMD Radeon RX 7900 XT (20GB VRAM) — **CRITICAL**: requires forced high performance mode via udev rule (`KERNEL=="card[0-9]*"` in `modules/amd-gpu.nix`) to prevent display artifacts at 144Hz
-- **Monitor**: MSI MAG 321CUPDE (4K@144Hz via DisplayPort, card1/DP-1)
+- **GPU**: AMD Radeon RX 7900 XT (20GB VRAM) — **CRITICAL**: requires forced high performance mode via udev rule (`KERNEL=="card[0-9]*"` in `modules/amd-gpu.nix`) to prevent display artifacts at high refresh rates
+- **Monitor**: MSI MAG321UP (32" 4K QD-OLED, native 165Hz via DisplayPort, card1/DP-1; currently capped to 120Hz in KDE while troubleshooting gaming artifacts)
 
 ## Commands
 
