@@ -19,6 +19,8 @@ return {
         "cssls",
         "jsonls",
         "omnisharp", -- C#
+        "rust_analyzer",
+        "sqlls",
       }
       -- nil_ls (Nix LSP) only on Linux
       if vim.fn.has("linux") == 1 then
@@ -95,6 +97,8 @@ return {
       vim.lsp.config("cssls", { capabilities = capabilities })
       vim.lsp.config("jsonls", { capabilities = capabilities })
       vim.lsp.config("omnisharp", { capabilities = capabilities })
+      vim.lsp.config("rust_analyzer", { capabilities = capabilities })
+      vim.lsp.config("sqlls", { capabilities = capabilities })
 
       -- Enable all configured servers
       vim.lsp.enable({
@@ -106,6 +110,8 @@ return {
         "cssls",
         "jsonls",
         "omnisharp",
+        "rust_analyzer",
+        "sqlls",
       })
     end,
   },
