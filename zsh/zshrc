@@ -103,9 +103,12 @@ esac
 
 # --- SSH Agent ---
 export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
-if ! pgrep -u "$USER" ssh-agent >/dev/null 2>&1; then
+if ! pgrep -u "$USER" -x ssh-agent >/dev/null 2>&1; then
   eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK" >/dev/null 2>&1)" >/dev/null 2>&1
 fi
+# Load keys into the agent so libssh2-based tools (e.g. gitui) that don't
+# read ~/.ssh/config can still authenticate
+ssh-add -q ~/.ssh/*_ed25519 2>/dev/null
 
 # ==========================
 #  End of Zsh Config

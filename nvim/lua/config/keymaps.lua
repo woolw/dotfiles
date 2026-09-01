@@ -17,6 +17,10 @@ map("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width
 map("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
 map("n", "<S-h>", ":bprevious<CR>", { desc = "Previous buffer" })
 map("n", "<leader>bd", ":bdelete<CR>", { desc = "Delete buffer" })
+map("n", "<leader>bn", ":bnext<CR>", { desc = "Next buffer" })
+map("n", "<leader>bp", ":bprevious<CR>", { desc = "Previous buffer" })
+map("n", "<leader>bo", ":%bdelete|edit#|bdelete#<CR>", { desc = "Delete other buffers" })
+map("n", "<leader>bb", ":BufferLinePick<CR>", { desc = "Pick buffer" })
 
 -- Clear search highlight
 map("n", "<Esc>", ":noh<CR>", { desc = "Clear search highlight" })

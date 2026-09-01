@@ -68,6 +68,6 @@
     fd # for telescope find_files
     nodejs # mason installs TS/JS LSPs via npm
     unzip # mason extracts server archives (ols/omnisharp)
-    lazygit # git TUI
+    gitui # git TUI
   ];
 }

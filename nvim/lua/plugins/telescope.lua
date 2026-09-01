@@ -30,11 +30,30 @@ return {
             ["<Esc>"] = actions.close,
           },
         },
+        -- Applies to all pickers (find_files, live_grep, etc.) so binaries
+        -- and build output don't bloat listings or get grepped
+        file_ignore_patterns = {
+          "%.git/",
+          "node_modules/",
+          "target/",
+          "build/",
+          "dist/",
+          "result",
+          "%.o$",
+          "%.a$",
+          "%.so$",
+          "%.dll$",
+          "%.exe$",
+          "%.pdf$",
+          "%.jpg$",
+          "%.jpeg$",
+          "%.png$",
+          "%.zip$",
+        },
       },
       pickers = {
         find_files = {
           hidden = true,
-          file_ignore_patterns = { ".git/", "node_modules/" },
         },
       },
     })
