@@ -45,6 +45,11 @@ local config = {
 
     exit_behavior = "Close",
     window_close_confirmation = "NeverPrompt",
+
+    inactive_pane_hsb = {
+        saturation = 0.5,
+        brightness = 0.5,
+    },
 }
 
 -- Pane multiplexing: identical on both platforms (CTRL+SHIFT so it never
