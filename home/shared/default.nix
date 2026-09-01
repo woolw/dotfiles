@@ -52,6 +52,9 @@
 
     # mpv configuration
     "mpv/mpv.conf".source = ../../mpv/mpv.conf;
+
+    # gitui theme
+    "gitui/theme.ron".source = ../../gitui/theme.ron;
   };
 
   # ~/code — scaffolding script for new projects (git + direnv-managed flake devShell)

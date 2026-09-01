@@ -1,0 +1,18 @@
+// OneDark-based overrides for gitui's default theme.
+// Only values that differ from the built-in defaults need to be listed
+// (see https://github.com/gitui-org/gitui/blob/master/THEMES.md).
+(
+    // Current-line highlight: default Blue bg / White fg is too saturated
+    // and collides with the command bar below (also Blue by default).
+    selection_bg: Some("#3e4451"),
+    selection_fg: Some("#ffffff"),
+
+    // Bottom command/help bar
+    command_fg: Some("#abb2bf"),
+    cmdbar_bg: Some("#31353f"),
+    disabled_fg: Some("#5c6370"),
+
+    // Branch name (shown in the bottom status area) — default LightYellow
+    // is the "bright yellow" that was unreadable.
+    branch_fg: Some("#61afef"),
+)
