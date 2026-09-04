@@ -293,7 +293,6 @@ in
     nixos-icons
     odin
     ols
-    qmk
     # Build tools for nvim plugins (telescope-fzf-native)
     gcc
     gnumake

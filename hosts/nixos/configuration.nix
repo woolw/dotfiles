@@ -45,9 +45,7 @@
   zramSwap.enable = true;
 
   # Was uncapped (658M and growing).
-  services.journald.extraConfig = ''
-    SystemMaxUse=500M
-  '';
+  services.journald.settings.Journal.SystemMaxUse = "500M";
 
   # Networking
   networking.hostName = "nixos";
@@ -227,9 +225,6 @@
 
   # Enable nix-ld for running dynamically linked binaries (Mason LSPs)
   programs.nix-ld.enable = true;
-
-  # QMK keyboard firmware flashing
-  hardware.keyboard.qmk.enable = true;
 
   # XPPen tablet (Deco Pro LW Gen 2)
   hardware.opentabletdriver.enable = true;
