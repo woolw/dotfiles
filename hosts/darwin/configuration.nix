@@ -63,7 +63,6 @@
       "gimp"
       "hot"
       "iina"
-      "maccy"
       "protonvpn"
       "signal"
       "steam"

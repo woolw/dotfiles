@@ -28,6 +28,12 @@
   # SSH configuration (settings set per device in machine-specific home files)
   programs.ssh.enable = true;
 
+  # direnv (used by ~/code scaffolding for flake devShells)
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   # Both nixpkgs and HM track unstable; version numbers diverge cosmetically
   home.enableNixpkgsReleaseCheck = false;
 
