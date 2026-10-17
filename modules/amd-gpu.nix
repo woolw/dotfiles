@@ -26,6 +26,24 @@
     done
   '';
 
+  # Pin MSI MAG321UP EDID and force DP-1 connected
+  # Monitor sits behind a KVM switch; switching away (or powering off / booting
+  # with it off) drops DP hotplug, which makes KWin tear down the whole layout.
+  # With a firmware EDID + forced-on connector the output never "disappears".
+  # The EDID file is captured automatically by the nix-* zsh aliases when missing
+  # (delete it to re-capture after a monitor swap); skipped entirely if absent.
+  hardware.display = lib.mkIf (builtins.pathExists ./edid/mag321up.bin) {
+    edid.packages = [
+      (pkgs.runCommand "edid-mag321up" { } ''
+        install -Dm644 ${./edid/mag321up.bin} $out/lib/firmware/edid/mag321up.bin
+      '')
+    ];
+    outputs."DP-1" = {
+      edid = "mag321up.bin";
+      mode = "e";
+    };
+  };
+
   # Optional: Additional AMD GPU optimizations
   boot.kernelParams = [
     # Uncomment if needed for better performance

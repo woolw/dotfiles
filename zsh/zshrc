@@ -86,9 +86,22 @@ export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.dotnet/tools:$PATH"
 case "$OSTYPE" in
   linux*)
     alias ls='ls --color=auto -h'
-    alias nix-rebuild='sudo nixos-rebuild switch --flake ~/dotfiles#nixos'
-    alias nix-update='cd ~/dotfiles && sudo nix flake update && sudo nixos-rebuild switch --flake .#nixos'
-    alias nix-gc='sudo nix-collect-garbage -d && sudo nixos-rebuild boot --flake ~/dotfiles#nixos'
+    # Capture the DP-1 monitor EDID into the repo if missing (see modules/amd-gpu.nix)
+    _nixos-capture-edid() {
+      local dest=~/dotfiles/modules/edid/mag321up.bin conn
+      [[ -s $dest ]] && return 0
+      for conn in /sys/class/drm/card*-DP-1(N); do
+        if [[ $(<$conn/status) == connected ]] && (( $(wc -c < $conn/edid) > 0 )); then
+          mkdir -p ${dest:h} && cp $conn/edid $dest && git -C ~/dotfiles add $dest \
+            && echo "Captured EDID from ${conn:t} -> $dest"
+          return 0
+        fi
+      done
+      echo "warning: DP-1 not connected, skipping EDID capture (pinning disabled this build)" >&2
+    }
+    alias nix-rebuild='_nixos-capture-edid; sudo nixos-rebuild switch --flake ~/dotfiles#nixos'
+    alias nix-update='_nixos-capture-edid; cd ~/dotfiles && sudo nix flake update && sudo nixos-rebuild switch --flake .#nixos'
+    alias nix-gc='_nixos-capture-edid; sudo nix-collect-garbage -d && sudo nixos-rebuild boot --flake ~/dotfiles#nixos'
     alias nixos-uefi='systemctl reboot --firmware-setup'
     alias tailscale-on='sudo systemctl start tailscaled && sudo tailscale up'
     alias tailscale-off='sudo tailscale down; sudo systemctl stop tailscaled'
