@@ -41,6 +41,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # my Rust Syncplay client (ani-cli's -s uses it)
+    syncplay-rs = {
+      url = "git+https://git.woolw.dev/woolw/syncplay-rs.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # declarative Flatpak remotes/packages
     nix-flatpak.url = "github:gmodena/nix-flatpak";
   };

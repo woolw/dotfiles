@@ -270,6 +270,7 @@
 
     # Media
     inputs.ani-cli-woolw.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.syncplay-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
     mpv
     syncplay
     python313Packages.pyside6

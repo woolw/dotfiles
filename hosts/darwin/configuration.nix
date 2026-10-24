@@ -85,6 +85,7 @@
 
   environment.systemPackages = with pkgs; [
     inputs.ani-cli-woolw.packages.aarch64-darwin.default
+    inputs.syncplay-rs.packages.aarch64-darwin.default
     curl
     wget
     htop
