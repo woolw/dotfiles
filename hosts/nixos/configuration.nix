@@ -194,10 +194,9 @@
   services.tailscale.enable = true;
   systemd.services.tailscaled.wantedBy = lib.mkForce [ ];
 
-  # Gnome Keyring — provides libsecret backend for Electron/Chromium apps
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.login.enableGnomeKeyring = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
+  # KWallet auto-unlock on login (Brave, Element and yt-dlp's cookie access use it)
+  security.pam.services.sddm.kwallet.enable = true;
+  security.pam.services.login.kwallet.enable = true;
 
   # Flatpak — remotes managed declaratively via nix-flatpak; apps still
   # installed imperatively (e.g. `flatpak install`) on top of this
@@ -242,25 +241,9 @@
     '')
 
     # Browsers & Communication
-    (pkgs.symlinkJoin {
-      name = "brave";
-      paths = [ pkgs.brave ];
-      buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/brave \
-          --add-flags "--password-store=gnome-libsecret"
-      '';
-    })
+    brave
     discord
-    (pkgs.symlinkJoin {
-      name = "element-desktop";
-      paths = [ pkgs.element-desktop ];
-      buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/element-desktop \
-          --add-flags "--password-store=gnome-libsecret"
-      '';
-    })
+    element-desktop
     signal-desktop
 
     # Development & Editors
