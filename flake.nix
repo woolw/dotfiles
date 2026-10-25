@@ -53,7 +53,6 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       home-manager,
       nix-darwin,
@@ -80,6 +79,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.backupFileExtension = "bak";
               home-manager.users.woolw = import ./home/woolw/home.nix;
             }
           ];
@@ -114,7 +114,7 @@
       };
 
       # Formatters
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
-      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt;
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
     };
 }

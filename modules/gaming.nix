@@ -1,16 +1,10 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
 {
   # Steam
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
   };
 
   # Gaming utilities
@@ -23,7 +17,4 @@
 
   # GameMode
   programs.gamemode.enable = true;
-
-  # Allow unfree for Steam
-  nixpkgs.config.allowUnfree = true;
 }

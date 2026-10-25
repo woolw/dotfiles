@@ -68,7 +68,7 @@ darwin-rebuild switch --flake ~/dotfiles#darwin
 3. Switch: `sudo nixos-rebuild switch --flake ~/dotfiles#nixos`
 4. Commit with descriptive message
 
-Pre-commit hook auto-formats `.nix` files via `nixfmt`. CI (`.github/workflows/nixos-check.yml`) validates both NixOS and darwin builds, formatting (nixfmt), statix, and deadnix on every push.
+Pre-commit hook auto-formats `.nix` files via `nixfmt`. CI (`.forgejo/workflows/nixos-check.yml`, Forgejo Actions) does a NixOS dry-run build and runs formatting (nixfmt), statix, and deadnix on every push (lint steps are non-blocking). The darwin config is **not** built in CI — that needs a macOS runner, which the Forgejo instance doesn't have; verify darwin changes on the Mac with `darwin-rebuild build --flake ~/dotfiles#darwin`.
 
 ## Cross-Platform Design
 

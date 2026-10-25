@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   lib,
   inputs,
@@ -224,10 +223,6 @@
 
   # Enable nix-ld for running dynamically linked binaries (Mason LSPs)
   programs.nix-ld.enable = true;
-
-  # XPPen tablet (Deco Pro LW Gen 2)
-  hardware.opentabletdriver.enable = true;
-  hardware.opentabletdriver.daemon.enable = true;
 
   # System packages
   environment.systemPackages = with pkgs; [

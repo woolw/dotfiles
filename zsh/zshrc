@@ -80,7 +80,7 @@ alias v='nvim'
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less"
-export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.dotnet/tools:$PATH"
+export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
 # --- OS-specific tweaks ---
 case "$OSTYPE" in
@@ -110,14 +110,19 @@ case "$OSTYPE" in
     alias ls='ls -G -h'
     alias nix-rebuild='sudo darwin-rebuild switch --flake ~/dotfiles#darwin'
     alias nix-update='cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --flake .#darwin && brew upgrade'
-    alias nix-gc='nix-collect-garbage -d'
+    alias nix-gc='sudo nix-collect-garbage -d'
     ;;
 esac
 
 # --- SSH Agent ---
 export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
-if ! pgrep -u "$USER" -x ssh-agent >/dev/null 2>&1; then
-  eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK" >/dev/null 2>&1)" >/dev/null 2>&1
+# Probe the socket itself rather than looking for any ssh-agent process:
+# exit 2 = nothing answering. A stale socket file left by a dead agent would
+# make `ssh-agent -a` fail to bind, so clear it first.
+ssh-add -l >/dev/null 2>&1
+if (( $? == 2 )); then
+  rm -f "$SSH_AUTH_SOCK"
+  ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null
 fi
 # Load keys into the agent so libssh2-based tools (e.g. gitui) that don't
 # read ~/.ssh/config can still authenticate
