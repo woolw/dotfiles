@@ -22,12 +22,9 @@ __pycache__/
 .go/
 node_modules/
 
-# Ignore Neovim local state/cache
+# Ignore local state/cache
 .cache/
 .local/
-shada/
-nvim-data/
-nvim/lazy-lock.json
 
 
 # Ignore SSH keys (IMPORTANT!)

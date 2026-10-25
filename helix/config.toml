@@ -1,0 +1,35 @@
+# Helix — pure TOML config, symlinked to ~/.config/helix by Home Manager.
+# Language servers/formatters come from Nix (home/shared/default.nix), not
+# from Helix itself; check with `hx --health`.
+
+theme = "onedark_oled"
+
+[editor]
+line-number = "relative"
+cursorline = true
+scrolloff = 8
+mouse = true
+true-color = true
+undercurl = true
+color-modes = true
+bufferline = "multiple"
+# Format on save (formatters set per language in languages.toml)
+auto-format = true
+
+[editor.cursor-shape]
+normal = "block"
+insert = "bar"
+select = "underline"
+
+[editor.soft-wrap]
+enable = true
+
+[editor.indent-guides]
+render = true
+
+[editor.lsp]
+display-inlay-hints = true
+
+[editor.file-picker]
+# Show dotfiles in the picker (still respects .gitignore)
+hidden = false

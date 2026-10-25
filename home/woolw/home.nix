@@ -291,10 +291,5 @@ in
   # NixOS-specific packages
   home.packages = with pkgs; [
     nixos-icons
-    odin
-    ols
-    # Build tools for nvim plugins (telescope-fzf-native)
-    gcc
-    gnumake
   ];
 }

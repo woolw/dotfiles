@@ -1,0 +1,5 @@
+# One Dark with the editor background flattened to pure black for OLED —
+# same approach as BreezeDarkOled.colors; rest of the palette untouched.
+inherits = "onedark"
+
+"ui.background" = { bg = "#000000" }

@@ -53,8 +53,8 @@
     # WezTerm configuration (pure Lua config)
     "wezterm/wezterm.lua".source = ../../wezterm/wezterm.lua;
 
-    # Neovim configuration (pure Lua config with lazy.nvim)
-    "nvim".source = ../../nvim;
+    # Helix configuration (pure TOML config)
+    "helix".source = ../../helix;
 
     # mpv configuration
     "mpv/mpv.conf".source = ../../mpv/mpv.conf;
@@ -71,12 +71,20 @@
 
   # Cross-platform packages
   home.packages = with pkgs; [
-    # Neovim and dependencies
-    neovim
-    ripgrep # for telescope live_grep
-    fd # for telescope find_files
-    nodejs # mason installs TS/JS LSPs via npm
-    unzip # mason extracts server archives (ols/omnisharp)
+    # Helix + the language servers/formatters it uses (see helix/languages.toml)
+    helix
+    nil # Nix
+    nixfmt
+    lua-language-server
+    stylua
+    typescript-language-server
+    vscode-langservers-extracted # HTML/CSS/JSON
+    prettier
+    rust-analyzer
+    sqls
+
+    ripgrep
+    fd
     gitui # git TUI
   ];
 }

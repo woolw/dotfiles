@@ -49,11 +49,11 @@ nix-rebuild
 │   └── darwin/               # macOS configuration
 ├── modules/                  # NixOS modules
 ├── home/                     # Home Manager configs
-│   ├── shared/               # Cross-platform (git, ssh, zsh, nvim, wezterm)
+│   ├── shared/               # Cross-platform (git, ssh, zsh, helix, wezterm)
 │   ├── woolw/                # NixOS-specific (KDE Plasma, GTK)
 │   └── woolw-darwin/         # macOS-specific
 │
-├── nvim/                     # Neovim (cross-platform, lazy.nvim)
+├── helix/                    # Helix editor (cross-platform)
 ├── wezterm/                  # Terminal (cross-platform)
 └── zsh/                      # Shell (cross-platform)
 ```
@@ -64,7 +64,7 @@ nix-rebuild
 nix-rebuild  # Rebuild and switch (works on both platforms)
 nix-update   # Update flake inputs and rebuild
 nix-gc       # Garbage collect
-v            # Open nvim
+v            # Open helix
 ```
 
 ## License

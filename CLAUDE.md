@@ -24,7 +24,7 @@ Rebuild macOS: `darwin-rebuild switch --flake ~/dotfiles#darwin`
 | To modify... | Edit this file |
 |--------------|----------------|
 | Terminal (WezTerm) | `wezterm/wezterm.lua` |
-| Editor (Neovim) | `nvim/init.lua`, `nvim/lua/plugins/*.lua` |
+| Editor (Helix) | `helix/config.toml`, `helix/languages.toml`, `helix/themes/` (LSPs/formatters installed in `home/shared/default.nix`) |
 | Shell (Zsh) | `zsh/zshrc` |
 | Video player (mpv) | `mpv/mpv.conf` |
 | Shared HM config (git, SSH, symlinks) | `home/shared/default.nix` |
@@ -72,7 +72,7 @@ Pre-commit hook auto-formats `.nix` files via `nixfmt`. CI (`.forgejo/workflows/
 
 ## Cross-Platform Design
 
-Pure config files (WezTerm, Neovim, Zsh, mpv) are symlinked via Home Manager — no Nix lock-in, same experience on NixOS and macOS. OS-specific modules stay separate. nix-darwin config lives in `hosts/darwin/`.
+Pure config files (WezTerm, Helix, Zsh, mpv) are symlinked via Home Manager — no Nix lock-in, same experience on NixOS and macOS. OS-specific modules stay separate. nix-darwin config lives in `hosts/darwin/`.
 
 ## Docs
 

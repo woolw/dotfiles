@@ -221,7 +221,7 @@
     nix-direnv.enable = true;
   };
 
-  # Enable nix-ld for running dynamically linked binaries (Mason LSPs)
+  # Enable nix-ld for running dynamically linked binaries (LSPs/tools Zed downloads)
   programs.nix-ld.enable = true;
 
   # System packages
@@ -243,7 +243,7 @@
 
     # Development & Editors
     wezterm
-    vscodium
+    zed-editor
     claude-code
 
     # Media

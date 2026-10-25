@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   ...
 }:
@@ -30,12 +29,6 @@
       echo "git@woolw.dev $(cat ~/.ssh/darwin_ed25519.pub)" > ~/.config/git/allowed_signers
     fi
   '';
-
-  # Build tools for Neovim plugins (telescope-fzf-native needs C compiler)
-  home.packages = with pkgs; [
-    gcc
-    gnumake
-  ];
 
   # Wallpapers symlink
   home.file."Pictures/Wallpapers".source = ../../wallpapers;

@@ -74,11 +74,11 @@ alias ...='cd ../..'
 alias gs='git status'
 alias gl='git log --oneline --graph --decorate'
 alias gc='git commit'
-alias v='nvim'
+alias v='hx'
 
 # --- Environment ---
-export EDITOR="nvim"
-export VISUAL="nvim"
+export EDITOR="hx"
+export VISUAL="hx"
 export PAGER="less"
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 

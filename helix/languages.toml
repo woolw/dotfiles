@@ -1,0 +1,67 @@
+# Formatters and LSP overrides. Everything else uses Helix's built-in
+# defaults (rust-analyzer, typescript-language-server, vscode-*-language-server,
+# lua-language-server).
+
+[[language]]
+name = "nix"
+language-servers = ["nil"]
+formatter = { command = "nixfmt" }
+auto-format = true
+
+[[language]]
+name = "lua"
+formatter = { command = "stylua", args = ["-"] }
+auto-format = true
+
+[[language]]
+name = "sql"
+language-servers = ["sqls"]
+
+[language-server.sqls]
+command = "sqls"
+
+# Prettier — explicit parser per language since stdin has no filename
+[[language]]
+name = "javascript"
+formatter = { command = "prettier", args = ["--parser", "babel"] }
+auto-format = true
+
+[[language]]
+name = "jsx"
+formatter = { command = "prettier", args = ["--parser", "babel"] }
+auto-format = true
+
+[[language]]
+name = "typescript"
+formatter = { command = "prettier", args = ["--parser", "typescript"] }
+auto-format = true
+
+[[language]]
+name = "tsx"
+formatter = { command = "prettier", args = ["--parser", "typescript"] }
+auto-format = true
+
+[[language]]
+name = "json"
+formatter = { command = "prettier", args = ["--parser", "json"] }
+auto-format = true
+
+[[language]]
+name = "html"
+formatter = { command = "prettier", args = ["--parser", "html"] }
+auto-format = true
+
+[[language]]
+name = "css"
+formatter = { command = "prettier", args = ["--parser", "css"] }
+auto-format = true
+
+[[language]]
+name = "scss"
+formatter = { command = "prettier", args = ["--parser", "scss"] }
+auto-format = true
+
+[[language]]
+name = "markdown"
+formatter = { command = "prettier", args = ["--parser", "markdown"] }
+auto-format = true

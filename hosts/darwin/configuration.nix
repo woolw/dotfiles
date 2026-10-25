@@ -56,7 +56,7 @@
       "syncplay"
       "tailscale-app"
       "xppen-pentablet"
-      "vscodium"
+      "zed"
       "wezterm"
     ];
     brews = [
@@ -65,8 +65,6 @@
       "yt-dlp"
       "aria2"
       "fzf"
-      "odin"
-      "ols"
     ];
   };
 
