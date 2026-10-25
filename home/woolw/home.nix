@@ -59,11 +59,13 @@ in
 
   home.file."Pictures/Screenshots/.keep".text = "";
 
+  # Breeze everywhere, matching Plasma/SDDM (Adwaita here made the cursor
+  # change when hovering GTK/XWayland windows)
   home.pointerCursor = {
     enable = true;
-    name = "Adwaita";
+    name = "breeze_cursors";
     size = 24;
-    package = pkgs.adwaita-icon-theme;
+    package = pkgs.kdePackages.breeze;
     gtk.enable = true;
   };
 
@@ -80,9 +82,9 @@ in
       package = pkgs.papirus-icon-theme;
     };
     cursorTheme = {
-      name = "Adwaita";
+      name = "breeze_cursors";
       size = 24;
-      package = pkgs.adwaita-icon-theme;
+      package = pkgs.kdePackages.breeze;
     };
     font = {
       name = "Noto Sans";

@@ -26,6 +26,8 @@
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
+  # Hard-link identical files in the store (weekly, off the rebuild path)
+  nix.optimise.automatic = true;
 
   # Desktop always on wall power, doing gaming/dev work — trade the minor
   # extra idle power draw for no frequency-ramp latency. Was "powersave".
@@ -208,10 +210,6 @@
   ];
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.enable = true;
-  environment.sessionVariables.XDG_DATA_DIRS = lib.mkAfter [
-    "/var/lib/flatpak/exports/share"
-    "/home/woolw/.local/share/flatpak/exports/share"
-  ];
 
   # Programs
   programs.git.enable = true;
@@ -250,10 +248,6 @@
     inputs.ani-cli-woolw.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.syncplay-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
     mpv
-    syncplay
-    python313Packages.pyside6
-
-    qt6.qtwayland
 
     # Utilities
     wget
@@ -262,7 +256,6 @@
     btop
     fastfetch
     jq
-    ripgrep
   ];
 
   # Disable USB mouse wakeup — mouse movement was waking the system from sleep

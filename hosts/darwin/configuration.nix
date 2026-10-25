@@ -53,7 +53,6 @@
       "protonvpn"
       "signal"
       "steam"
-      "syncplay"
       "tailscale-app"
       "xppen-pentablet"
       "zed"
