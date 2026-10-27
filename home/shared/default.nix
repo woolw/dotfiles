@@ -7,6 +7,8 @@
   programs.git = {
     enable = true;
     package = null; # don't install via Nix; macOS provides git via Xcode CLT
+    # Installs git-lfs and its filters (large assets, e.g. game textures)
+    lfs.enable = true;
     settings = {
       user.name = "woolw";
       user.email = "git@woolw.dev";
