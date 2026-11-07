@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Minimal Windows 11 install for a dual-boot gaming partition (Destiny 2 only).
+  Used via Ventoy's auto_install plugin (see windows/ventoy.json).
+
+  Deliberately left interactive:
+    - Disk/partition selection: this PC also holds NixOS, so never let Setup
+      pick or wipe a disk on its own. Choose the "Unallocated Space".
+    - Product key / edition, region and keyboard.
+-->
+<unattend xmlns="urn:schemas-microsoft-com:unattend"
+          xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+
+  <settings pass="specialize">
+    <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+      <RunSynchronous>
+        <!-- No automatic BitLocker: a boot-chain change (systemd-boot) would
+             otherwise trigger recovery-key prompts. -->
+        <RunSynchronousCommand wcm:action="add">
+          <Order>1</Order>
+          <Path>reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v PreventDeviceEncryption /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+        <!-- Hardware clock in UTC, matching Linux. -->
+        <RunSynchronousCommand wcm:action="add">
+          <Order>2</Order>
+          <Path>reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+        <!-- No Fast Startup / hibernation (leaves disks in a half-mounted state). -->
+        <RunSynchronousCommand wcm:action="add">
+          <Order>3</Order>
+          <Path>powercfg.exe /hibernate off</Path>
+        </RunSynchronousCommand>
+        <!-- No auto-installed "suggested" apps and games. -->
+        <RunSynchronousCommand wcm:action="add">
+          <Order>4</Order>
+          <Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f</Path>
+        </RunSynchronousCommand>
+        <!-- Remove bundled apps before the user profile is created. -->
+        <RunSynchronousCommand wcm:action="add">
+          <Order>5</Order>
+          <Path>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$r = 'Microsoft.BingNews','Microsoft.BingWeather','Microsoft.BingSearch','Clipchamp.Clipchamp','Microsoft.Copilot','Microsoft.GetHelp','Microsoft.Getstarted','Microsoft.MicrosoftOfficeHub','Microsoft.MicrosoftSolitaireCollection','Microsoft.MicrosoftStickyNotes','Microsoft.OutlookForWindows','Microsoft.People','Microsoft.PowerAutomateDesktop','Microsoft.Todos','Microsoft.WindowsFeedbackHub','Microsoft.WindowsMaps','Microsoft.WindowsSoundRecorder','Microsoft.YourPhone','Microsoft.ZuneMusic','Microsoft.ZuneVideo','MicrosoftCorporationII.QuickAssist','MSTeams','Microsoft.Windows.DevHome','MicrosoftWindows.CrossDevice','Microsoft.549981C3F5F10'; Get-AppxProvisionedPackage -Online | Where-Object { $r -contains $_.DisplayName } | Remove-AppxProvisionedPackage -Online"</Path>
+        </RunSynchronousCommand>
+      </RunSynchronous>
+    </component>
+  </settings>
+
+  <settings pass="oobeSystem">
+    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+      <OOBE>
+        <HideEULAPage>true</HideEULAPage>
+        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+        <ProtectYourPC>3</ProtectYourPC>
+      </OOBE>
+      <!-- Local account, no Microsoft account. Blank password: set one
+           (or a PIN) after first login. -->
+      <UserAccounts>
+        <LocalAccounts>
+          <LocalAccount wcm:action="add">
+            <Name>woolw</Name>
+            <Group>Administrators</Group>
+            <Password>
+              <Value></Value>
+              <PlainText>true</PlainText>
+            </Password>
+          </LocalAccount>
+        </LocalAccounts>
+      </UserAccounts>
+    </component>
+  </settings>
+</unattend>
