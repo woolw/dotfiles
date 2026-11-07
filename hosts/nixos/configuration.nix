@@ -40,9 +40,9 @@
   # Laptop-oriented feature; this is a desktop with no battery to manage.
   services.power-profiles-daemon.enable = false;
 
-  # Compressed RAM-based swap tier ahead of the 34G disk swap partition, so
+  # Compressed RAM-based swap (the only swap; no disk swap partition), so
   # memory pressure spikes (gaming + browser + Electron apps) hit fast
-  # compressed RAM instead of NVMe first.
+  # compressed RAM instead of NVMe.
   zramSwap.enable = true;
 
   # Was uncapped (658M and growing).
