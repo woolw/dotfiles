@@ -169,7 +169,7 @@ in
             iconTasks = {
               launchers = [
                 "applications:org.wezfurlong.wezterm.desktop"
-                "applications:brave-browser.desktop"
+                "applications:com.brave.Browser.desktop"
                 "applications:steam.desktop"
               ];
             };

@@ -199,7 +199,7 @@
   security.pam.services.sddm.kwallet.enable = true;
   security.pam.services.login.kwallet.enable = true;
 
-  # Flatpak — remotes managed declaratively via nix-flatpak; apps still
+  # Flatpak — remotes and some apps managed declaratively via nix-flatpak; others
   # installed imperatively (e.g. `flatpak install`) on top of this
   services.flatpak.enable = true;
   services.flatpak.remotes = [
@@ -208,6 +208,8 @@
       location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
     }
   ];
+  # Brave was removed from nixpkgs (2026-11, no committer maintainers)
+  services.flatpak.packages = [ "com.brave.Browser" ];
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.enable = true;
 
@@ -233,8 +235,7 @@
         $out/share/sddm/themes/breeze-nixos/theme.conf
     '')
 
-    # Browsers & Communication
-    brave
+    # Browsers & Communication (Brave is a Flatpak, see services.flatpak.packages)
     discord
     element-desktop
     signal-desktop
