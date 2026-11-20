@@ -259,6 +259,19 @@
     jq
   ];
 
+  # RGB control (RAM via SMBus, GPU/board LEDs). The openrgb system service
+  # loads the profile named "off" from /var/lib/OpenRGB/profiles on every
+  # boot; if that profile doesn't exist yet the server just logs a warning and keeps running.
+  services.hardware.openrgb = {
+    enable = true;
+    motherboard = "amd"; # loads i2c-piix4 so the DIMMs are reachable
+    startupProfile = "off";
+  };
+  # Gigabyte's ACPI tables claim the SMBus I/O range (0xB00, \GSA1.SMBI), so
+  # the kernel refuses to bind i2c-piix4 and the DIMMs never show up. Relax
+  # the check so the SMBus adapter can load.
+  boot.kernelParams = [ "acpi_enforce_resources=lax" ];
+
   # Disable USB mouse wakeup — mouse movement was waking the system from sleep
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", ATTR{product}=="Razer Cobra Pro", ATTR{power/wakeup}="disabled"
