@@ -26,9 +26,14 @@ cat > flake.nix <<EOF
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { nixpkgs, ... }:
     let
-      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.\${system});
     in
     {
@@ -77,6 +82,9 @@ __pycache__/
 .vscode/
 .idea/
 EOF
+
+# Flakes in a git repo only see tracked files, so stage before direnv evaluates.
+git add -A
 
 direnv allow
 
