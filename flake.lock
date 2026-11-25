@@ -23,11 +23,11 @@
     "brew-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1794321854,
-        "narHash": "sha256-3zWCKEUYQJIzrQgW97/xLH5Lhshl+2Oj++5P44IKUQ8=",
+        "lastModified": 1795598739,
+        "narHash": "sha256-IMYWyk1ocm5qgbxxG5S8yvdUJwGz2qCCz+96rvnFj88=",
         "owner": "Homebrew",
         "repo": "brew",
-        "rev": "95d4938386e5b1536b3b961baa9d0267abd57047",
+        "rev": "92a04e281172a19ed0ff9a2a1855ffe649ee57cb",
         "type": "github"
       },
       "original": {
@@ -43,11 +43,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794278858,
-        "narHash": "sha256-rkrJwLgLSHBnXfgoSKIDa+2LLGdTqynsV3GAxOTGhUU=",
+        "lastModified": 1795618997,
+        "narHash": "sha256-d9Osol//t6hqeo1xlspsYMbhTJK507h6t0EmPyF5Db0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "82ce401aa350502897c3f2e85f384d61cd3b0b6d",
+        "rev": "6a13737c0ed27c7c285f59e3be423ed972aa605f",
         "type": "github"
       },
       "original": {
@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793418699,
-        "narHash": "sha256-+RpTlcdh9KqZ+ZiLkNSTvibQWm935EcIdBzRPCTFsrQ=",
+        "lastModified": 1795373241,
+        "narHash": "sha256-Gd1+Oaj8nS+p1qLpKk4MGv/qGh62+lTkX4262e2UDgc=",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "ff0e21a414d4547183396da1b44a66f2577b65e9",
+        "rev": "663d8b962a11cda261b6e9f14e03911fac94baf0",
         "type": "github"
       },
       "original": {
@@ -113,11 +113,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794042290,
-        "narHash": "sha256-ziZn2PvCJE5JEEpqTdxXwJpPB+L3YqoCpTAMCzyaP3U=",
+        "lastModified": 1795234589,
+        "narHash": "sha256-f/VVvxf5RsQgWVhUtefoca5ktVg0DA2bnkMOcmSnozo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "f4a03c008967841f2a0b3cb7c436fc6fc31671f6",
+        "rev": "2786a2a72088ecf32aea5b3ec52099e6a7cff78f",
         "type": "github"
       },
       "original": {
@@ -170,11 +170,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792863984,
-        "narHash": "sha256-O8gE4vxSHrNcD9clEBnlWe59VwuVL4DL6OjVMJn5Ypw=",
+        "lastModified": 1795551486,
+        "narHash": "sha256-ptgE9rxSm4HA6jU64cNqI51A9tcmpo+aylFVS4EU6Ro=",
         "ref": "refs/heads/main",
-        "rev": "e4f42c33b467ff0db9df689c19c8bfc59b11a060",
-        "revCount": 14,
+        "rev": "e030cef99958a6ef78a05b6ebeb9a1385899990a",
+        "revCount": 20,
         "type": "git",
         "url": "https://git.woolw.dev/woolw/syncplay-rs.git"
       },
