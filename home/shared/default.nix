@@ -77,6 +77,8 @@
     helix
     nil # Nix
     nixfmt
+    statix # Nix linter (also run in CI)
+    deadnix # finds unused Nix code (also run in CI)
     lua-language-server
     stylua
     typescript-language-server

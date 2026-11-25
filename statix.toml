@@ -1,0 +1,3 @@
+# Repeated top-level keys (services.a = …; services.b = …;) are intentional:
+# settings are grouped by topic with comments, not by attribute prefix.
+disabled = ["repeated_keys"]
